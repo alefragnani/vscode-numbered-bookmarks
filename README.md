@@ -24,7 +24,7 @@ You can easily Mark/Unmark bookmarks on any line. Works even for wrapped lines.
 
 * Allow bookmarks to be saved and restored, even if you close or change the Project
 ```
-    "bookmarks.saveBookmarksBetweenSessions": true
+    "numberedBookmarks.saveBookmarksBetweenSessions": true
 ```
 
 ## Project and Session Based
