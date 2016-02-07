@@ -37,7 +37,7 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 
 Here are some ideas that will be added soon:
 
-* **Preview bookmarked lines:** Create a new command (**Bookmarks: List**) that will show all bookmarked lines, with its content, so you easily identify which bookmark you would want to go.
+* **Preview bookmarked lines:** Create a new command (**Numbered Bookmarks: List**) that will show all bookmarked lines, with its content, so you easily identify which bookmark you would want to go.
 
 # Known Issues
 
