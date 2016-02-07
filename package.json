@@ -1,0 +1,240 @@
+{
+    "name": "numbered-bookmarks",
+    "displayName": "Numbered Bookmarks",
+    "description": "Mark lines and jump to them, in Delphi style",
+    "version": "0.1.0",
+    "publisher": "alefragnani",
+    "galleryBanner": {
+        "color": "#000000",
+        "theme": "dark"
+    },
+    "engines": {
+        "vscode": "^0.10.1"
+    },
+    "categories": [
+        "Other"
+    ],
+    "icon": "images/icon.png",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "homepage": "https://github.com/alefragnani/vscode-numbered-bookmarks/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alefragnani/vscode-numbered-bookmarks.git"
+    },
+    "bugs": {
+        "url": "https://github.com/alefragnani/vscode-numbered-bookmarks/issues"
+    },
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "numberedBookmarks.toggleBookmark1",
+                "title": "Numbered Bookmarks: Toggle Bookmark 1"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark2",
+                "title": "Numbered Bookmarks: Toggle Bookmark 2"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark3",
+                "title": "Numbered Bookmarks: Toggle Bookmark 3"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark4",
+                "title": "Numbered Bookmarks: Toggle Bookmark 4"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark5",
+                "title": "Numbered Bookmarks: Toggle Bookmark 5"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark6",
+                "title": "Numbered Bookmarks: Toggle Bookmark 6"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark7",
+                "title": "Numbered Bookmarks: Toggle Bookmark 7"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark8",
+                "title": "Numbered Bookmarks: Toggle Bookmark 8"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark9",
+                "title": "Numbered Bookmarks: Toggle Bookmark 9"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark1",
+                "title": "Numbered Bookmarks: Jump to Bookmark 1"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark2",
+                "title": "Numbered Bookmarks: Jump to Bookmark 2"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark3",
+                "title": "Numbered Bookmarks: Jump to Bookmark 3"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark4",
+                "title": "Numbered Bookmarks: Jump to Bookmark 4"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark5",
+                "title": "Numbered Bookmarks: Jump to Bookmark 5"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark6",
+                "title": "Numbered Bookmarks: Jump to Bookmark 6"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark7",
+                "title": "Numbered Bookmarks: Jump to Bookmark 7"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark8",
+                "title": "Numbered Bookmarks: Jump to Bookmark 8"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark9",
+                "title": "Numbered Bookmarks: Jump to Bookmark 9"
+            },
+            {
+                "command": "numberedBookmarks.clear",
+                "title": "Numbered Bookmarks: Clear"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Numbered Bookmarks Configuration",
+            "properties": {
+                "numberedBookmarks.saveBookmarksBetweenSessions": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Allow bookmarks to be saved and restored, even if you close or change the Project"
+                }
+            }
+        },
+        "keybindings": [
+            {
+                "command": "numberedBookmarks.toggleBookmark1",
+                "key": "ctrl+shift+1",
+                "mac": "cmd+shift+1",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark2",
+                "key": "ctrl+shift+2",
+                "mac": "cmd+shift+2",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark3",
+                "key": "ctrl+shift+3",
+                "mac": "cmd+shift+3",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark4",
+                "key": "ctrl+shift+4",
+                "mac": "cmd+shift+4",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark5",
+                "key": "ctrl+shift+5",
+                "mac": "cmd+shift+5",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark6",
+                "key": "ctrl+shift+6",
+                "mac": "cmd+shift+6",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark7",
+                "key": "ctrl+shift+7",
+                "mac": "cmd+shift+7",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark8",
+                "key": "ctrl+shift+8",
+                "mac": "cmd+shift+8",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.toggleBookmark9",
+                "key": "ctrl+shift+9",
+                "mac": "cmd+shift+9",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark1",
+                "key": "ctrl+1",
+                "mac": "cmd+1",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark2",
+                "key": "ctrl+2",
+                "mac": "cmd+2",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark3",
+                "key": "ctrl+3",
+                "mac": "cmd+3",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark4",
+                "key": "ctrl+4",
+                "mac": "cmd+4",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark5",
+                "key": "ctrl+5",
+                "mac": "cmd+5",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark6",
+                "key": "ctrl+6",
+                "mac": "cmd+6",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark7",
+                "key": "ctrl+7",
+                "mac": "cmd+7",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark8",
+                "key": "ctrl+8",
+                "mac": "cmd+8",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark9",
+                "key": "ctrl+9",
+                "mac": "cmd+9",
+                "when": "editorTextFocus"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+    },
+    "devDependencies": {
+        "vscode": "0.10.x",
+        "typescript": "^1.6.2"
+    }
+}
