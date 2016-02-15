@@ -1,6 +1,9 @@
 # Functionality
 
 Mark lines in the editor and easily jump to them. _In Delphi style._
+# Installation
+
+Press `F1` in VSCode, type `ext install` and then look for `Numbered Bookmarks`.
 
 # Usage
 
@@ -8,17 +11,26 @@ Mark lines in the editor and easily jump to them. _In Delphi style._
 
 * **Numbered Bookmarks: Toggle Bookmark _'number'_** Mark/unmark the current line with a numbered bookmark
 * **Numbered Bookmarks: Jump to Bookmark _'number'_** Move the cursor to the numbered bookmark
+* **Numbered Bookmarks: List** List all bookmarks from the current file
 * **Numbered Bookmarks: Clear** remove all bookmarks from the current file
 
 > Both **Toggle** and **Jump to Bookmark** commands are numbered from 1 to 9
 
 ![Commands](images/numbered-bookmarks-commands.png)
 
-### Toggle Bookmark _'number'_
+### Numbered Bookmarks: Toggle Bookmark _'number'_
 
 You can easily Mark/Unmark bookmarks on any line. Works even for wrapped lines.
 
 ![Toggle](images/numbered-bookmarks-toggle.png)
+
+> _new in version 0.2.0_  
+
+### Numbered Bookmarks: List
+
+List all bookmarks from the current file and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
+
+![List](images/numbered-bookmarks-list.gif)
 
 ## Available settings
 
@@ -33,17 +45,15 @@ The bookmarks are saved _per session_ for the project that you are using. You do
 
 It also works even if you only _preview_ a file (simple click in TreeView). You can put bookmarks in any file and when you preview it again, the bookmarks will be there.
 
-# TODO List
-
-Here are some ideas that will be added soon:
-
-* **Preview bookmarked lines:** Create a new command (**Numbered Bookmarks: List**) that will show all bookmarked lines, with its content, so you easily identify which bookmark you would want to go.
-
 # Known Issues
 
 - Hiting `Enter` in lines with bookmarks, temporarily also moves the bookmarks, but when you stop typing, the bookmark is correctly presented on the original line.
 
 # Changelog
+
+## Version 0.2.0
+
+* **New Command:** List all bookmarks from the current file
 
 ## Version 0.1.0
 
