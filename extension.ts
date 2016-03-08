@@ -71,7 +71,9 @@ export function activate(context: vscode.ExtensionContext) {
     for (var index = 0; index < MAX_BOOKMARKS; index++) {
         let pathIcon: string = context.asAbsolutePath('images\\bookmark' + index + '.png');
         bookmarkDecorationType[index] = vscode.window.createTextEditorDecorationType({
-            gutterIconPath: pathIcon
+            gutterIconPath: pathIcon,
+            overviewRulerLane: vscode.OverviewRulerLane.Full,
+            overviewRulerColor: 'rgba(1, 255, 33, 0.7)'           
         });
     }
     

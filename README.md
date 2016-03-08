@@ -51,6 +51,10 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 
 # Changelog
 
+## Version 0.3.0
+
+* **New:** Bookmarks are also rendered in the overview ruler
+
 ## Version 0.2.0
 
 * **New Command:** List all bookmarks from the current file
