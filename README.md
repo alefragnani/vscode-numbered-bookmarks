@@ -54,6 +54,7 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 ## Version 0.3.0
 
 * **New:** Bookmarks are also rendered in the overview ruler
+* **Fix:** Incompatibility with **Code February Release** 0.10.10 (issue [#4](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/4))
 
 ## Version 0.2.0
 
