@@ -119,6 +119,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Allow bookmarks to be saved and restored, even if you close or change the Project"
+                },
+                "numberedBookmarks.useStickyBookmarks": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "The bookmarks will be glued to the line of code instead of the line of the file"
                 }
             }
         },

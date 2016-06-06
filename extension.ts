@@ -6,6 +6,7 @@ import fs = require('fs');
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
+	let activeEditorCountLine: number;
 
     const MAX_BOOKMARKS = 10;
     const NO_BOOKMARK_DEFINED = -1;
@@ -86,18 +87,21 @@ export function activate(context: vscode.ExtensionContext) {
         if (!didLoadBookmarks) {
             bookmarks.add(activeEditor.document.uri);
         }
+        activeEditorCountLine = activeEditor.document.lineCount;
         activeBookmark = bookmarks.fromUri(activeEditor.document.uri);
         triggerUpdateDecorations();
     }
 	
     // new docs
     vscode.workspace.onDidOpenTextDocument(doc => {
+        activeEditorCountLine = doc.lineCount;
         bookmarks.add(doc.uri);
     });
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = editor;
         if (editor) {
+            activeEditorCountLine = editor.document.lineCount;
             activeBookmark = bookmarks.fromUri(editor.document.uri);
             triggerUpdateDecorations();
         }
@@ -105,7 +109,19 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.workspace.onDidChangeTextDocument(event => {
         if (activeEditor && event.document === activeEditor.document) {
-            triggerUpdateDecorations();
+            //triggerUpdateDecorations();
+			let updatedBookmark: boolean = true;
+			// call sticky function when the activeEditor is changed
+			if (activeBookmark && activeBookmark.bookmarks.length > 0) {
+				updatedBookmark = stickyBookmarks(event);
+			}
+			
+			activeEditorCountLine = event.document.lineCount;
+			updateDecorations();
+
+			if (updatedBookmark) {
+				saveWorkspaceState();
+			}
         }
     }, null, context.subscriptions);
 
@@ -133,6 +149,10 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         var books: vscode.Range[] = [];
+        // Remove all bookmarks if active file is empty
+		if (activeEditor.document.lineCount === 1 && activeEditor.document.lineAt(0).text === "") {
+			activeBookmark.bookmarks = [];
+		} else {
         for (var index = 0; index < MAX_BOOKMARKS; index++) {
             books = [];
             if (activeBookmark.bookmarks[index] < 0) {
@@ -143,6 +163,7 @@ export function activate(context: vscode.ExtensionContext) {
                 books.push(decoration);
                 activeEditor.setDecorations(getDecoration(index), books);
             }
+        }
         }
     }
 	
@@ -341,6 +362,177 @@ export function activate(context: vscode.ExtensionContext) {
 		
         revealLine(activeBookmark.bookmarks[n]);
     }
+
+    //............................................................................................
+
+	// function used to attach bookmarks at the line
+	function stickyBookmarks(event): boolean {
+        
+        let useStickyBookmarks: boolean = vscode.workspace.getConfiguration('bookmarks').get('useStickyBookmarks', false);
+        if (!useStickyBookmarks) {
+            return false;
+        }
+        
+		let diffLine: number;
+		let updatedBookmark: boolean = false;
+
+		if (event.contentChanges.length === 1) {
+			// add or delete line case
+			if (event.document.lineCount != activeEditorCountLine) {
+			if (event.document.lineCount > activeEditorCountLine) {
+				diffLine = event.document.lineCount - activeEditorCountLine;
+			} else if (event.document.lineCount < activeEditorCountLine) {
+				diffLine = activeEditorCountLine - event.document.lineCount;
+				diffLine = 0 - diffLine;
+                
+                // one line up
+                if (event.contentChanges[0].range.end.line - event.contentChanges[0].range.start.line == 1) {
+                    
+                   if ((event.contentChanges[0].range.end.character == 0) &&
+                      (event.contentChanges[0].range.start.character == 0)) { 
+                        // the bookmarked one
+                        let idxbk = activeBookmark.bookmarks.indexOf(event.contentChanges[0].range.start.line);
+                        if (idxbk > -1) {
+                            activeBookmark.bookmarks[idxbk] = NO_BOOKMARK_DEFINED;//.splice(idxbk, 1);
+                        }
+                   }
+                }
+                
+                
+                
+                if (event.contentChanges[0].range.end.line - event.contentChanges[0].range.start.line > 1) {                
+                    for (let i = event.contentChanges[0].range.start.line/* + 1*/; i <= event.contentChanges[0].range.end.line; i++) {
+                        let index = activeBookmark.bookmarks.indexOf(i);
+                        
+                        if (index > -1) {
+                            activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+                            updatedBookmark = true;
+                        }
+                    }
+                    }
+			}
+
+			for (let index in activeBookmark.bookmarks) {
+				let eventLine = event.contentChanges[0].range.start.line;
+                let eventcharacter = event.contentChanges[0].range.start.character; 
+
+                // also =
+				if ( 
+                    ((activeBookmark.bookmarks[index] > eventLine) && (eventcharacter > 0)) ||
+                    ((activeBookmark.bookmarks[index] >= eventLine) && (eventcharacter == 0))
+                   ) {
+					let newLine = activeBookmark.bookmarks[index] + diffLine;
+					if (newLine < 0) {
+						newLine = 0;
+					}
+
+					activeBookmark.bookmarks[index] = newLine;
+					updatedBookmark = true;
+				}
+			}
+		}
+
+		// paste case
+		if (event.contentChanges[0].text.length > 1) {
+			let selection = vscode.window.activeTextEditor.selection;
+			let lineRange = [selection.start.line, selection.end.line];
+			let lineMin = Math.min.apply(this, lineRange);
+			let lineMax = Math.max.apply(this, lineRange);
+
+			if (selection.start.character > 0) {
+				lineMin++;
+			}
+
+			if (selection.end.character < vscode.window.activeTextEditor.document.lineAt(selection.end).range.end.character) {
+				lineMax--;
+			}
+
+			if (lineMin <= lineMax) {
+				for (let i = lineMin; i <= lineMax; i++) {
+				let index = activeBookmark.bookmarks.indexOf(i);
+				if (index > -1) {
+					activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+					updatedBookmark = true;
+				}
+				}
+			}
+		}
+	} else if (event.contentChanges.length === 2) {
+		// move line up and move line down case
+		if (activeEditor.selections.length === 1) {
+			if (event.contentChanges[0].text === '') {
+				updatedBookmark = moveStickyBookmarks('down');
+			} else if (event.contentChanges[1].text === '') {
+				updatedBookmark = moveStickyBookmarks('up');
+			}
+		}
+	}
+
+		return updatedBookmark;
+	}
+
+	function moveStickyBookmarks(direction): boolean {
+		let diffChange: number = -1;
+		let updatedBookmark: boolean = false;
+		let diffLine;
+		let selection = activeEditor.selection;
+		let lineRange = [selection.start.line, selection.end.line];
+		let lineMin = Math.min.apply(this, lineRange);
+		let lineMax = Math.max.apply(this, lineRange);
+
+		if (selection.end.character === 0 && !selection.isSingleLine) {
+			let lineAt = activeEditor.document.lineAt(selection.end.line);
+			let posMin = new vscode.Position(selection.start.line + 1, selection.start.character);
+			let posMax = new vscode.Position(selection.end.line, lineAt.range.end.character);
+			vscode.window.activeTextEditor.selection = new vscode.Selection(posMin, posMax);
+			lineMax--;
+		}
+
+		if (direction === 'up') {
+			diffLine = 1;
+
+			let index = activeBookmark.bookmarks.indexOf(lineMin - 1);
+			if (index > -1) {
+				diffChange = lineMax;
+				activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+				updatedBookmark = true;
+			}
+		} else if (direction === 'down') {
+			diffLine = -1;
+
+			let index: number;
+			index = activeBookmark.bookmarks.indexOf(lineMax + 1);
+			if (index > -1) {
+				diffChange = lineMin;
+				activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+				updatedBookmark = true;
+			}
+		}
+
+		lineRange = [];
+		for (let i = lineMin; i <= lineMax; i++) {
+			lineRange.push(i);
+		}
+		lineRange = lineRange.sort();
+		if (diffLine < 0) {
+			lineRange = lineRange.reverse();
+		}
+
+		for (let i in lineRange) {
+			let index = activeBookmark.bookmarks.indexOf(lineRange[i]);
+			if (index > -1) {
+				activeBookmark.bookmarks[index] -= diffLine;
+				updatedBookmark = true;
+			}
+		}
+
+		if (diffChange > -1) {
+			activeBookmark.bookmarks.push(diffChange);
+			updatedBookmark = true;
+		}
+
+		return updatedBookmark;
+	}
 }
 
 
