@@ -34,6 +34,16 @@ List all bookmarks from the current file and easily navigate to any one. It show
 
 ## Available settings
 
+> _new in version 0.4.0_  
+
+* The bookmarks will be glued to the line of code _(context)_ instead of the line of the file
+```
+    "numberedBookmarks.useStickyBookmarks": true
+```
+
+![Sticky](images/numbered-bookmarks-sticky.gif)
+
+
 * Allow bookmarks to be saved and restored, even if you close or change the Project
 ```
     "numberedBookmarks.saveBookmarksBetweenSessions": true
@@ -50,6 +60,9 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 - Hiting `Enter` in lines with bookmarks, temporarily also moves the bookmarks, but when you stop typing, the bookmark is correctly presented on the original line.
 
 # Changelog
+## Version 0.4.0
+
+* **New Setting:** Sticky Bookmarks 
 
 ## Version 0.3.0
 
