@@ -15,8 +15,8 @@ export function activate(context: vscode.ExtensionContext) {
         fsPath: string;
         bookmarks: number[]; 
 
-        constructor(uri: vscode.Uri) {
-            this.fsPath = uri.fsPath;
+        constructor(uri: string) {
+            this.fsPath = uri;
             this.bookmarks = [];
             this.bookmarks.length = MAX_BOOKMARKS;
             this.resetBookmarks();
@@ -35,22 +35,39 @@ export function activate(context: vscode.ExtensionContext) {
         constructor(jsonObject) {
             this.bookmarks = [];
 
-            if (jsonObject != '') {
-                for (let prop in jsonObject) this[prop] = jsonObject[prop];
+            //if (jsonObject != '') {
+            //    for (let prop in jsonObject) this[prop] = jsonObject[prop];
+            //}
+        }
+
+        public loadFrom(jsonObject) {
+            if (jsonObject == '') {
+                return;
+            }
+            
+            let jsonBookmarks = jsonObject.bookmarks;
+            for (var idx = 0; idx < jsonBookmarks.length; idx++) {
+              let jsonBookmark = jsonBookmarks[idx];
+              
+              // each bookmark (line)
+              this.add(jsonBookmark.fsPath);
+              for (let index = 0; index < jsonBookmark.bookmarks.length; index++) {
+                  this.bookmarks[idx].bookmarks[index] = jsonBookmark.bookmarks[index];
+              }
             }
         }
 
-        fromUri(uri: vscode.Uri) {
+        fromUri(uri: string) {
             for (var index = 0; index < this.bookmarks.length; index++) {
                 var element = this.bookmarks[index];
 
-                if (element.fsPath == uri.fsPath) {
+                if (element.fsPath == uri) {
                     return element;
                 }
             }
         }
 
-        add(uri: vscode.Uri) {
+        add(uri: string) {
             let existing: Bookmark = this.fromUri(uri);
             if (typeof existing == 'undefined') {
                 var bookmark = new Bookmark(uri);
@@ -85,24 +102,24 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (activeEditor) {
         if (!didLoadBookmarks) {
-            bookmarks.add(activeEditor.document.uri);
+            bookmarks.add(activeEditor.document.uri.fsPath);
         }
-        activeEditorCountLine = activeEditor.document.lineCount;
-        activeBookmark = bookmarks.fromUri(activeEditor.document.uri);
+		activeEditorCountLine = activeEditor.document.lineCount;
+        activeBookmark = bookmarks.fromUri(activeEditor.document.uri.fsPath);
         triggerUpdateDecorations();
     }
 	
     // new docs
     vscode.workspace.onDidOpenTextDocument(doc => {
-        activeEditorCountLine = doc.lineCount;
-        bookmarks.add(doc.uri);
+		activeEditorCountLine = doc.lineCount;
+        bookmarks.add(doc.uri.fsPath);
     });
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = editor;
         if (editor) {
-            activeEditorCountLine = editor.document.lineCount;
-            activeBookmark = bookmarks.fromUri(editor.document.uri);
+			activeEditorCountLine = editor.document.lineCount;
+            activeBookmark = bookmarks.fromUri(editor.document.uri.fsPath);
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
@@ -243,7 +260,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand('numberedBookmarks.clear', () => {
         for (var index = 0; index < MAX_BOOKMARKS; index++) {
-            activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;
+            //activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;
+            activeBookmark.resetBookmarks();
         }
 
         saveWorkspaceState();
@@ -298,18 +316,29 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
+    // function loadWorkspaceStateOLD(): boolean {
+    //     let saveBookmarksBetweenSessions: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('saveBookmarksBetweenSessions', false);
+    //     if (!saveBookmarksBetweenSessions) {
+    //         bookmarks = new Bookmarks('');
+    //         return false;
+    //     }
+
+    //     let savedBookmarks = context.workspaceState.get('numberedBookmarks', '');
+    //     if (savedBookmarks != '') {
+    //         bookmarks = new Bookmarks(JSON.parse(savedBookmarks));
+    //     } else {
+    //         bookmarks = new Bookmarks('');
+    //     }
+    //     return savedBookmarks != '';
+    // }
+
     function loadWorkspaceState(): boolean {
         let saveBookmarksBetweenSessions: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('saveBookmarksBetweenSessions', false);
-        if (!saveBookmarksBetweenSessions) {
-            bookmarks = new Bookmarks('');
-            return false;
-        }
+        bookmarks = new Bookmarks('');
 
         let savedBookmarks = context.workspaceState.get('numberedBookmarks', '');
         if (savedBookmarks != '') {
-            bookmarks = new Bookmarks(JSON.parse(savedBookmarks));
-        } else {
-            bookmarks = new Bookmarks('');
+            bookmarks.loadFrom(JSON.parse(savedBookmarks));
         }
         return savedBookmarks != '';
     }
@@ -326,8 +355,8 @@ export function activate(context: vscode.ExtensionContext) {
     function toggleBookmark(n: number, line: number) {
         // fix issue emptyAtLaunch
         if (!activeBookmark) {
-            bookmarks.add(vscode.window.activeTextEditor.document.uri);
-            activeBookmark = bookmarks.fromUri(vscode.window.activeTextEditor.document.uri);
+            bookmarks.add(vscode.window.activeTextEditor.document.uri.fsPath);
+            activeBookmark = bookmarks.fromUri(vscode.window.activeTextEditor.document.uri.fsPath);
         }     
 
         // there is another bookmark already set for this line?
@@ -393,7 +422,7 @@ export function activate(context: vscode.ExtensionContext) {
                         // the bookmarked one
                         let idxbk = activeBookmark.bookmarks.indexOf(event.contentChanges[0].range.start.line);
                         if (idxbk > -1) {
-                            activeBookmark.bookmarks[idxbk] = NO_BOOKMARK_DEFINED;//.splice(idxbk, 1);
+                            activeBookmark.bookmarks[idxbk] = NO_BOOKMARK_DEFINED;
                         }
                    }
                 }
@@ -405,7 +434,7 @@ export function activate(context: vscode.ExtensionContext) {
                         let index = activeBookmark.bookmarks.indexOf(i);
                         
                         if (index > -1) {
-                            activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+                            activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;
                             updatedBookmark = true;
                         }
                     }
@@ -451,7 +480,7 @@ export function activate(context: vscode.ExtensionContext) {
 				for (let i = lineMin; i <= lineMax; i++) {
 				let index = activeBookmark.bookmarks.indexOf(i);
 				if (index > -1) {
-					activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+					activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;
 					updatedBookmark = true;
 				}
 				}
@@ -494,7 +523,7 @@ export function activate(context: vscode.ExtensionContext) {
 			let index = activeBookmark.bookmarks.indexOf(lineMin - 1);
 			if (index > -1) {
 				diffChange = lineMax;
-				activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+				activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;
 				updatedBookmark = true;
 			}
 		} else if (direction === 'down') {
@@ -504,7 +533,7 @@ export function activate(context: vscode.ExtensionContext) {
 			index = activeBookmark.bookmarks.indexOf(lineMax + 1);
 			if (index > -1) {
 				diffChange = lineMin;
-				activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;//.splice(index, 1);
+				activeBookmark.bookmarks[index] = NO_BOOKMARK_DEFINED;
 				updatedBookmark = true;
 			}
 		}
