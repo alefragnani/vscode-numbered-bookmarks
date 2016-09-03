@@ -55,11 +55,12 @@ The bookmarks are saved _per session_ for the project that you are using. You do
 
 It also works even if you only _preview_ a file (simple click in TreeView). You can put bookmarks in any file and when you preview it again, the bookmarks will be there.
 
-# Known Issues
-
-- Hiting `Enter` in lines with bookmarks, temporarily also moves the bookmarks, but when you stop typing, the bookmark is correctly presented on the original line.
-
 # Changelog
+
+## Version 0.4.1
+
+* **Fix:** Remove extension activation log (issue [#10](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/10))
+
 ## Version 0.4.0
 
 * **New Setting:** Sticky Bookmarks 

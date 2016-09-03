@@ -72,8 +72,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
-    console.log('Numbered Bookmarks is activated');
-
     var bookmarks: Bookmarks;
 	
     // load pre-saved bookmarks
