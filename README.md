@@ -57,6 +57,10 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 
 # Changelog
 
+## Version 0.4.2
+
+* **Fix:** Bookmarks missing in _Insider release 1.6.0_ (issue [#31](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/11))
+
 ## Version 0.4.1
 
 * **Fix:** Remove extension activation log (issue [#10](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/10))
