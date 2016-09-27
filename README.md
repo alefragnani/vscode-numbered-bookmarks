@@ -12,7 +12,9 @@ Press `F1` in VSCode, type `ext install` and then look for `Numbered Bookmarks`.
 * **Numbered Bookmarks: Toggle Bookmark _'number'_** Mark/unmark the current line with a numbered bookmark
 * **Numbered Bookmarks: Jump to Bookmark _'number'_** Move the cursor to the numbered bookmark
 * **Numbered Bookmarks: List** List all bookmarks from the current file
+* **Numbered Bookmarks: List from All Files** List all bookmarks from the all files
 * **Numbered Bookmarks: Clear** remove all bookmarks from the current file
+* **Numbered Bookmarks: Clear from All Files** remove all bookmarks from the all files
 
 > Both **Toggle** and **Jump to Bookmark** commands are numbered from 1 to 9
 
@@ -31,6 +33,18 @@ You can easily Mark/Unmark bookmarks on any line. Works even for wrapped lines.
 List all bookmarks from the current file and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
 
 ![List](images/numbered-bookmarks-list.gif)
+
+### Numbered Bookmarks: List from All Files
+
+> _new in version 0.5.0_  
+
+List all bookmarks from all files and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
+
+![List](images/numbered-bookmarks-list-from-all-files.gif)
+
+* Bookmarks from the active file only shows the line number and its contents
+* Bookmarks from other files in the project also shows the relative path and filename
+* Bookmarks from files outside the project are denoted with ![Folder](images/bookmarks-folder-icon.png)
 
 ## Available settings
 
@@ -56,6 +70,11 @@ The bookmarks are saved _per session_ for the project that you are using. You do
 It also works even if you only _preview_ a file (simple click in TreeView). You can put bookmarks in any file and when you preview it again, the bookmarks will be there.
 
 # Changelog
+
+## Version 0.5.0
+
+* **New Command:** List from all files
+* **New Command:** Clear from all files
 
 ## Version 0.4.2
 
