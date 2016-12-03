@@ -71,6 +71,10 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 
 # Changelog
 
+## Version 0.5.2
+
+* Tags added for Marketplace presentation
+
 ## Version 0.5.1
 
 * **Fix:** Bookmarks becomes invalid when documents are modified outside VSCode
