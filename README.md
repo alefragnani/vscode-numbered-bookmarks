@@ -71,6 +71,10 @@ It also works even if you only _preview_ a file (simple click in TreeView). You 
 
 # Changelog
 
+## Version 0.5.1
+
+* **Fix:** Bookmarks becomes invalid when documents are modified outside VSCode
+
 ## Version 0.5.0
 
 * **New Command:** List from all files
@@ -111,4 +115,4 @@ If you have any idea, feel free to create issues and pull requests
 
 ---
 
-[![Paypal Donations](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=EP57F3B6FXKTU&lc=US&item_name=Alessandro%20Fragnani&item_number=vscode%20extensions&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted) if you enjoy using this extension :-)
+[![Paypal Donations](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=EP57F3B6FXKTU&lc=US&item_name=Alessandro%20Fragnani&item_number=vscode%20extensions&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted) a :coffee: if you enjoy using this extension :wink:
