@@ -244,6 +244,10 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	
     // other commands
+    vscode.commands.registerCommand('numberedBookmarks.toggleBookmark0', () => {
+        toggleBookmark(0, vscode.window.activeTextEditor.selection.active.line);
+    });
+
     vscode.commands.registerCommand('numberedBookmarks.toggleBookmark1', () => {
         toggleBookmark(1, vscode.window.activeTextEditor.selection.active.line);
     });
@@ -278,6 +282,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand('numberedBookmarks.toggleBookmark9', () => {
         toggleBookmark(9, vscode.window.activeTextEditor.selection.active.line);
+    });
+
+    vscode.commands.registerCommand('numberedBookmarks.jumpToBookmark0', () => {
+        jumpToBookmark(0);
     });
 
     vscode.commands.registerCommand('numberedBookmarks.jumpToBookmark1', () => {
