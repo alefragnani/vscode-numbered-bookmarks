@@ -2,7 +2,7 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "0.5.2",
+    "version": "0.6.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#000000",
@@ -39,6 +39,10 @@
     "contributes": {
         "commands": [
             {
+                "command": "numberedBookmarks.toggleBookmark0",
+                "title": "Numbered Bookmarks: Toggle Bookmark 0"
+            },
+            {
                 "command": "numberedBookmarks.toggleBookmark1",
                 "title": "Numbered Bookmarks: Toggle Bookmark 1"
             },
@@ -73,6 +77,10 @@
             {
                 "command": "numberedBookmarks.toggleBookmark9",
                 "title": "Numbered Bookmarks: Toggle Bookmark 9"
+            },
+            {
+                "command": "numberedBookmarks.jumpToBookmark0",
+                "title": "Numbered Bookmarks: Jump to Bookmark 0"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark1",
