@@ -16,7 +16,9 @@ Press `F1` in VSCode, type `ext install` and then look for `Numbered Bookmarks`.
 * **Numbered Bookmarks: Clear** remove all bookmarks from the current file
 * **Numbered Bookmarks: Clear from All Files** remove all bookmarks from the all files
 
-> Both **Toggle** and **Jump to Bookmark** commands are numbered from 1 to 9
+> Both **Toggle** and **Jump to Bookmark** commands are numbered from 0 to 9
+
+> The Numbered Bookmark **0** has been reactivated in [PR #16](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/16), but because of [this issue](https://github.com/Microsoft/vscode/issues/2585) it has no _keyboard shortcut_ defined. If sometime in the future these OS related limitation disappears, the shortcuts will be restored.
 
 ![Commands](images/numbered-bookmarks-commands.png)
 
@@ -26,8 +28,6 @@ You can easily Mark/Unmark bookmarks on any line. Works even for wrapped lines.
 
 ![Toggle](images/numbered-bookmarks-toggle.png)
 
-> _new in version 0.2.0_  
-
 ### Numbered Bookmarks: List
 
 List all bookmarks from the current file and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
@@ -35,8 +35,6 @@ List all bookmarks from the current file and easily navigate to any one. It show
 ![List](images/numbered-bookmarks-list.gif)
 
 ### Numbered Bookmarks: List from All Files
-
-> _new in version 0.5.0_  
 
 List all bookmarks from all files and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
 
@@ -47,8 +45,6 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 * Bookmarks from files outside the project are denoted with ![Folder](images/bookmarks-folder-icon.png)
 
 ## Available settings
-
-> _new in version 0.4.0_  
 
 * The bookmarks will be glued to the line of code _(context)_ instead of the line of the file
 ```
@@ -70,6 +66,10 @@ The bookmarks are saved _per session_ for the project that you are using. You do
 It also works even if you only _preview_ a file (simple click in TreeView). You can put bookmarks in any file and when you preview it again, the bookmarks will be there.
 
 # Changelog
+
+## Version 0.6.0
+
+* **New Commands:** Toggle Bookmark 0 and Jump to Bookmark 0 (PR [#16](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/16) - kudos to @DeegC)
 
 ## Version 0.5.2
 
