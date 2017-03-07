@@ -1,6 +1,7 @@
 # Functionality
 
 Mark lines in the editor and easily jump to them. _In Delphi style._
+
 # Installation
 
 Press `F1` in VSCode, type `ext install` and then look for `Numbered Bookmarks`.
@@ -64,50 +65,6 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 The bookmarks are saved _per session_ for the project that you are using. You don't have to worry about closing files in _Working Files_. When you reopen the file, the bookmarks are restored.
 
 It also works even if you only _preview_ a file (simple click in TreeView). You can put bookmarks in any file and when you preview it again, the bookmarks will be there.
-
-# Changelog
-
-## Version 0.6.0
-
-* **New Commands:** Toggle Bookmark 0 and Jump to Bookmark 0 (PR [#16](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/16) - kudos to @DeegC)
-
-## Version 0.5.2
-
-* Tags added for Marketplace presentation
-
-## Version 0.5.1
-
-* **Fix:** Bookmarks becomes invalid when documents are modified outside VSCode
-
-## Version 0.5.0
-
-* **New Command:** List from all files
-* **New Command:** Clear from all files
-
-## Version 0.4.2
-
-* **Fix:** Bookmarks missing in _Insider release 1.6.0_ (issue [#31](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/11))
-
-## Version 0.4.1
-
-* **Fix:** Remove extension activation log (issue [#10](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/10))
-
-## Version 0.4.0
-
-* **New Setting:** Sticky Bookmarks 
-
-## Version 0.3.0
-
-* **New:** Bookmarks are also rendered in the overview ruler
-* **Fix:** Incompatibility with **Code February Release** 0.10.10 (issue [#4](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/4))
-
-## Version 0.2.0
-
-* **New Command:** List all bookmarks from the current file
-
-## Version 0.1.0
-
-* Initial release
 
 # Participate
 

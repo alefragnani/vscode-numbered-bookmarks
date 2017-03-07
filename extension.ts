@@ -538,10 +538,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     
 
-    function revealLine(line: number) {
+    function revealLine(line: number, directJump?: boolean) {
         var newSe = new vscode.Selection(line, 0, line, 0);
         vscode.window.activeTextEditor.selection = newSe;
-        vscode.window.activeTextEditor.revealRange(newSe, vscode.TextEditorRevealType.InCenter);
+        if (directJump) {
+            vscode.window.activeTextEditor.revealRange(newSe, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+        } else {
+            vscode.window.activeTextEditor.revealRange(newSe, vscode.TextEditorRevealType.InCenter);
+        }
     }
 
     function loadWorkspaceState(): boolean {
@@ -601,7 +605,7 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }				
 		
-        revealLine(activeBookmark.bookmarks[n]);
+        revealLine(activeBookmark.bookmarks[n], true);
     }
 
     //............................................................................................
