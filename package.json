@@ -139,10 +139,10 @@
             "type": "object",
             "title": "Numbered Bookmarks Configuration",
             "properties": {
-                "numberedBookmarks.saveBookmarksBetweenSessions": {
+                "numberedBookmarks.saveBookmarksInProject": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Allow bookmarks to be saved and restored, even if you close or change the Project"
+                    "description": "Allow bookmarks to be saved (and restored) locally in the opened Project/Folder instead of VS Code"
                 }
             }
         },

@@ -88,7 +88,7 @@ export function activate(context: vscode.ExtensionContext) {
             this.bookmarks = [];
         }
 
-        public loadFrom(jsonObject) {
+        public loadFrom(jsonObject, relativePath?) {
             if (jsonObject == '') {
                 return;
             }
@@ -103,6 +103,12 @@ export function activate(context: vscode.ExtensionContext) {
                   this.bookmarks[idx].bookmarks[index] = jsonBookmark.bookmarks[index];
               }
             }
+            
+            if (relativePath) {
+                for (let element of this.bookmarks) {
+                    element.fsPath = element.fsPath.replace("$ROOTPATH$", vscode.workspace.rootPath);
+                }
+            }            
         }
 
         fromUri(uri: string) {
@@ -122,6 +128,25 @@ export function activate(context: vscode.ExtensionContext) {
                 this.bookmarks.push(bookmark);
             }
         }
+
+        zip(relativePath?: boolean): Bookmarks {
+            function isNotEmpty(book: Bookmark): boolean {
+                return book.bookmarks.length > 0;
+            }
+            
+            let newBookmarks: Bookmarks = new Bookmarks();
+            //  newBookmarks.bookmarks = this.bookmarks.filter(isNotEmpty);
+            newBookmarks.bookmarks = JSON.parse(JSON.stringify(this.bookmarks)).filter(isNotEmpty);
+
+            if (!relativePath) {
+                return newBookmarks;
+            }
+
+            for (let element of newBookmarks.bookmarks) {
+                element.fsPath = element.fsPath.replace(vscode.workspace.rootPath, "$ROOTPATH$");
+            }
+            return newBookmarks;
+        }        
     }
 
     var bookmarks: Bookmarks;
@@ -549,23 +574,57 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     function loadWorkspaceState(): boolean {
-        let saveBookmarksBetweenSessions: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('saveBookmarksBetweenSessions', false);
+        // let saveBookmarksBetweenSessions: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('saveBookmarksBetweenSessions', false);
+        // bookmarks = new Bookmarks();
+
+        // let savedBookmarks = context.workspaceState.get('numberedBookmarks', '');
+        // if (savedBookmarks != '') {
+        //     bookmarks.loadFrom(JSON.parse(savedBookmarks));
+        // }
+        // return savedBookmarks != '';
+        let saveBookmarksInProject: boolean = vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false);
+
         bookmarks = new Bookmarks();
 
-        let savedBookmarks = context.workspaceState.get('numberedBookmarks', '');
-        if (savedBookmarks != '') {
-            bookmarks.loadFrom(JSON.parse(savedBookmarks));
-        }
-        return savedBookmarks != '';
+        if (saveBookmarksInProject) {
+            let bookmarksFileInProject: string = path.join(vscode.workspace.rootPath, ".vscode\\numbered-bookmarks.json");
+            if (!fs.existsSync(bookmarksFileInProject)) {
+                return false;
+            }
+            try {
+                bookmarks.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
+                return true;
+            } catch (error) {
+                vscode.window.showErrorMessage("Error loading Numbered Bookmarks: " + error.toString());
+                return false;
+            }
+        } else {
+            let savedBookmarks = context.workspaceState.get("numberedBookmarks", "");
+            if (savedBookmarks !== "") {
+                bookmarks.loadFrom(JSON.parse(savedBookmarks));
+            }
+            return savedBookmarks !== "";
+        }        
     }
 
     function saveWorkspaceState(): void {
-        let saveBookmarksBetweenSessions: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('saveBookmarksBetweenSessions', false);
-        if (!saveBookmarksBetweenSessions) {
-            return;
-        }
+        // let saveBookmarksBetweenSessions: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('saveBookmarksBetweenSessions', false);
+        // if (!saveBookmarksBetweenSessions) {
+        //     return;
+        // }
 
-        context.workspaceState.update('numberedBookmarks', JSON.stringify(bookmarks));
+        // context.workspaceState.update('numberedBookmarks', JSON.stringify(bookmarks));
+        let saveBookmarksInProject: boolean = vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false);
+
+        if (saveBookmarksInProject) {
+            let bookmarksFileInProject: string = path.join(vscode.workspace.rootPath, ".vscode\\numbered-bookmarks.json");
+            if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
+                fs.mkdirSync(path.dirname(bookmarksFileInProject)); 
+            }
+            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(bookmarks.zip(true), null, "\t"));   
+        } else {
+            context.workspaceState.update("numberedBookmarks", JSON.stringify(bookmarks.zip()));
+        }
     }
 
     function toggleBookmark(n: number, line: number) {
