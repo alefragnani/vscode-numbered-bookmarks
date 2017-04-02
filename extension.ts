@@ -131,7 +131,16 @@ export function activate(context: vscode.ExtensionContext) {
 
         zip(relativePath?: boolean): Bookmarks {
             function isNotEmpty(book: Bookmark): boolean {
-                return book.bookmarks.length > 0;
+                // return book.bookmarks.length > 0;
+                let hasAny: boolean = false;
+                for (let index = 0; index < book.bookmarks.length; index++) {
+                    let element = book.bookmarks[index];
+                    hasAny = element != NO_BOOKMARK_DEFINED;
+                    if (hasAny) {
+                        break;
+                    }
+                }
+                return hasAny;
             }
             
             let newBookmarks: Bookmarks = new Bookmarks();
