@@ -1,3 +1,9 @@
+# Changelog
+
+## Version 0.8.0
+
+* **Removed Setting:** Bookmarks are now _always_ Sticky
+
 ## Version 0.7.0
 
 * **New:** Avoid unnecessary scrolling (issue [#18](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/18))

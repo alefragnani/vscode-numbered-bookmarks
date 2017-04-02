@@ -612,11 +612,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// function used to attach bookmarks at the line
 	function stickyBookmarks(event): boolean {
-        
-        let useStickyBookmarks: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('useStickyBookmarks', false);
-        if (!useStickyBookmarks) {
-            return false;
-        }
+        // sticky is now the default/only behavior        
+        // let useStickyBookmarks: boolean = vscode.workspace.getConfiguration('numberedBookmarks').get('useStickyBookmarks', false);
+        // if (!useStickyBookmarks) {
+        //     return false;
+        // }
         
 		let diffLine: number;
 		let updatedBookmark: boolean = false;

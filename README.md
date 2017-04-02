@@ -47,14 +47,6 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 
 ## Available settings
 
-* The bookmarks will be glued to the line of code _(context)_ instead of the line of the file
-```
-    "numberedBookmarks.useStickyBookmarks": true
-```
-
-![Sticky](images/numbered-bookmarks-sticky.gif)
-
-
 * Allow bookmarks to be saved and restored, even if you close or change the Project
 ```
     "numberedBookmarks.saveBookmarksBetweenSessions": true
