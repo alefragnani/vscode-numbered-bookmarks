@@ -47,10 +47,12 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 
 ## Available settings
 
-* Allow bookmarks to be saved and restored, even if you close or change the Project
+* Bookmarks are always saved between sessions, and you can decide if it should be saved _in the Project_, so you can add it to your Git/SVN repo and have it in all your machines _(`false` by default)_. Set to `true` and it will save the bookmarks in `.vscode\numbered-bookmarks.json` file.
 ```
-    "numberedBookmarks.saveBookmarksBetweenSessions": true
+    "numberedBookmarks.saveBookmarksInProject": true
 ```
+
+> the `saveBookmarksBetweenSessions` setting was replaced by this in version 0.8.0
 
 ## Project and Session Based
 

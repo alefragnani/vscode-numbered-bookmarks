@@ -2,6 +2,7 @@
 
 ## Version 0.8.0
 
+* **New Setting:** Bookmarks can now be saved in the project (inside `.vscode` folder)
 * **Removed Setting:** Bookmarks are now _always_ Sticky
 
 ## Version 0.7.0
