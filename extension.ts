@@ -595,8 +595,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         bookmarks = new Bookmarks();
 
-        if (saveBookmarksInProject) {
-            let bookmarksFileInProject: string = path.join(vscode.workspace.rootPath, ".vscode\\numbered-bookmarks.json");
+        if (vscode.workspace.rootPath && saveBookmarksInProject) {
+            let bookmarksFileInProject: string = path.join(vscode.workspace.rootPath, ".vscode", "numbered-bookmarks.json");
             if (!fs.existsSync(bookmarksFileInProject)) {
                 return false;
             }
@@ -625,8 +625,8 @@ export function activate(context: vscode.ExtensionContext) {
         // context.workspaceState.update('numberedBookmarks', JSON.stringify(bookmarks));
         let saveBookmarksInProject: boolean = vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false);
 
-        if (saveBookmarksInProject) {
-            let bookmarksFileInProject: string = path.join(vscode.workspace.rootPath, ".vscode\\numbered-bookmarks.json");
+        if (vscode.workspace.rootPath && saveBookmarksInProject) {
+            let bookmarksFileInProject: string = path.join(vscode.workspace.rootPath, ".vscode", "numbered-bookmarks.json");
             if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
                 fs.mkdirSync(path.dirname(bookmarksFileInProject)); 
             }
