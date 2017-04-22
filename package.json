@@ -143,6 +143,14 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Allow bookmarks to be saved (and restored) locally in the opened Project/Folder instead of VS Code"
+                },
+                "numberedBookmarks.navigateThroughAllFiles": {
+                    "type": "string",
+                    "default": "false",
+                    "description": "Allow navigation look for bookmarks in all files in the project, instead of only the current",
+                    "enum": [
+                        "false", "replace", "allowDuplicates"
+                    ]
                 }
             }
         },

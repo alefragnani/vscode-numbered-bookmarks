@@ -48,11 +48,25 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 ## Available settings
 
 * Bookmarks are always saved between sessions, and you can decide if it should be saved _in the Project_, so you can add it to your Git/SVN repo and have it in all your machines _(`false` by default)_. Set to `true` and it will save the bookmarks in `.vscode\numbered-bookmarks.json` file.
-```
+```json
     "numberedBookmarks.saveBookmarksInProject": true
 ```
 
 > the `saveBookmarksBetweenSessions` setting was replaced by this in version 0.8.0
+
+* Per _User Requests_ there is now a **Single Numbering** possibility in the bookmarks:
+
+```json
+    "numberedBookmarks.navigateThroughAllFiles": ["false", "replace", "allowDuplicates"]
+```
+
+Possible Values:
+
+Value | Explanation
+--------- | ---------
+`false` | _default behavior_ - same as today
+`replace` | you can not have the same numbered bookmark in different files
+`allowDuplicates` | you still can have the same numbered bookmark in different files, and it will cycle through the same numbered bookmark from different files
 
 ## Project and Session Based
 
