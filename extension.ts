@@ -648,10 +648,21 @@ export function activate(context: vscode.ExtensionContext) {
         if (index >= 0) {
             clearBookmark(index);
         }
-        
+
         // if was myself, then I want to 'remove'
         if (index != n) {
-            activeBookmark.bookmarks[n] = line;
+            activeBookmark.bookmarks[ n ] = line;
+
+            // when _toggling_ only "replace" makes any difference, because it has to _invalidate_ the bookmark from other files 
+            let navigateThroughAllFiles: string = vscode.workspace.getConfiguration("numberedBookmarks").get("navigateThroughAllFiles", "false");
+            if (navigateThroughAllFiles === "replace") {
+                for (let index = 0; index < bookmarks.bookmarks.length; index++) {
+                    let element = bookmarks.bookmarks[index];
+                    if (element.fsPath !== activeBookmark.fsPath) {
+                        element.bookmarks[n] = NO_BOOKMARK_DEFINED;
+                    }
+                }
+            }        
         }
 
         saveWorkspaceState();
