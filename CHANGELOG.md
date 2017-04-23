@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.9.0
+
+* **New Setting:** Choose how bookmarks _Navigate Through All Files_ (issue [#6](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/6))
+
 ## Version 0.8.0
 
 * **New Setting:** Bookmarks can now be saved in the project (inside `.vscode` folder)

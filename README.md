@@ -54,19 +54,19 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 
 > the `saveBookmarksBetweenSessions` setting was replaced by this in version 0.8.0
 
-* Per _User Requests_ there is now a **Single Numbering** possibility in the bookmarks:
+* Per [User Requests](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/6) it is now possible to choose how Bookmarks _Navigate Through All Files_:
 
 ```json
-    "numberedBookmarks.navigateThroughAllFiles": ["false", "replace", "allowDuplicates"]
+    "numberedBookmarks.navigateThroughAllFiles"
 ```
 
 Possible Values:
 
 Value | Explanation
 --------- | ---------
-`false` | _default behavior_ - same as today
-`replace` | you can not have the same numbered bookmark in different files
-`allowDuplicates` | you still can have the same numbered bookmark in different files, and it will cycle through the same numbered bookmark from different files
+`false` | _default_ - same behavior as today
+`replace` | you can't have the same numbered bookmark in different files
+`allowDuplicates` | you can have the same numbered bookmark in different files, and if you jump repeatedly to the same number, it will look on other files
 
 ## Project and Session Based
 
