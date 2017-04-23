@@ -121,6 +121,16 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
 
+        indexFromUri(uri: string) {
+            for (var index = 0; index < this.bookmarks.length; index++) {
+                var element = this.bookmarks[index];
+
+                if (element.fsPath == uri) {
+                    return index;
+                }
+            }
+        }
+
         add(uri: string) {
             let existing: Bookmark = this.fromUri(uri);
             if (typeof existing == 'undefined') {
@@ -685,7 +695,8 @@ export function activate(context: vscode.ExtensionContext) {
                 // is it already set?
                 if (activeBookmark.bookmarks[n] < 0) {
 
-                    // no, look for another document that contains that bookmark
+                    // no, look for another document that contains that bookmark 
+                    // I can start from the first because _there is only one_
                     for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                         let element = bookmarks.bookmarks[index];
                         if ((element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[n] !== NO_BOOKMARK_DEFINED)) {
@@ -705,7 +716,50 @@ export function activate(context: vscode.ExtensionContext) {
                 break;
         
             case "allowDuplicates":
-                
+
+                // this file has, and I'm not in the line
+                if ((activeBookmark.bookmarks[n] > NO_BOOKMARK_DEFINED) && 
+                    (activeBookmark.bookmarks[n] !== vscode.window.activeTextEditor.selection.active.line)) {
+                    revealLine(activeBookmark.bookmarks[n], true);  
+                    break;  
+                }
+
+                // no, look for another document that contains that bookmark 
+                // I CAN'T start from the first because _there can be duplicates_
+                let currentFile: number = bookmarks.indexFromUri(activeBookmark.fsPath);
+                let found: boolean = false;
+
+                // to the end
+                for (let index = currentFile; index < bookmarks.bookmarks.length; index++) {
+                    let element = bookmarks.bookmarks[index];
+                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[n] !== NO_BOOKMARK_DEFINED)) {
+                        found = true;
+                        // open and novigate
+                        let uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                        vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                            vscode.window.showTextDocument(doc, undefined, false).then(editor => {
+                                revealLine(element.bookmarks[n]);
+                            });
+                        });
+                    }
+                }
+
+                if (!found) {
+                    for (let index = 0; index < currentFile; index++) {
+                        let element = bookmarks.bookmarks[index];
+                        if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[n] !== NO_BOOKMARK_DEFINED)) {
+                            // open and novigate
+                            found = true;
+                            let uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                            vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                                vscode.window.showTextDocument(doc, undefined, false).then(editor => {
+                                    revealLine(element.bookmarks[n]);
+                                });
+                            });
+                        }
+                    }
+                }
+            
                 break;
         
             default: // "false"
