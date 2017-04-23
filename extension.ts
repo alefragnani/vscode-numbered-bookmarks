@@ -653,7 +653,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (index != n) {
             activeBookmark.bookmarks[ n ] = line;
 
-            // when _toggling_ only "replace" makes any difference, because it has to _invalidate_ the bookmark from other files 
+            // when _toggling_ only "replace" differs, because it has to _invalidate_ that bookmark from other files 
             let navigateThroughAllFiles: string = vscode.workspace.getConfiguration("numberedBookmarks").get("navigateThroughAllFiles", "false");
             if (navigateThroughAllFiles === "replace") {
                 for (let index = 0; index < bookmarks.bookmarks.length; index++) {
@@ -678,13 +678,46 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        // is it already set?
-        if (activeBookmark.bookmarks[n] < 0) {
-            vscode.window.setStatusBarMessage('The Bookmark ' + n + ' is not defined', 3000);
-            return;
-        }				
-		
-        revealLine(activeBookmark.bookmarks[n], true);
+        // when _jumping_ each config has its own behavior 
+        let navigateThroughAllFiles: string = vscode.workspace.getConfiguration("numberedBookmarks").get("navigateThroughAllFiles", "false");
+        switch (navigateThroughAllFiles) {
+            case "replace":
+                // is it already set?
+                if (activeBookmark.bookmarks[n] < 0) {
+
+                    // no, look for another document that contains that bookmark
+                    for (let index = 0; index < bookmarks.bookmarks.length; index++) {
+                        let element = bookmarks.bookmarks[index];
+                        if ((element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[n] !== NO_BOOKMARK_DEFINED)) {
+                            // open and novigate
+                            let uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                            vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                                vscode.window.showTextDocument(doc, undefined, false).then(editor => {
+                                    revealLine(element.bookmarks[n]);
+                                });
+                            });
+                        }
+                    }
+                } else {
+                    revealLine(activeBookmark.bookmarks[n], true);
+                }		                
+
+                break;
+        
+            case "allowDuplicates":
+                
+                break;
+        
+            default: // "false"
+                // is it already set?
+                if (activeBookmark.bookmarks[n] < 0) {
+                    vscode.window.setStatusBarMessage('The Bookmark ' + n + ' is not defined', 3000);
+                    return;
+                }				
+                revealLine(activeBookmark.bookmarks[n], true);
+
+                break;
+        }
     }
 
     //............................................................................................
