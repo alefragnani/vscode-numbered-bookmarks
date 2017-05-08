@@ -803,7 +803,18 @@ export function activate(context: vscode.ExtensionContext) {
                     (event.contentChanges[ 1 ].range.start.character === 0) &&
                     (event.contentChanges[ 1 ].range.end.character > 0);
                 
-                return fistRangeEquals && secondRangeEmpty;
+                if (fistRangeEquals && secondRangeEmpty) {
+                    return true;
+                } else { 
+                    fistRangeEquals = 
+                        (event.contentChanges[0].rangeLength > 0) && 
+                        (event.contentChanges[0].text === "");
+                    secondRangeEmpty = 
+                        (event.contentChanges[1].rangeLength === 0) && 
+                        (event.contentChanges[1].text === "\r\n");
+
+                    return fistRangeEquals && secondRangeEmpty;
+                }
             } 
         }
     }
