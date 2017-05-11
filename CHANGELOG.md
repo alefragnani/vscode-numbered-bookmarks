@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.9.1
+
+* **Fix:** Bookmarks disapearing/incorrectly moving when new lines are added above (issue [#23](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/23))
+
 ## Version 0.9.0
 
 * **New Setting:** Choose how bookmarks _Navigate Through All Files_ (issue [#6](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/6))
