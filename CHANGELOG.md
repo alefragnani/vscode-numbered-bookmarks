@@ -6,6 +6,8 @@
 * **Fix:** `List from All Files` command not working since VS Code 1.12 (issue [#25](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/25))
 * **Internal**: **TypeScript** and **VS Code engine** updated
 * **Internal**: Source code moved to `src` folder
+* **Internal:** Enabled **TSLint**
+* **Internal**: Source code organization
 
 ## Version 0.9.1
 
