@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.10.0
+
+* **Fix:** Error opening files outside the project in `List from All Files`  (issue [#26](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/26))
+* **Fix:** `List from All Files` command not working since VS Code 1.12 (issue [#25](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/25))
+* **Internal**: **TypeScript** and **VS Code engine** updated
+* **Internal**: Source code moved to `src` folder
+
 ## Version 0.9.1
 
 * **Fix:** Bookmarks disapearing/incorrectly moving when new lines are added above (issue [#23](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/23))
