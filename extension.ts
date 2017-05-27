@@ -213,7 +213,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand('numberedBookmarks.clear', () => {
         for (var index = 0; index < MAX_BOOKMARKS; index++) {
-            activeBookmark.resetBookmarks();
+            activeBookmark.clear();
         }
 
         saveWorkspaceState();
@@ -224,7 +224,7 @@ export function activate(context: vscode.ExtensionContext) {
         
         for (let index = 0; index < bookmarks.bookmarks.length; index++) {
             let element = bookmarks.bookmarks[index];
-            element.resetBookmarks();
+            element.clear();
         }
       
         saveWorkspaceState();
