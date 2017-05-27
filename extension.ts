@@ -4,171 +4,15 @@ import * as vscode from 'vscode';
 import path = require('path');
 import fs = require('fs');
 
+import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED, Bookmark } from "./Bookmark";
+import { Bookmarks } from "./Bookmarks";
+
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
     
+    let bookmarks: Bookmarks;
     let activeEditorCountLine: number;
-
-    const MAX_BOOKMARKS = 10;
-    const NO_BOOKMARK_DEFINED = -1;
-
-    class Bookmark {
-        fsPath: string;
-        bookmarks: number[]; 
-
-        constructor(fsPath: string) {
-            this.fsPath = fsPath;
-            this.bookmarks = [];
-            this.bookmarks.length = MAX_BOOKMARKS;
-            this.resetBookmarks();
-        }
-
-        public resetBookmarks() {
-            for (var index = 0; index < MAX_BOOKMARKS; index++) {
-                this.bookmarks[index] = NO_BOOKMARK_DEFINED;
-            }
-        }
-        
-        public listBookmarks() {
-            
-            return new Promise((resolve, reject) => {
-                
-                if (this.bookmarks.length == 0) {
-                    resolve({});
-                    return;
-                }
-                
-                if (!fs.existsSync(this.fsPath)) {
-                    resolve({});
-                    return;
-                }
-                
-                let uriDocBookmark: vscode.Uri = vscode.Uri.file(this.fsPath);
-                vscode.workspace.openTextDocument(uriDocBookmark).then(doc => {    
-                    
-                    let items = [];
-                    let invalids = [];
-                    for (var index = 0; index < this.bookmarks.length; index++) {
-                        var element = this.bookmarks[index];
-                        // fix for modified files
-                        if (element != NO_BOOKMARK_DEFINED) {
-                        //if ((element != NO_BOOKMARK_DEFINED) && (element <= doc.lineCount)) {
-                            if (element <= doc.lineCount) {
-                                let lineText = doc.lineAt(element).text;
-                                let normalizedPath = doc.uri.fsPath;
-                                element++;
-                                items.push({
-                                    label: element.toString(),
-                                    description: lineText,
-                                    detail: normalizedPath
-                                });  
-                            } else {
-                                invalids.push(element);
-                            }
-                        }
-                    }
-
-                    if (invalids.length > 0) {                
-                        for (let indexI = 0; indexI < invalids.length; indexI++) {
-                            activeBookmark.bookmarks[invalids[indexI]] = NO_BOOKMARK_DEFINED;
-                        }
-                    }
-                    
-                    resolve(items);
-                    return;
-                });
-            })
-        }        
-    }
-
-    class Bookmarks {
-        bookmarks: Bookmark[];
-
-        constructor() {
-            this.bookmarks = [];
-        }
-
-        public loadFrom(jsonObject, relativePath?) {
-            if (jsonObject == '') {
-                return;
-            }
-            
-            let jsonBookmarks = jsonObject.bookmarks;
-            for (var idx = 0; idx < jsonBookmarks.length; idx++) {
-              let jsonBookmark = jsonBookmarks[idx];
-              
-              // each bookmark (line)
-              this.add(jsonBookmark.fsPath);
-              for (let index = 0; index < jsonBookmark.bookmarks.length; index++) {
-                  this.bookmarks[idx].bookmarks[index] = jsonBookmark.bookmarks[index];
-              }
-            }
-            
-            if (relativePath) {
-                for (let element of this.bookmarks) {
-                    element.fsPath = element.fsPath.replace("$ROOTPATH$", vscode.workspace.rootPath);
-                }
-            }            
-        }
-
-        fromUri(uri: string) {
-            for (var index = 0; index < this.bookmarks.length; index++) {
-                var element = this.bookmarks[index];
-
-                if (element.fsPath == uri) {
-                    return element;
-                }
-            }
-        }
-
-        indexFromUri(uri: string) {
-            for (var index = 0; index < this.bookmarks.length; index++) {
-                var element = this.bookmarks[index];
-
-                if (element.fsPath == uri) {
-                    return index;
-                }
-            }
-        }
-
-        add(uri: string) {
-            let existing: Bookmark = this.fromUri(uri);
-            if (typeof existing == 'undefined') {
-                var bookmark = new Bookmark(uri);
-                this.bookmarks.push(bookmark);
-            }
-        }
-
-        zip(relativePath?: boolean): Bookmarks {
-            function isNotEmpty(book: Bookmark): boolean {
-                // return book.bookmarks.length > 0;
-                let hasAny: boolean = false;
-                for (let index = 0; index < book.bookmarks.length; index++) {
-                    let element = book.bookmarks[index];
-                    hasAny = element != NO_BOOKMARK_DEFINED;
-                    if (hasAny) {
-                        break;
-                    }
-                }
-                return hasAny;
-            }
-            
-            let newBookmarks: Bookmarks = new Bookmarks();
-            //  newBookmarks.bookmarks = this.bookmarks.filter(isNotEmpty);
-            newBookmarks.bookmarks = JSON.parse(JSON.stringify(this.bookmarks)).filter(isNotEmpty);
-
-            if (!relativePath) {
-                return newBookmarks;
-            }
-
-            for (let element of newBookmarks.bookmarks) {
-                element.fsPath = element.fsPath.replace(vscode.workspace.rootPath, "$ROOTPATH$");
-            }
-            return newBookmarks;
-        }        
-    }
-
-    var bookmarks: Bookmarks;
+    let timeout = null;
     
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean = loadWorkspaceState();
@@ -234,7 +78,6 @@ export function activate(context: vscode.ExtensionContext) {
     }, null, context.subscriptions);
 
     // Timeout
-    var timeout = null;
     function triggerUpdateDecorations() {
         if (timeout) {
             clearTimeout(timeout);
