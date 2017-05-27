@@ -381,7 +381,8 @@ export function activate(context: vscode.ExtensionContext) {
                         } else {
                             let uriDocument: vscode.Uri = vscode.Uri.file(filePath);
                             vscode.workspace.openTextDocument(uriDocument).then(doc => {
-                                vscode.window.showTextDocument(doc, undefined, true).then(editor => {
+                                // vscode.window.showTextDocument(doc, undefined, true).then(editor => {
+                                vscode.window.showTextDocument(doc, {preserveFocus: true, preview: true}).then(editor => {
                                     revealLine(parseInt(item.label, 10) - 1);
                                 });
                             });
