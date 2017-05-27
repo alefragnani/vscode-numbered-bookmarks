@@ -36,8 +36,9 @@ export class Bookmark {
 
                 let items = [];
                 let invalids = [];
-                for (let index = 0; index < this.bookmarks.length; index++) {
-                    let element = this.bookmarks[ index ];
+                // for (let index = 0; index < this.bookmarks.length; index++) {
+                //   let element = this.bookmarks[ index ];
+                for (let element of this.bookmarks) {
                     // fix for modified files
                     if (element !== NO_BOOKMARK_DEFINED) {
                         if (element <= doc.lineCount) {
@@ -56,6 +57,7 @@ export class Bookmark {
                 }
 
                 if (invalids.length > 0) {
+                    // tslint:disable-next-line:prefer-for-of
                     for (let indexI = 0; indexI < invalids.length; indexI++) {
                         this.bookmarks[ invalids[ indexI ] ] = NO_BOOKMARK_DEFINED;
                     }

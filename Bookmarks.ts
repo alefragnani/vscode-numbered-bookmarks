@@ -34,9 +34,9 @@ export class Bookmarks {
         }
 
         public fromUri(uri: string) {
-            for (let index = 0; index < this.bookmarks.length; index++) {
-                let element = this.bookmarks[index];
-
+            // for (let index = 0; index < this.bookmarks.length; index++) {
+            //   let element = this.bookmarks[index];
+            for (let element of this.bookmarks) {
                 if (element.fsPath === uri) {
                     return element;
                 }
@@ -64,8 +64,9 @@ export class Bookmarks {
         public zip(relativePath?: boolean): Bookmarks {
             function isNotEmpty(book: Bookmark): boolean {
                 let hasAny: boolean = false;
-                for (let index = 0; index < book.bookmarks.length; index++) {
-                    let element = book.bookmarks[index];
+                // for (let index = 0; index < book.bookmarks.length; index++) {
+                //   let element = book.bookmarks[index];
+                for (let element of book.bookmarks) {
                     hasAny = element !== NO_BOOKMARK_DEFINED;
                     if (hasAny) {
                         break;

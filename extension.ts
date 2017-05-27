@@ -119,6 +119,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             if (invalids.length > 0) {
+                // tslint:disable-next-line:prefer-for-of
                 for (let indexI = 0; indexI < invalids.length; indexI++) {
                     activeBookmark.bookmarks[ invalids[ indexI ] ] = NO_BOOKMARK_DEFINED;
                 }
@@ -218,8 +219,9 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand("numberedBookmarks.clearFromAllFiles", () => {
 
-        for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-            let element = bookmarks.bookmarks[ index ];
+        // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
+        //     let element = bookmarks.bookmarks[ index ];
+        for (let element of bookmarks.bookmarks) {
             element.clear();
         }
 
@@ -236,8 +238,9 @@ export function activate(context: vscode.ExtensionContext) {
 
         // push the items
         let items: vscode.QuickPickItem[] = [];
-        for (let index = 0; index < activeBookmark.bookmarks.length; index++) {
-            let element = activeBookmark.bookmarks[ index ];
+        // for (let index = 0; index < activeBookmark.bookmarks.length; index++) {
+        //     let element = activeBookmark.bookmarks[ index ];
+        for (let element of activeBookmark.bookmarks) {
             // > -> temporary fix for modified files
             if ((element !== -1) && (element <= vscode.window.activeTextEditor.document.lineCount)) {
                 let lineText = vscode.window.activeTextEditor.document.lineAt(element).text;
@@ -270,6 +273,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // no bookmark
         let totalBookmarkCount: number = 0;
+        // tslint:disable-next-line:prefer-for-of
         for (let index = 0; index < bookmarks.bookmarks.length; index++) {
             totalBookmarkCount = totalBookmarkCount + bookmarks.bookmarks[ index ].bookmarks.length;
         }
@@ -284,6 +288,7 @@ export function activate(context: vscode.ExtensionContext) {
         let promisses = [];
         let currentLine: number = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.selection.active.line + 1 : -1;
 
+        // tslint:disable-next-line:prefer-for-of
         for (let index = 0; index < bookmarks.bookmarks.length; index++) {
             let bookmark = bookmarks.bookmarks[ index ];
 
@@ -293,10 +298,10 @@ export function activate(context: vscode.ExtensionContext) {
 
         Promise.all(promisses).then(
             (values) => {
-
+                // tslint:disable-next-line:prefer-for-of
                 for (let index = 0; index < values.length; index++) {
                     let element = values[ index ];
-
+                    // tslint:disable-next-line:prefer-for-of
                     for (let indexInside = 0; indexInside < element.length; indexInside++) {
                         let elementInside = element[ indexInside ];
 
@@ -500,8 +505,9 @@ export function activate(context: vscode.ExtensionContext) {
             // when _toggling_ only "replace" differs, because it has to _invalidate_ that bookmark from other files 
             let navigateThroughAllFiles: string = vscode.workspace.getConfiguration("numberedBookmarks").get("navigateThroughAllFiles", "false");
             if (navigateThroughAllFiles === "replace") {
-                for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-                    let element = bookmarks.bookmarks[ index ];
+                // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
+                //     let element = bookmarks.bookmarks[ index ];
+                for (let element of bookmarks.bookmarks) {
                     if (element.fsPath !== activeBookmark.fsPath) {
                         element.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
                     }
@@ -531,8 +537,9 @@ export function activate(context: vscode.ExtensionContext) {
 
                     // no, look for another document that contains that bookmark 
                     // I can start from the first because _there is only one_
-                    for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-                        let element = bookmarks.bookmarks[ index ];
+                    // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
+                    //     let element = bookmarks.bookmarks[ index ];
+                    for (let element of bookmarks.bookmarks) {
                         if ((element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
                             let uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
