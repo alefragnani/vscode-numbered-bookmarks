@@ -1,23 +1,22 @@
 "use strict";
 
 import * as vscode from "vscode";
-import fs = require("fs");
-import {Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED} from "./Bookmark";
+import {Bookmark, NO_BOOKMARK_DEFINED} from "./Bookmark";
 
 export class Bookmarks {
-        bookmarks: Bookmark[];
+        public bookmarks: Bookmark[];
 
         constructor() {
             this.bookmarks = [];
         }
 
         public loadFrom(jsonObject, relativePath?) {
-            if (jsonObject == '') {
+            if (jsonObject === "") {
                 return;
             }
             
             let jsonBookmarks = jsonObject.bookmarks;
-            for (var idx = 0; idx < jsonBookmarks.length; idx++) {
+            for (let idx = 0; idx < jsonBookmarks.length; idx++) {
               let jsonBookmark = jsonBookmarks[idx];
               
               // each bookmark (line)
@@ -34,40 +33,40 @@ export class Bookmarks {
             }            
         }
 
-        fromUri(uri: string) {
-            for (var index = 0; index < this.bookmarks.length; index++) {
-                var element = this.bookmarks[index];
+        public fromUri(uri: string) {
+            for (let index = 0; index < this.bookmarks.length; index++) {
+                let element = this.bookmarks[index];
 
-                if (element.fsPath == uri) {
+                if (element.fsPath === uri) {
                     return element;
                 }
             }
         }
 
-        indexFromUri(uri: string) {
-            for (var index = 0; index < this.bookmarks.length; index++) {
-                var element = this.bookmarks[index];
+        public indexFromUri(uri: string) {
+            for (let index = 0; index < this.bookmarks.length; index++) {
+                let element = this.bookmarks[index];
 
-                if (element.fsPath == uri) {
+                if (element.fsPath === uri) {
                     return index;
                 }
             }
         }
 
-        add(uri: string) {
+        public add(uri: string) {
             let existing: Bookmark = this.fromUri(uri);
-            if (typeof existing == 'undefined') {
-                var bookmark = new Bookmark(uri);
+            if (typeof existing === "undefined") {
+                let bookmark = new Bookmark(uri);
                 this.bookmarks.push(bookmark);
             }
         }
 
-        zip(relativePath?: boolean): Bookmarks {
+        public zip(relativePath?: boolean): Bookmarks {
             function isNotEmpty(book: Bookmark): boolean {
                 let hasAny: boolean = false;
                 for (let index = 0; index < book.bookmarks.length; index++) {
                     let element = book.bookmarks[index];
-                    hasAny = element != NO_BOOKMARK_DEFINED;
+                    hasAny = element !== NO_BOOKMARK_DEFINED;
                     if (hasAny) {
                         break;
                     }

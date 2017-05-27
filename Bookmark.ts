@@ -21,7 +21,7 @@ export class Bookmark {
 
         return new Promise((resolve, reject) => {
 
-            if (this.bookmarks.length == 0) {
+            if (this.bookmarks.length === 0) {
                 resolve({});
                 return;
             }
@@ -36,11 +36,10 @@ export class Bookmark {
 
                 let items = [];
                 let invalids = [];
-                for (var index = 0; index < this.bookmarks.length; index++) {
-                    var element = this.bookmarks[ index ];
+                for (let index = 0; index < this.bookmarks.length; index++) {
+                    let element = this.bookmarks[ index ];
                     // fix for modified files
-                    if (element != NO_BOOKMARK_DEFINED) {
-                        //if ((element != NO_BOOKMARK_DEFINED) && (element <= doc.lineCount)) {
+                    if (element !== NO_BOOKMARK_DEFINED) {
                         if (element <= doc.lineCount) {
                             let lineText = doc.lineAt(element).text;
                             let normalizedPath = doc.uri.fsPath;
@@ -65,11 +64,11 @@ export class Bookmark {
                 resolve(items);
                 return;
             });
-        })
+        });
     }
     
     public clear() {
-        for (var index = 0; index < MAX_BOOKMARKS; index++) {
+        for (let index = 0; index < MAX_BOOKMARKS; index++) {
             this.bookmarks[ index ] = NO_BOOKMARK_DEFINED;
         }
     }
