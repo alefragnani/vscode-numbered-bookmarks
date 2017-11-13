@@ -28,14 +28,12 @@ export class Bookmarks {
             
             if (relativePath) {
                 for (let element of this.bookmarks) {
-                    element.fsPath = element.fsPath.replace("$ROOTPATH$", vscode.workspace.rootPath);
+                    element.fsPath = element.fsPath.replace("$ROOTPATH$", vscode.workspace.workspaceFolders[0].uri.fsPath);
                 }
             }            
         }
 
         public fromUri(uri: string) {
-            // for (let index = 0; index < this.bookmarks.length; index++) {
-            //   let element = this.bookmarks[index];
             for (let element of this.bookmarks) {
                 if (element.fsPath === uri) {
                     return element;
@@ -64,8 +62,6 @@ export class Bookmarks {
         public zip(relativePath?: boolean): Bookmarks {
             function isNotEmpty(book: Bookmark): boolean {
                 let hasAny: boolean = false;
-                // for (let index = 0; index < book.bookmarks.length; index++) {
-                //   let element = book.bookmarks[index];
                 for (let element of book.bookmarks) {
                     hasAny = element !== NO_BOOKMARK_DEFINED;
                     if (hasAny) {
@@ -83,7 +79,8 @@ export class Bookmarks {
             }
 
             for (let element of newBookmarks.bookmarks) {
-                element.fsPath = element.fsPath.replace(vscode.workspace.rootPath, "$ROOTPATH$");
+                element.fsPath = element.fsPath.replace(vscode.workspace.getWorkspaceFolder(
+                    vscode.Uri.file(element.fsPath)).uri.fsPath, "$ROOTPATH$");
             }
             return newBookmarks;
         }        
