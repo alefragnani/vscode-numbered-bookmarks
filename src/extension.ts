@@ -547,7 +547,7 @@ export function activate(context: vscode.ExtensionContext) {
         // return;
         let saveBookmarksInProject: boolean = canSaveBookmarksInProject();
 
-        if (vscode.workspace.rootPath && saveBookmarksInProject) {
+        if (saveBookmarksInProject) {
             let bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
             if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
                 fs.mkdirSync(path.dirname(bookmarksFileInProject));
