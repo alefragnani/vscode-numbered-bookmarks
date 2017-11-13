@@ -36,8 +36,6 @@ export class Bookmark {
 
                 let items = [];
                 let invalids = [];
-                // for (let index = 0; index < this.bookmarks.length; index++) {
-                //   let element = this.bookmarks[ index ];
                 for (let element of this.bookmarks) {
                     // fix for modified files
                     if (element !== NO_BOOKMARK_DEFINED) {
