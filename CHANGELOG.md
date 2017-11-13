@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.11.0
+
+* **New:** Multi-root support (issue [#30](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/30))
+
 ## Version 0.10.0
 
 * **Fix:** Error opening files outside the project in `List from All Files`  (issue [#26](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/26))
