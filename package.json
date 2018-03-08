@@ -2,7 +2,7 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "0.11.0",
+    "version": "0.11.1",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#000000",
@@ -17,9 +17,9 @@
     "keywords": [
         "bookmark",
         "sticky",
-		"jump",
-		"mark",
-		"navigation",
+        "jump",
+        "mark",
+        "navigation",
         "Delphi",
         "multi-root ready"
     ],
@@ -119,11 +119,11 @@
                 "command": "numberedBookmarks.jumpToBookmark9",
                 "title": "Numbered Bookmarks: Jump to Bookmark 9"
             },
-            {               
+            {
                 "command": "numberedBookmarks.list",
                 "title": "Numbered Bookmarks: List"
             },
-            {               
+            {
                 "command": "numberedBookmarks.listFromAllFiles",
                 "title": "Numbered Bookmarks: List from All Files"
             },
@@ -150,7 +150,9 @@
                     "default": "false",
                     "description": "Allow navigation look for bookmarks in all files in the project, instead of only the current",
                     "enum": [
-                        "false", "replace", "allowDuplicates"
+                        "false",
+                        "replace",
+                        "allowDuplicates"
                     ]
                 }
             }
@@ -275,5 +277,5 @@
         "@types/node": "^6.0.40",
         "typescript": "^2.3.2",
         "vscode": "^1.1.6"
-   }
+    }
 }

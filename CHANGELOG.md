@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.11.1
+
+* **Fix:** Error activating extension without workspace (folder) open (issue [#35](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/35))
+
 ## Version 0.11.0
 
 * **New:** Multi-root support (issue [#30](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/30))
