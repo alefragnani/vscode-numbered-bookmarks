@@ -1,3 +1,7 @@
+## [0.12.0] - 2018-09-14
+### Added
+- Patreon button
+
 ## [0.11.1] - 2018-03-09
 ### Fixed
 - Error activating extension without workspace (folder) open (issue [#35](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/35))
