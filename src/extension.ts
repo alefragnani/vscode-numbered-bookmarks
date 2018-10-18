@@ -18,6 +18,9 @@ export function activate(context: vscode.ExtensionContext) {
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean = loadWorkspaceState();
 
+    // line decoration
+    let backgroundLineColor : string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
+
     let bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
     bookmarkDecorationType.length = MAX_BOOKMARKS;
     for (let index = 0; index < MAX_BOOKMARKS; index++) {
@@ -26,7 +29,9 @@ export function activate(context: vscode.ExtensionContext) {
         bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
             gutterIconPath: pathIcon,
             overviewRulerLane: vscode.OverviewRulerLane.Full,
-            overviewRulerColor: "rgba(1, 255, 33, 0.7)"
+            overviewRulerColor: "rgba(1, 255, 33, 0.7)",
+            backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
+            isWholeLine: backgroundLineColor ? true : false
         });
     }
 
