@@ -154,6 +154,16 @@
                         "replace",
                         "allowDuplicates"
                     ]
+                },
+                "numberedBookmarks.fillColor": {
+                    "type": "string",
+                    "default": "#00ff25",
+                    "description": "Bookmark background color"
+                },
+                "numberedBookmarks.numberColor": {
+                    "type": "string",
+                    "default": "#000",
+                    "description": "Bookmark number color"
                 }
             }
         },
