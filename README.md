@@ -68,6 +68,18 @@ Value | Explanation
 `replace` | you can't have the same numbered bookmark in different files
 `allowDuplicates` | you can have the same numbered bookmark in different files, and if you jump repeatedly to the same number, it will look on other files
 
+You can change the background color of a bookmark using color names `blue`, RGB `rgb(0, 255, 37)` or HEX `#00ff25` format.
+
+```json
+    "numberedBookmarks.fillColor"
+```
+
+It is also possible to change number color itself using the same color formats.
+
+```json
+    "numberedBookmarks.numberColor"
+```
+
 ## Project and Session Based
 
 The bookmarks are saved _per session_ for the project that you are using. You don't have to worry about closing files in _Working Files_. When you reopen the file, the bookmarks are restored.
