@@ -14,7 +14,7 @@ export class Sticky {
         // if (!useStickyBookmarks) {
         //     return false;
         // }
-
+        let keepOnDelete: boolean = vscode.workspace.getConfiguration("numberedBookmarks").get("keepBookmarksOnDelete", false);
         let diffLine: number;
         let updatedBookmark: boolean = false;
 
@@ -42,7 +42,7 @@ export class Sticky {
                         }
                     }
 
-                    if (event.contentChanges[ 0 ].range.end.line - event.contentChanges[ 0 ].range.start.line > 1) {
+                    if (!keepOnDelete && (event.contentChanges[ 0 ].range.end.line - event.contentChanges[ 0 ].range.start.line > 1)) {
                         for (let i = event.contentChanges[ 0 ].range.start.line/* + 1*/; i <= event.contentChanges[ 0 ].range.end.line; i++) {
                             let index = activeBookmark.bookmarks.indexOf(i);
 
@@ -73,9 +73,15 @@ export class Sticky {
                         ((activeBookmark.bookmarks[ index ] > eventLine) && (eventcharacter > 0)) ||
                         ((activeBookmark.bookmarks[ index ] >= eventLine) && (eventcharacter === 0))
                     ) {
-                        let newLine = activeBookmark.bookmarks[ index ] + diffLine;
-                        if (newLine < 0) {
-                            newLine = 0;
+                        let newLine: number;
+
+                        if (keepOnDelete) {
+                            newLine = eventLine
+                        } else {
+                            newLine = activeBookmark.bookmarks[index] + diffLine;
+                            if (newLine < 0) {
+                                newLine = 0;
+                            }
                         }
 
                         activeBookmark.bookmarks[ index ] = newLine;

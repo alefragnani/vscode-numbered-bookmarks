@@ -154,6 +154,11 @@
                         "replace",
                         "allowDuplicates"
                     ]
+                },
+                "numberedBookmarks.keepBookmarksOnDelete": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Keep the bookmarks in the file, even if its line is deleted (move one line below)"
                 }
             }
         },
