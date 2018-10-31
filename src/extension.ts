@@ -9,8 +9,8 @@ import { Bookmarks } from "./Bookmarks";
 import { Sticky } from "./Sticky";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
-const getFillColor = () => vscode.workspace.getConfiguration("numberedBookmarks").get("fillColor", "#00ff25");
-const getNumberColor = () => vscode.workspace.getConfiguration("numberedBookmarks").get("numberColor", "#000");
+const getFillColor = () => vscode.workspace.getConfiguration("numberedBookmarks").get("gutterIconFillColor", "#00ff25");
+const getNumberColor = () => vscode.workspace.getConfiguration("numberedBookmarks").get("gutterIconNumberColor", "#000");
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
@@ -71,8 +71,8 @@ export function activate(context: vscode.ExtensionContext) {
     }, null, context.subscriptions);
     
     vscode.workspace.onDidChangeConfiguration(event => {    
-        if (event.affectsConfiguration("numberedBookmarks.fillColor") 
-            || event.affectsConfiguration("numberedBookmarks.numberColor")
+        if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
+            || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")
         ) {
             context.globalState.update(
                 STATE_SVG_VERSION, 
@@ -91,14 +91,14 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
         
-        const fillColor = getFillColor();
-        const numberColor = getNumberColor();
+        const gutterIconFillColor = getFillColor();
+        const gutterIconNumberColor = getNumberColor();
         const content = fs.readFileSync(context.asAbsolutePath("images/bookmark.svg"), "utf8");
         
         for (let i = 0; i <= 9; i++) {
             const svgContent = content
-                .replace("{{fillColor}}", fillColor)
-                .replace("{{numberColor}}", numberColor)
+                .replace("{{gutterIconFillColor}}", gutterIconFillColor)
+                .replace("{{gutterIconNumberColor}}", gutterIconNumberColor)
                 .replace("{{number}}", i.toString());
                 
             try {    

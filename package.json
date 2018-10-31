@@ -155,12 +155,12 @@
                         "allowDuplicates"
                     ]
                 },
-                "numberedBookmarks.fillColor": {
+                "numberedBookmarks.gutterIconFillColor": {
                     "type": "string",
                     "default": "#00ff25",
                     "description": "Bookmark background color"
                 },
-                "numberedBookmarks.numberColor": {
+                "numberedBookmarks.gutterIconNumberColor": {
                     "type": "string",
                     "default": "#000",
                     "description": "Bookmark number color"

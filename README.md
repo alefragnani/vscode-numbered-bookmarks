@@ -71,13 +71,13 @@ Value | Explanation
 * You can change the background color of a bookmark using color names `blue`, RGB `rgb(0, 255, 37)` or HEX `#00ff25` format.
 
 ```json
-    "numberedBookmarks.fillColor"
+    "numberedBookmarks.gutterIconFillColor"
 ```
 
 * It is also possible to change number color itself using the same color formats.
 
 ```json
-    "numberedBookmarks.numberColor"
+    "numberedBookmarks.gutterIconNumberColor"
 ```
 
 ## Project and Session Based
