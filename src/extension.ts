@@ -18,17 +18,26 @@ export function activate(context: vscode.ExtensionContext) {
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean = loadWorkspaceState();
 
-    let bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
-    bookmarkDecorationType.length = MAX_BOOKMARKS;
-    for (let index = 0; index < MAX_BOOKMARKS; index++) {
-        let pathIcon: string = context.asAbsolutePath("images\\bookmark" + index + ".png");
-        pathIcon = pathIcon.replace(/\\/g, "/");
-        bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
-            gutterIconPath: pathIcon,
-            overviewRulerLane: vscode.OverviewRulerLane.Full,
-            overviewRulerColor: "rgba(1, 255, 33, 0.7)"
-        });
+    // line decoration
+    function createTextEditorDecoration(context: vscode.ExtensionContext): vscode.TextEditorDecorationType[] {
+        let backgroundLineColor: string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
+        let bdt: vscode.TextEditorDecorationType[] = [];
+        bdt.length = MAX_BOOKMARKS;
+        for (let index = 0; index < MAX_BOOKMARKS; index++) {
+            let pathIcon: string = context.asAbsolutePath("images\\bookmark" + index + ".png");
+            pathIcon = pathIcon.replace(/\\/g, "/");
+            bdt[ index ] = vscode.window.createTextEditorDecorationType({
+                gutterIconPath: pathIcon,
+                overviewRulerLane: vscode.OverviewRulerLane.Full,
+                overviewRulerColor: "rgba(1, 255, 33, 0.7)",
+                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
+                isWholeLine: backgroundLineColor ? true : false
+            });
+        }
+        return bdt;
     }
+
+    let bookmarkDecorationType: vscode.TextEditorDecorationType[] = createTextEditorDecoration(context);
 
     // Connect it to the Editors Events
     let activeEditor = vscode.window.activeTextEditor;
@@ -74,6 +83,19 @@ export function activate(context: vscode.ExtensionContext) {
             if (updatedBookmark) {
                 saveWorkspaceState();
             }
+        }
+    }, null, context.subscriptions);
+
+    vscode.workspace.onDidChangeConfiguration(cfg => {
+        if (cfg.affectsConfiguration("numberedBookmarks.backgroundLineColor")) {
+            for (const dec of bookmarkDecorationType) {
+                dec.dispose();
+            }
+            bookmarkDecorationType = createTextEditorDecoration(context);
+            for (const dec of bookmarkDecorationType) {
+                context.subscriptions.push(dec);
+            }
+            updateDecorations();
         }
     }, null, context.subscriptions);
 
