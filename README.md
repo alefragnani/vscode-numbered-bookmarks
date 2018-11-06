@@ -6,6 +6,7 @@
 # What's new in Numbered Bookmarks 5
 
 * Adds **Multi-root** support
+* Adds **background color** for bookmarked lines
 
 # Support
 
@@ -83,6 +84,12 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
 
 ```json
     "numberedBookmarks.navigateThroughAllFiles"
+```
+
+* Specify the background color to use on a bookmarked line
+
+```json
+    "numberedBookmarks.backgroundLineColor"
 ```
 
 Possible Values:
