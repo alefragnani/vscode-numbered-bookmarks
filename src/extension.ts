@@ -9,8 +9,17 @@ import { Bookmarks } from "./Bookmarks";
 import { Sticky } from "./Sticky";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
-const getFillColor = () => vscode.workspace.getConfiguration("numberedBookmarks").get("gutterIconFillColor", "#00ff25");
-const getNumberColor = () => vscode.workspace.getConfiguration("numberedBookmarks").get("gutterIconNumberColor", "#000");
+const DEFAULT_GUTTER_ICON_FILL_COLOR = "#00ff25";
+const DEFAULT_GUTTER_ICON_NUMBER_COLOR = "#000";
+
+const getFillColor = (): string => {
+    const color = vscode.workspace.getConfiguration("numberedBookmarks").get<string>("gutterIconFillColor");
+    return color === "" || color === undefined ? DEFAULT_GUTTER_ICON_FILL_COLOR : color;
+}
+const getNumberColor = (): string => {
+    const color = vscode.workspace.getConfiguration("numberedBookmarks").get<string>("gutterIconNumberColor");
+    return color === "" || color === undefined ? DEFAULT_GUTTER_ICON_NUMBER_COLOR : color;
+}
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
@@ -25,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
     
     updateBookmarkSvg();
     updateBookmarkDecorationType();
-    
+
     // Connect it to the Editors Events
     if (activeEditor) {
         if (!didLoadBookmarks) {
@@ -72,7 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
     
     vscode.workspace.onDidChangeConfiguration(event => {    
         if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
-            || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")
+            || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
         ) {
             context.globalState.update(
                 STATE_SVG_VERSION, 
@@ -81,7 +90,19 @@ export function activate(context: vscode.ExtensionContext) {
             updateBookmarkSvg();  
             updateBookmarkDecorationType();      
         }
-    });
+        if (event.affectsConfiguration("numberedBookmarks.backgroundLineColor")) {
+            for (const dec of bookmarkDecorationType) {
+                dec.dispose();
+            }
+            
+            updateBookmarkDecorationType();
+            updateDecorations();
+            
+            for (const dec of bookmarkDecorationType) {
+                context.subscriptions.push(dec);
+            }
+        }
+    }, null, context.subscriptions);
     
     // The only way to update the decorations after changing the color is to create a new file
     function updateBookmarkSvg() {  
@@ -106,8 +127,10 @@ export function activate(context: vscode.ExtensionContext) {
             } catch (err) {
                 vscode.window.showErrorMessage(`Can't write to ${err.path}`);            
             }
-                
-            fs.unlink(context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`));
+            
+            if (fs.existsSync(`images/bookmark${i}-${v - 1}.svg`)) {
+                fs.unlinkSync(context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`));
+            }
         }   
 
         triggerUpdateDecorations(); 
@@ -115,6 +138,7 @@ export function activate(context: vscode.ExtensionContext) {
     
     // Need to udpate every time the color is changed
     function updateBookmarkDecorationType() {
+        const backgroundLineColor: string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
         const v = getCurrentSvgVersion();
         
         for (let index = 0; index < MAX_BOOKMARKS; index++) {
@@ -125,7 +149,9 @@ export function activate(context: vscode.ExtensionContext) {
             bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
                 gutterIconPath,
                 overviewRulerLane: vscode.OverviewRulerLane.Right,
-                overviewRulerColor: getFillColor()
+                overviewRulerColor: getFillColor(),
+                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
+                isWholeLine: backgroundLineColor ? true : false
             });
         }
     }
