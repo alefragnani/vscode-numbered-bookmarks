@@ -1,6 +1,6 @@
 ## [5.2.0] - 2018-09-14
 ### Added
-- New README
+- New Setting to choose background color of bookmarked lines (Thanks to @ibraimgm [PR #44](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/44))
 - New Version Numbering based on `semver`
 
 ## [0.12.0 - 5.1.0] - 2018-09-14
