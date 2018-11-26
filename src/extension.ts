@@ -8,12 +8,21 @@ import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "./Bookmark";
 import { Bookmarks } from "./Bookmarks";
 import { Sticky } from "./Sticky";
 
+import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
+import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
+
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
 
     let bookmarks: Bookmarks;
     let activeEditorCountLine: number;
     let timeout = null;
+
+    let provider = new WhatsNewNumberedBookmarksContentProvider();
+    let viewer = new WhatsNewManager(context).registerContentProvider("numbered-bookmarks", provider);
+    viewer.showPageInActivation();
+    context.subscriptions.push(vscode.commands.registerCommand('numberedBookmarks.whatsNew', () => viewer.showPage()));
+
 
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean = loadWorkspaceState();

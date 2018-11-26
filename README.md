@@ -1,9 +1,9 @@
 <p align="center">
   <br />
-  <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
+  <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/vscode-numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
 </p>
 
-# What's new in Numbered Bookmarks 5
+# What's new in Numbered Bookmarks 6
 
 * Adds **Multi-root** support
 * Adds **background color** for bookmarked lines
@@ -28,7 +28,7 @@
 
 # Numbered Bookmarks
 
-It helps you to navigate in your code, moving between important positions easily and quickly. _In Delphi style._
+It helps you to navigate in your code, moving between important positions easily and quickly. No more nneed to _search for code_. All of this in **_in Delphi style_**.
 
 # Features
 
