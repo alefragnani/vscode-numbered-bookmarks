@@ -28,7 +28,7 @@
 
 # Numbered Bookmarks
 
-It helps you to navigate in your code, moving between important positions easily and quickly. _In Delphi style._
+It helps you to navigate in your code, moving between important positions easily and quickly. No more nneed to _search for code_. All of this in **_in Delphi style_**.
 
 # Features
 
