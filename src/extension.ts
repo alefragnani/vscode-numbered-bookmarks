@@ -136,7 +136,7 @@ export function activate(context: vscode.ExtensionContext) {
                 .replace("{{number}}", i.toString());
                 
             try {    
-                fs.writeFileSync(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, "utf8"); 
+                fs.writeFileSync(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, {encoding: "utf8"}); 
             } catch (err) {
                 vscode.window.showErrorMessage(`Can't write to ${err.path}`);            
             }
