@@ -1,3 +1,7 @@
+## [6.1.0] - 2018-12-17
+### Added
+- New settings to choose gutter icon colors (icon fill and number) (Thanks to @vasilev-alex [PR #45](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/45))
+
 ## [6.0.0] - 2018-11-26
 ### Added
 - What's New
