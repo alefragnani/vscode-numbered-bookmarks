@@ -15,9 +15,13 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
         let changeLog: ChangeLogItem[] = [];
         changeLog.push({kind: ChangeLogKind.NEW, message: "<b>Multi-root</b> support"});
         changeLog.push({kind: ChangeLogKind.NEW, message: `Setting to choose <b>background color</b> of 
-            bookmarked files (Thanks to @ibraimgm - <a title=\"Open PR #44\" 
+            bookmarked lines (Thanks to @ibraimgm - <a title=\"Open PR #44\" 
             href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/pull/44\">
             PR #44</a>)</b>`});
+        changeLog.push({kind: ChangeLogKind.NEW, message: `Settings to choose <b>gutter icon color</b> of 
+            bookmarked lines (icon fill and number) (Thanks to @vasilev-alex - <a title=\"Open PR #45\" 
+            href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/pull/45\">
+            PR #45</a>)</b>`});
         changeLog.push({kind: ChangeLogKind.NEW, message: "Setting to choose how bookmarks <b>Navigate through all files</b>"});
         changeLog.push({kind: ChangeLogKind.FIXED, message: `Error activating extension without workspace - 
             <a title=\"Issue #35\" href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/35\">

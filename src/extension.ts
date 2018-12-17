@@ -7,17 +7,35 @@ import fs = require("fs");
 import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "./Bookmark";
 import { Bookmarks } from "./Bookmarks";
 import { Sticky } from "./Sticky";
-
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 
+const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
+
+const getFillColor = (): string => {
+    const config = vscode.workspace
+      .getConfiguration('numberedBookmarks')
+      .inspect('gutterIconFillColor');
+    
+    return <string>(config.globalValue ? config.globalValue : config.defaultValue);
+  };
+  
+  const getNumberColor = (): string => {
+    const config = vscode.workspace
+      .getConfiguration('numberedBookmarks')
+      .inspect('gutterIconNumberColor');
+      
+      return <string>(config.globalValue ? config.globalValue : config.defaultValue);
+  };
+
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
-
     let bookmarks: Bookmarks;
     let activeEditorCountLine: number;
-    let timeout = null;
-
+    let timeout = null;    
+    let activeEditor = vscode.window.activeTextEditor;
+    let activeBookmark: Bookmark;            
+    let bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
     let provider = new WhatsNewNumberedBookmarksContentProvider();
     let viewer = new WhatsNewManager(context).registerContentProvider("numbered-bookmarks", provider);
     viewer.showPageInActivation();
@@ -26,32 +44,11 @@ export function activate(context: vscode.ExtensionContext) {
 
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean = loadWorkspaceState();
-
-    // line decoration
-    function createTextEditorDecoration(context: vscode.ExtensionContext): vscode.TextEditorDecorationType[] {
-        let backgroundLineColor: string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
-        let bdt: vscode.TextEditorDecorationType[] = [];
-        bdt.length = MAX_BOOKMARKS;
-        for (let index = 0; index < MAX_BOOKMARKS; index++) {
-            let pathIcon: string = context.asAbsolutePath("images\\bookmark" + index + ".png");
-            pathIcon = pathIcon.replace(/\\/g, "/");
-            bdt[ index ] = vscode.window.createTextEditorDecorationType({
-                gutterIconPath: pathIcon,
-                overviewRulerLane: vscode.OverviewRulerLane.Full,
-                overviewRulerColor: "rgba(1, 255, 33, 0.7)",
-                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
-                isWholeLine: backgroundLineColor ? true : false
-            });
-        }
-        return bdt;
-    }
-
-    let bookmarkDecorationType: vscode.TextEditorDecorationType[] = createTextEditorDecoration(context);
+    
+    updateBookmarkSvg();
+    updateBookmarkDecorationType();
 
     // Connect it to the Editors Events
-    let activeEditor = vscode.window.activeTextEditor;
-    let activeBookmark: Bookmark;
-
     if (activeEditor) {
         if (!didLoadBookmarks) {
             bookmarks.add(activeEditor.document.uri.fsPath);
@@ -94,19 +91,88 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
     }, null, context.subscriptions);
-
-    vscode.workspace.onDidChangeConfiguration(cfg => {
-        if (cfg.affectsConfiguration("numberedBookmarks.backgroundLineColor")) {
+    
+    vscode.workspace.onDidChangeConfiguration(event => {    
+        if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
+            || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
+        ) {
+            context.globalState.update(
+                STATE_SVG_VERSION, 
+                getCurrentSvgVersion() + 1
+            );
+            updateBookmarkSvg();  
+            updateBookmarkDecorationType();      
+        }
+        if (event.affectsConfiguration("numberedBookmarks.backgroundLineColor")) {
             for (const dec of bookmarkDecorationType) {
                 dec.dispose();
             }
-            bookmarkDecorationType = createTextEditorDecoration(context);
+            
+            updateBookmarkDecorationType();
+            updateDecorations();
+            
             for (const dec of bookmarkDecorationType) {
                 context.subscriptions.push(dec);
             }
-            updateDecorations();
         }
     }, null, context.subscriptions);
+    
+    // The only way to update the decorations after changing the color is to create a new file
+    function updateBookmarkSvg() {  
+        const v = getCurrentSvgVersion();
+        
+        if (fs.existsSync(context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
+            return;
+        }
+        
+        const gutterIconFillColor = getFillColor();
+        const gutterIconNumberColor = getNumberColor();
+        const content = fs.readFileSync(context.asAbsolutePath("images/bookmark.svg"), "utf8");
+        
+        for (let i = 0; i <= 9; i++) {
+            const svgContent = content
+                .replace("{{gutterIconFillColor}}", gutterIconFillColor)
+                .replace("{{gutterIconNumberColor}}", gutterIconNumberColor)
+                .replace("{{number}}", i.toString());
+                
+            try {    
+                fs.writeFileSync(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, {encoding: "utf8"}); 
+            } catch (err) {
+                vscode.window.showErrorMessage(`Can't write to ${err.path}`);            
+            }
+            
+            const bookmarkPath = context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`);        
+            if (fs.existsSync(bookmarkPath)) {
+                fs.unlinkSync(bookmarkPath);
+            }
+        }   
+
+        triggerUpdateDecorations(); 
+    }
+    
+    // Need to udpate every time the color is changed
+    function updateBookmarkDecorationType() {
+        const backgroundLineColor: string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
+        const v = getCurrentSvgVersion();
+        
+        for (let index = 0; index < MAX_BOOKMARKS; index++) {
+            if (undefined !== bookmarkDecorationType[ index ]) {
+                bookmarkDecorationType[ index ].dispose();
+            }
+            const gutterIconPath: string = context.asAbsolutePath(`images/bookmark${index}-${v}.svg`);   
+            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
+                gutterIconPath,
+                overviewRulerLane: vscode.OverviewRulerLane.Right,
+                overviewRulerColor: getFillColor(),
+                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
+                isWholeLine: backgroundLineColor ? true : false
+            });
+        }
+    }
+    
+    function getCurrentSvgVersion(): number {
+        return parseInt(context.globalState.get(STATE_SVG_VERSION, "0"));
+    }
 
     // Timeout
     function triggerUpdateDecorations() {
@@ -160,87 +226,18 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
     }
-
+    
     // other commands
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark0", () => {
-        toggleBookmark(0, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark1", () => {
-        toggleBookmark(1, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark2", () => {
-        toggleBookmark(2, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark3", () => {
-        toggleBookmark(3, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark4", () => {
-        toggleBookmark(4, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark5", () => {
-        toggleBookmark(5, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark6", () => {
-        toggleBookmark(6, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark7", () => {
-        toggleBookmark(7, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark8", () => {
-        toggleBookmark(8, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.toggleBookmark9", () => {
-        toggleBookmark(9, vscode.window.activeTextEditor.selection.active.line);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark0", () => {
-        jumpToBookmark(0);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark1", () => {
-        jumpToBookmark(1);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark2", () => {
-        jumpToBookmark(2);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark3", () => {
-        jumpToBookmark(3);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark4", () => {
-        jumpToBookmark(4);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark5", () => {
-        jumpToBookmark(5);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark6", () => {
-        jumpToBookmark(6);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark7", () => {
-        jumpToBookmark(7);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark8", () => {
-        jumpToBookmark(8);
-    });
-
-    vscode.commands.registerCommand("numberedBookmarks.jumpToBookmark9", () => {
-        jumpToBookmark(9);
-    });
+    for (let i = 0; i <= 9; i++) {
+        vscode.commands.registerCommand(
+            `numberedBookmarks.toggleBookmark${i}`, 
+            () => toggleBookmark(i, vscode.window.activeTextEditor.selection.active.line)
+        );
+        vscode.commands.registerCommand(
+            `numberedBookmarks.jumpToBookmark${i}`,
+            () => jumpToBookmark(i)
+        );
+    }
 
     vscode.commands.registerCommand("numberedBookmarks.clear", () => {
         for (let index = 0; index < MAX_BOOKMARKS; index++) {

@@ -2,7 +2,7 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "6.0.0",
+    "version": "6.1.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#000000",
@@ -158,6 +158,16 @@
                         "replace",
                         "allowDuplicates"
                     ]
+                },
+                "numberedBookmarks.gutterIconFillColor": {
+                    "type": "string",
+                    "default": "#00ff25",
+                    "description": "Specify the color to use on gutter icon (fill color)"
+                },
+                "numberedBookmarks.gutterIconNumberColor": {
+                    "type": "string",
+                    "default": "#000",
+                    "description": "Specify the color to use on gutter icon (number color)"
                 },
                 "numberedBookmarks.backgroundLineColor": {
                     "type": "string",

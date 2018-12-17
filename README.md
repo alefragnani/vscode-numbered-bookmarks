@@ -7,6 +7,7 @@
 
 * Adds **Multi-root** support
 * Adds **background color** for bookmarked lines
+* Adds **gutter icon color** for bookmarked lines (icon fill and number)
 
 # Support
 
@@ -86,12 +87,6 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
     "numberedBookmarks.navigateThroughAllFiles"
 ```
 
-* Choose the background color to use on a bookmarked line
-
-```json
-    "numberedBookmarks.backgroundLineColor"
-```
-
 Possible Values:
 
 Value | Explanation
@@ -99,6 +94,26 @@ Value | Explanation
 `false` | _default_ - same behavior as today
 `replace` | you can't have the same numbered bookmark in different files
 `allowDuplicates` | you can have the same numbered bookmark in different files, and if you jump repeatedly to the same number, it will look on other files
+
+* Choose the background color to use on a bookmarked line
+
+```json
+    "numberedBookmarks.backgroundLineColor"
+```
+
+* Choose the gutter icon fill color
+
+```json
+    "numberedBookmarks.gutterIconFillColor"
+```
+
+* Choose the gutter icon number color
+
+```json
+    "numberedBookmarks.gutterIconNumberColor"
+```
+
+> For any of the _Color_ settings, you can use color names `blue`, RGB `rgb(0, 255, 37)`, RGBA `rgba(0, 255, 37, 0.2)` or HEX `#00ff25` format.
 
 ## Project and Session Based
 
