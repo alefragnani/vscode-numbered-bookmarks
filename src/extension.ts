@@ -11,17 +11,22 @@ import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBo
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
-const DEFAULT_GUTTER_ICON_FILL_COLOR = "#00ff25";
-const DEFAULT_GUTTER_ICON_NUMBER_COLOR = "#000";
 
 const getFillColor = (): string => {
-    const color = vscode.workspace.getConfiguration("numberedBookmarks").get<string>("gutterIconFillColor");
-    return color === "" || color === undefined ? DEFAULT_GUTTER_ICON_FILL_COLOR : color;
-}
-const getNumberColor = (): string => {
-    const color = vscode.workspace.getConfiguration("numberedBookmarks").get<string>("gutterIconNumberColor");
-    return color === "" || color === undefined ? DEFAULT_GUTTER_ICON_NUMBER_COLOR : color;
-}
+    const config = vscode.workspace
+      .getConfiguration('numberedBookmarks')
+      .inspect('gutterIconFillColor');
+    
+    return <string>(config.globalValue ? config.globalValue : config.defaultValue);
+  };
+  
+  const getNumberColor = (): string => {
+    const config = vscode.workspace
+      .getConfiguration('numberedBookmarks')
+      .inspect('gutterIconNumberColor');
+      
+      return <string>(config.globalValue ? config.globalValue : config.defaultValue);
+  };
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
@@ -116,7 +121,7 @@ export function activate(context: vscode.ExtensionContext) {
     function updateBookmarkSvg() {  
         const v = getCurrentSvgVersion();
         
-        if (fs.existsSync(context.asAbsolutePath(`images/bookmark0-${v}.svg`))) {
+        if (fs.existsSync(context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
             return;
         }
         
@@ -136,8 +141,9 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.window.showErrorMessage(`Can't write to ${err.path}`);            
             }
             
-            if (fs.existsSync(`images/bookmark${i}-${v - 1}.svg`)) {
-                fs.unlinkSync(context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`));
+            const bookmarkPath = context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`);        
+            if (fs.existsSync(bookmarkPath)) {
+                fs.unlinkSync(bookmarkPath);
             }
         }   
 
