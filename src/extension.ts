@@ -7,6 +7,8 @@ import fs = require("fs");
 import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "./Bookmark";
 import { Bookmarks } from "./Bookmarks";
 import { Sticky } from "./Sticky";
+import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
+import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
 const DEFAULT_GUTTER_ICON_FILL_COLOR = "#00ff25";
@@ -29,6 +31,12 @@ export function activate(context: vscode.ExtensionContext) {
     let activeEditor = vscode.window.activeTextEditor;
     let activeBookmark: Bookmark;            
     let bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
+    let provider = new WhatsNewNumberedBookmarksContentProvider();
+    let viewer = new WhatsNewManager(context).registerContentProvider("numbered-bookmarks", provider);
+    viewer.showPageInActivation();
+    context.subscriptions.push(vscode.commands.registerCommand('numberedBookmarks.whatsNew', () => viewer.showPage()));
+
+
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean = loadWorkspaceState();
     
