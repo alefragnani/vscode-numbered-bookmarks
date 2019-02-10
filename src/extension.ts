@@ -7,9 +7,9 @@ import * as vscode from "vscode";
 import path = require("path");
 import fs = require("fs");
 
-import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "./Bookmark";
-import { Bookmarks } from "./Bookmarks";
-import { Sticky } from "./Sticky";
+import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
+import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
+import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 
