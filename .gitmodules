@@ -1,3 +1,6 @@
 [submodule "vscode-whats-new"]
 	path = vscode-whats-new
 	url = https://github.com/alefragnani/vscode-whats-new.git
+[submodule "vscode-numbered-bookmarks-core"]
+	path = vscode-numbered-bookmarks-core
+	url = https://github.com/alefragnani/vscode-numbered-bookmarks-core.git
