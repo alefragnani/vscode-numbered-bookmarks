@@ -2,14 +2,14 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "6.1.0",
+    "version": "6.1.1",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#000000",
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.23.0"
+        "vscode": "^1.32.0"
     },
     "categories": [
         "Other"
@@ -36,7 +36,7 @@
     "activationEvents": [
         "*"
     ],
-    "main": "./out/src/extension",
+    "main": "./dist/extension",
     "contributes": {
         "commands": [
             {
@@ -288,13 +288,21 @@
         ]
     },
     "scripts": {
-        "vscode:prepublish": "tsc -p ./",
+        "build": "webpack --mode development",
+        "watch": "webpack --watch --mode development --info-verbosity verbose",
+        "vscode:prepublish": "webpack --mode production",
+        "webpack": "webpack --mode development",
+        "webpack-dev": "webpack --mode development --watch",
         "compile": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
         "@types/node": "^6.0.40",
         "typescript": "^3.1.6",
-        "vscode": "^1.1.22"
+        "vscode": "^1.1.28",
+        "webpack": "^4.19.1",
+        "webpack-cli": "^3.1.0",
+        "ts-loader": "^4.4.2",
+        "terser-webpack-plugin": "^1.2.1"
     }
 }

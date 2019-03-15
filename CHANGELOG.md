@@ -1,3 +1,7 @@
+## [6.1.1] - 2019-03-15
+### Fixed
+- What's New page broken in VS Code 1.32 due to CSS API changes
+
 ## [6.1.0] - 2018-12-17
 ### Added
 - New settings to choose gutter icon colors (icon fill and number) (Thanks to @vasilev-alex [PR #45](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/45))
