@@ -1,3 +1,11 @@
+## [6.2.0] - 2019-03-25
+### Added
+- Improvements to README, describing commands and shortcuts (issue [#52](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/52))
+- Improvements to README, describing shortcut conflicts for MacOS users (issue [#40](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/40))
+
+### Fixed
+- Selection issue when cutting text (issue [#48](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/48))
+
 ## [6.1.1] - 2019-03-15
 ### Fixed
 - What's New page broken in VS Code 1.32 due to CSS API changes
