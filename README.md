@@ -29,26 +29,26 @@
 
 # Numbered Bookmarks
 
-It helps you to navigate in your code, moving between important positions easily and quickly. No more nneed to _search for code_. All of this in **_in Delphi style_**.
+It helps you to navigate in your code, moving between important positions easily and quickly. No more need to _search for code_. All of this in **_in Delphi style_**.
 
 # Features
 
 ## Available commands
 
-* `Numbered Bookmarks: Toggle Bookmark _'number'_` Mark/unmark the current line with a numbered bookmark
-* `Numbered Bookmarks: Jump to Bookmark _'number'_` Move the cursor to the numbered bookmark
+* `Numbered Bookmarks: Toggle Bookmark '#number'` Mark/unmark the current line with a numbered bookmark
+* `Numbered Bookmarks: Jump to Bookmark '#number'` Move the cursor to the numbered bookmark
 * `Numbered Bookmarks: List` List all bookmarks from the current file
 * `Numbered Bookmarks: List from All Files` List all bookmarks from the all files
 * `Numbered Bookmarks: Clear` remove all bookmarks from the current file
 * `Numbered Bookmarks: Clear from All Files` remove all bookmarks from the all files
 
-> Both **Toggle** and **Jump to Bookmark** commands are numbered from 0 to 9
+> Both **Toggle Bookmark** and **Jump to Bookmark** commands are numbered from 0 to 9
 
 > The Numbered Bookmark **0** has been reactivated in [PR #16](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/16), but because of [this issue](https://github.com/Microsoft/vscode/issues/2585) it has no _keyboard shortcut_ defined. If sometime in the future these OS related limitation disappears, the shortcuts will be restored.
 
 ## Manage your bookmarks
 
-### Toggle _'number'_
+### Toggle Bookmark '#number'
 
 You can easily Mark/Unmark bookmarks on any line. 
 
