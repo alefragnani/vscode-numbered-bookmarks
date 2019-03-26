@@ -46,6 +46,8 @@ It helps you to navigate in your code, moving between important positions easily
 
 > The Numbered Bookmark **0** has been reactivated in [PR #16](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/16), but because of [this issue](https://github.com/Microsoft/vscode/issues/2585) it has no _keyboard shortcut_ defined. If sometime in the future these OS related limitation disappears, the shortcuts will be restored.
 
+> MacOS users should be aware that some commands shortcuts should conflict with native shortcuts (`Cmd + Shift + 3` and `Cmd + Shift + 4`)
+
 ## Manage your bookmarks
 
 ### Toggle Bookmark '#number'
