@@ -1,3 +1,7 @@
+## [6.2.1] - 2019-05-27
+### Fixed
+- Security Alert: tar
+
 ## [6.2.0] - 2019-03-25
 ### Added
 - Improvements to README, describing commands and shortcuts (issue [#52](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/52))
