@@ -3,13 +3,14 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import fs = require("fs");
+// import fs = require("fs");
 import path = require("path");
 import * as vscode from "vscode";
 
 import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
 import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
+import { createDirectory, deleteFile, directoryExists, fileExists, readFile, writeFile } from "../vscode-numbered-bookmarks-core/src/utils/wrappers";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 
@@ -32,7 +33,7 @@ const getNumberColor = (): string => {
   };
 
 // this method is called when vs code is activated
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
     let bookmarks: Bookmarks;
     let activeEditorCountLine: number;
     let timeout = null;    
@@ -45,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand("numberedBookmarks.whatsNew", () => viewer.showPage()));
 
     // load pre-saved bookmarks
-    const didLoadBookmarks: boolean = loadWorkspaceState();
+    const didLoadBookmarks: boolean = await loadWorkspaceState();
     
     updateBookmarkSvg();
     updateBookmarkDecorationType();
@@ -120,16 +121,24 @@ export function activate(context: vscode.ExtensionContext) {
     }, null, context.subscriptions);
     
     // The only way to update the decorations after changing the color is to create a new file
-    function updateBookmarkSvg() {  
+    async function updateBookmarkSvg() {  
         const v = getCurrentSvgVersion();
         
-        if (fs.existsSync(context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
+        // if (fs.existsSync(context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
+        //     return;
+        // }
+        if (await fileExists(context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
             return;
         }
         
         const gutterIconFillColor = getFillColor();
         const gutterIconNumberColor = getNumberColor();
-        const content = fs.readFileSync(context.asAbsolutePath("images/bookmark.svg"), "utf8");
+        // const content = fs.readFileSync(context.asAbsolutePath("images/bookmark.svg"), "utf8");
+        // const fileUri = vscode.Uri.file(context.asAbsolutePath("images/bookmark.svg"));
+        // const readData = await vscode.workspace.fs.readFile(fileUri);
+        // const content = Buffer.from(readData).toString("utf8");
+
+        const content = await readFile(context.asAbsolutePath("images/bookmark.svg"));
         
         for (let i = 0; i <= 9; i++) {
             const svgContent = content
@@ -138,14 +147,21 @@ export function activate(context: vscode.ExtensionContext) {
                 .replace("{{number}}", i.toString());
                 
             try {    
-                fs.writeFileSync(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, {encoding: "utf8"}); 
+                // fs.writeFileSync(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, {encoding: "utf8"}); 
+                // const writeData = Buffer.from(svgContent, "utf8");
+                // const fileUri2 = vscode.Uri.file(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`));
+                // await vscode.workspace.fs.writeFile(fileUri2, writeData); 
+                await writeFile(svgContent, context.asAbsolutePath(`images/bookmark${i}-${v}.svg`));
             } catch (err) {
                 vscode.window.showErrorMessage(`Can't write to ${err.path}`);            
             }
             
             const bookmarkPath = context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`);        
-            if (fs.existsSync(bookmarkPath)) {
-                fs.unlinkSync(bookmarkPath);
+            // if (fs.existsSync(bookmarkPath)) {
+            //     fs.unlinkSync(bookmarkPath);
+            // }
+            if (await fileExists(bookmarkPath)) {
+                await deleteFile(bookmarkPath);
             }
         }   
 
@@ -548,7 +564,7 @@ export function activate(context: vscode.ExtensionContext) {
         return saveBookmarksInProject;
     }
 
-    function loadWorkspaceState(): boolean {
+    async function loadWorkspaceState(): Promise<boolean> {
         const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
 
         bookmarks = new Bookmarks();
@@ -559,12 +575,18 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
-            if (!fs.existsSync(bookmarksFileInProject)) {
+            // if (!fs.existsSync(bookmarksFileInProject)) {
+            if (!await fileExists(bookmarksFileInProject)) {
                 return false;
             }
             
             try {
-                bookmarks.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
+                // bookmarks.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
+                // const fileUri = vscode.Uri.file(bookmarksFileInProject);
+                // const readData = await vscode.workspace.fs.readFile(fileUri);
+                // const content = Buffer.from(readData).toString("utf8");
+                const content = await readFile(bookmarksFileInProject);
+                bookmarks.loadFrom(JSON.parse(content), true);
                 return true;
             } catch (error) {
                 vscode.window.showErrorMessage("Error loading Numbered Bookmarks: " + error.toString());
@@ -579,16 +601,23 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
-    function saveWorkspaceState(): void {
+    async function saveWorkspaceState(): Promise<void> {
         // return;
         const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
 
         if (saveBookmarksInProject) {
             const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
-            if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
-                fs.mkdirSync(path.dirname(bookmarksFileInProject));
+            // if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
+            //     fs.mkdirSync(path.dirname(bookmarksFileInProject));
+            // }
+            if (!await directoryExists(path.dirname(bookmarksFileInProject))) {
+                createDirectory(path.dirname(bookmarksFileInProject));
             }
-            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(bookmarks.zip(true), null, "\t"));
+            // fs.writeFileSync(bookmarksFileInProject, JSON.stringify(bookmarks.zip(true), null, "\t"));
+            // const writeData = Buffer.from(JSON.stringify(bookmarks.zip(true), null, "\t"), "utf8");
+            // const fileUri2 = vscode.Uri.file(bookmarksFileInProject);
+            // await vscode.workspace.fs.writeFile(fileUri2, writeData); 
+            await writeFile(JSON.stringify(bookmarks.zip(true), null, "\t"), bookmarksFileInProject);
         } else {
             context.workspaceState.update("numberedBookmarks", JSON.stringify(bookmarks.zip()));
         }
