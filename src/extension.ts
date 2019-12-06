@@ -54,24 +54,24 @@ export async function activate(context: vscode.ExtensionContext) {
     // Connect it to the Editors Events
     if (activeEditor) {
         if (!didLoadBookmarks) {
-            bookmarks.add(activeEditor.document.uri.fsPath);
+            bookmarks.add(activeEditor.document.uri);
         }
         activeEditorCountLine = activeEditor.document.lineCount;
-        activeBookmark = bookmarks.fromUri(activeEditor.document.uri.fsPath);
+        activeBookmark = bookmarks.fromUri(activeEditor.document.uri);
         triggerUpdateDecorations();
     }
 
     // new docs
     vscode.workspace.onDidOpenTextDocument(doc => {
         // activeEditorCountLine = doc.lineCount;
-        bookmarks.add(doc.uri.fsPath);
+        bookmarks.add(doc.uri);
     });
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = editor;
         if (editor) {
             activeEditorCountLine = editor.document.lineCount;
-            activeBookmark = bookmarks.fromUri(editor.document.uri.fsPath);
+            activeBookmark = bookmarks.fromUri(editor.document.uri);
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
@@ -332,15 +332,20 @@ export async function activate(context: vscode.ExtensionContext) {
             return;
         }
 
+        interface BookSelItem extends vscode.QuickPickItem{
+            fileUri: vscode.Uri
+        }
+
         // push the items
-        const items: vscode.QuickPickItem[] = [];
-        const activeTextEditorPath = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.document.uri.fsPath : "";
+        const items: BookSelItem/* vscode.QuickPickItem */[] = [];
+        // const activeTextEditorPath = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.document.uri.fsPath : "";
+        const activeTextEditorUri = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.document.uri : undefined;
         const promisses = [];
         const currentLine: number = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.selection.active.line + 1 : -1;
 
         let currentWorkspaceFolder: vscode.WorkspaceFolder; 
-        if (activeTextEditorPath) {
-            currentWorkspaceFolder = vscode.workspace.getWorkspaceFolder(vscode.Uri.file(activeTextEditorPath));
+        if (activeTextEditorUri) {
+            currentWorkspaceFolder = vscode.workspace.getWorkspaceFolder(activeTextEditorUri);
         }            
         
         // tslint:disable-next-line:prefer-for-of
@@ -360,11 +365,12 @@ export async function activate(context: vscode.ExtensionContext) {
                     for (let indexInside = 0; indexInside < element.length; indexInside++) {
                         const elementInside = element[ indexInside ];
 
-                        if (elementInside.detail.toString().toLowerCase() === activeTextEditorPath.toLowerCase()) {
+                        if (elementInside.detail.toString().toLowerCase() === activeTextEditorUri.fsPath.toLowerCase()) {
                             items.push(
                                 {
                                     label: elementInside.label,
-                                    description: elementInside.description
+                                    description: elementInside.description,
+                                    fileUri: elementInside.fileUri
                                 }
                             );
                         } else {
@@ -373,7 +379,8 @@ export async function activate(context: vscode.ExtensionContext) {
                                 {
                                     label: elementInside.label,
                                     description: elementInside.description,
-                                    detail: itemPath
+                                    detail: itemPath,
+                                    fileUri: elementInside.fileUri
                                 }
                             );
                         }
@@ -431,12 +438,12 @@ export async function activate(context: vscode.ExtensionContext) {
                     matchOnDescription: true,
                     onDidSelectItem: item => {
 
-                        const itemT = <vscode.QuickPickItem> item
+                        const itemT = <BookSelItem> item
 
                         let filePath: string;
                         // no detail - previously active document
                         if (!itemT.detail) {
-                            filePath = activeTextEditorPath;
+                            filePath = activeTextEditorUri.fsPath;
                         } else {
                             // with octicon - document outside project
                             if (itemT.detail.toString().indexOf("$(file-directory) ") === 0) {
@@ -468,8 +475,8 @@ export async function activate(context: vscode.ExtensionContext) {
                         if (vscode.window.activeTextEditor && vscode.window.activeTextEditor.document.uri.fsPath.toLowerCase() === filePath.toLowerCase()) {
                             revealLine(parseInt(itemT.label, 10) - 1);
                         } else {
-                            const uriDocument: vscode.Uri = vscode.Uri.file(filePath);
-                            vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                            //const uriDocument: vscode.Uri = vscode.Uri.file(filePath);
+                            vscode.workspace.openTextDocument(itemT.fileUri).then(doc => {
                                 // vscode.window.showTextDocument(doc, undefined, true).then(editor => {
                                 vscode.window.showTextDocument(doc, {preserveFocus: true, preview: true}).then(editor => {
                                     revealLine(parseInt(itemT.label, 10) - 1);
@@ -480,12 +487,12 @@ export async function activate(context: vscode.ExtensionContext) {
                 };
                 vscode.window.showQuickPick(itemsSorted, options).then(selection => {
                     if (typeof selection === "undefined") {
-                        if (activeTextEditorPath === "") {
+                        if (!activeTextEditorUri) {
                             vscode.commands.executeCommand("workbench.action.closeActiveEditor");
                             return;
                         } else {
-                            const uriDocument: vscode.Uri = vscode.Uri.file(activeTextEditorPath);
-                            vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                            //const uriDocument: vscode.Uri = vscode.Uri.file(activeTextEditorPath);
+                            vscode.workspace.openTextDocument(activeTextEditorUri).then(doc => {
                                 vscode.window.showTextDocument(doc).then(editor => {
                                     revealLine(currentLine - 1);
                                     return;
@@ -497,6 +504,8 @@ export async function activate(context: vscode.ExtensionContext) {
                     if (typeof selection === "undefined") {
                         return;
                     }
+
+                    const itemT = <BookSelItem> selection;
 
                     if (!selection.detail) {
                         revealLine(parseInt(selection.label, 10) - 1);
@@ -526,8 +535,8 @@ export async function activate(context: vscode.ExtensionContext) {
                                 }
                             }
                         }
-                        const uriDocument: vscode.Uri = vscode.Uri.file(newPath);
-                        vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                        // const uriDocument: vscode.Uri = vscode.Uri.file(newPath);
+                        vscode.workspace.openTextDocument(itemT.fileUri).then(doc => {
                             vscode.window.showTextDocument(doc).then(editor => {
                                 revealLine(parseInt(selection.label, 10) - 1);
                             });
@@ -594,9 +603,9 @@ export async function activate(context: vscode.ExtensionContext) {
             }
         } else {
             const savedBookmarks = context.workspaceState.get("numberedBookmarks", "");
-            if (savedBookmarks !== "") {
-                bookmarks.loadFrom(JSON.parse(savedBookmarks));
-            }
+            // if (savedBookmarks !== "") {
+            //     bookmarks.loadFrom(JSON.parse(savedBookmarks));
+            // }
             return savedBookmarks !== "";
         }
     }
@@ -626,8 +635,8 @@ export async function activate(context: vscode.ExtensionContext) {
     function toggleBookmark(n: number, line: number) {
         // fix issue emptyAtLaunch
         if (!activeBookmark) {
-            bookmarks.add(vscode.window.activeTextEditor.document.uri.fsPath);
-            activeBookmark = bookmarks.fromUri(vscode.window.activeTextEditor.document.uri.fsPath);
+            bookmarks.add(vscode.window.activeTextEditor.document.uri);
+            activeBookmark = bookmarks.fromUri(vscode.window.activeTextEditor.document.uri);
         }
 
         // there is another bookmark already set for this line?
@@ -646,7 +655,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                 //     let element = bookmarks.bookmarks[ index ];
                 for (const element of bookmarks.bookmarks) {
-                    if (element.fsPath !== activeBookmark.fsPath) {
+                    if (element.uri.fsPath !== activeBookmark.uri.fsPath) {
                         element.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
                     }
                 }
@@ -678,10 +687,10 @@ export async function activate(context: vscode.ExtensionContext) {
                     // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                     //     let element = bookmarks.bookmarks[ index ];
                     for (const element of bookmarks.bookmarks) {
-                        if ((element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                        if ((element.uri.fsPath !== activeBookmark.uri.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
-                            const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
-                            vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                            // const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                            vscode.workspace.openTextDocument(element.uri).then(doc => {
                                 vscode.window.showTextDocument(doc, undefined, false).then(editor => {
                                     revealLine(element.bookmarks[ n ]);
                                 });
@@ -705,17 +714,17 @@ export async function activate(context: vscode.ExtensionContext) {
 
                 // no, look for another document that contains that bookmark 
                 // I CAN'T start from the first because _there can be duplicates_
-                const currentFile: number = bookmarks.indexFromUri(activeBookmark.fsPath);
+                const currentFile: number = bookmarks.indexFromUri(activeBookmark.uri);
                 let found: boolean = false;
 
                 // to the end
                 for (let index = currentFile; index < bookmarks.bookmarks.length; index++) {
                     const element = bookmarks.bookmarks[ index ];
-                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                    if ((!found) && (element.uri.fsPath !== activeBookmark.uri.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                         found = true;
                         // open and novigate
-                        const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
-                        vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                        // const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                        vscode.workspace.openTextDocument(element.uri).then(doc => {
                             vscode.window.showTextDocument(doc, undefined, false).then(editor => {
                                 revealLine(element.bookmarks[ n ]);
                             });
@@ -726,11 +735,11 @@ export async function activate(context: vscode.ExtensionContext) {
                 if (!found) {
                     for (let index = 0; index < currentFile; index++) {
                         const element = bookmarks.bookmarks[ index ];
-                        if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                        if ((!found) && (element.uri.fsPath !== activeBookmark.uri.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
                             found = true;
-                            const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
-                            vscode.workspace.openTextDocument(uriDocument).then(doc => {
+                            // const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                            vscode.workspace.openTextDocument(element.uri).then(doc => {
                                 vscode.window.showTextDocument(doc, undefined, false).then(editor => {
                                     revealLine(element.bookmarks[ n ]);
                                 });
