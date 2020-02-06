@@ -105,18 +105,6 @@ export function activate(context: vscode.ExtensionContext) {
             updateBookmarkSvg();  
             updateBookmarkDecorationType();      
         }
-        if (event.affectsConfiguration("numberedBookmarks.backgroundLineColor")) {
-            for (const dec of bookmarkDecorationType) {
-                dec.dispose();
-            }
-            
-            updateBookmarkDecorationType();
-            updateDecorations();
-            
-            for (const dec of bookmarkDecorationType) {
-                context.subscriptions.push(dec);
-            }
-        }
     }, null, context.subscriptions);
     
     // The only way to update the decorations after changing the color is to create a new file
