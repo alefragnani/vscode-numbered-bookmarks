@@ -142,7 +142,6 @@ export function activate(context: vscode.ExtensionContext) {
     
     // Need to udpate every time the color is changed
     function updateBookmarkDecorationType() {
-        const backgroundLineColor: string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
         const v = getCurrentSvgVersion();
         
         for (let index = 0; index < MAX_BOOKMARKS; index++) {
