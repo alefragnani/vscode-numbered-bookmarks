@@ -162,13 +162,27 @@ export function activate(context: vscode.ExtensionContext) {
                 bookmarkDecorationType[ index ].dispose();
             }
             const gutterIconPath: string = context.asAbsolutePath(`images/bookmark${index}-${v}.svg`);   
-            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
+
+            const overviewRulerColor = new vscode.ThemeColor('numberedBookmarks.overviewRuler');            
+            const lineBackground = new vscode.ThemeColor('numberedBookmarks.lineBackground');
+            const lineBorder = new vscode.ThemeColor('numberedBookmarks.lineBorder');
+
+            const decorationOptions: vscode.DecorationRenderOptions = {
                 gutterIconPath,
-                overviewRulerLane: vscode.OverviewRulerLane.Right,
-                overviewRulerColor: getFillColor(),
-                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
-                isWholeLine: backgroundLineColor ? true : false
-            });
+                overviewRulerLane: vscode.OverviewRulerLane.Full,
+                overviewRulerColor
+            };
+        
+            decorationOptions.backgroundColor = lineBackground;
+            decorationOptions.isWholeLine = true;
+        
+            if (lineBorder) {
+                decorationOptions.borderWidth = '1px',
+                decorationOptions.borderStyle = 'solid',
+                decorationOptions.borderColor = lineBorder;
+            }
+
+            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType(decorationOptions);
         }
     }
     
