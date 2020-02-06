@@ -10,6 +10,7 @@ import * as vscode from "vscode";
 import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
 import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
+import { createLineDecoration } from "vscode-ext-decoration";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 
@@ -162,13 +163,8 @@ export function activate(context: vscode.ExtensionContext) {
                 bookmarkDecorationType[ index ].dispose();
             }
             const gutterIconPath: string = context.asAbsolutePath(`images/bookmark${index}-${v}.svg`);   
-            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
-                gutterIconPath,
-                overviewRulerLane: vscode.OverviewRulerLane.Right,
-                overviewRulerColor: getFillColor(),
-                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
-                isWholeLine: backgroundLineColor ? true : false
-            });
+            bookmarkDecorationType[ index ] = createLineDecoration(backgroundLineColor ? backgroundLineColor : undefined, 
+                undefined, vscode.OverviewRulerLane.Right, getFillColor(), gutterIconPath);
         }
     }
     
