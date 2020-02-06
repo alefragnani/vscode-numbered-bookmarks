@@ -108,6 +108,7 @@ Value | Explanation
 ```json
     "numberedBookmarks.backgroundLineColor"
 ```
+> Deprecated in 6.3: Use `workbench.colorCustomizations` instead. More info in [Available Colors](#available-colors)
 
 * Choose the gutter icon fill color
 
@@ -120,6 +121,30 @@ Value | Explanation
 ```json
     "numberedBookmarks.gutterIconNumberColor"
 ```
+
+## Available Colors
+
+* Choose the background color to use on a bookmarked line
+```json
+    "workbench.colorCustomizations": {
+      "numberedBookmarks.lineBackground": "#157EFB22"  
+    }
+```
+
+* Choose the border color to use on a bookmarked line
+```json
+    "workbench.colorCustomizations": {
+      "numberedBookmarks.lineBorder": "#FF0000"  
+    }
+```
+
+* Choose marker color to use in the overview ruler
+```json
+    "workbench.colorCustomizations": {
+      "numberedBookmarks.overviewRuler": "#157EFB88"  
+    }
+```
+
 
 > For any of the _Color_ settings, you can use color names `blue`, RGB `rgb(0, 255, 37)`, RGBA `rgba(0, 255, 37, 0.2)` or HEX `#00ff25` format.
 
