@@ -4,6 +4,7 @@
 
 ### Internal
 - Support VS Code package split
+- Use `vscode-ext-decoration` package
 
 ## [6.2.1] - 2019-05-27
 ### Fixed
