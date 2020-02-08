@@ -2,7 +2,7 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "6.2.1",
+    "version": "7.0.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#000000",
