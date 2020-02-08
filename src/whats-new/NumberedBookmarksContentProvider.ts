@@ -19,10 +19,9 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
         changeLog.push({kind: ChangeLogKind.NEW, message: "<b>Multi-root</b> support"});
-        changeLog.push({kind: ChangeLogKind.NEW, message: `Setting to choose <b>background color</b> of 
-            bookmarked lines (Thanks to @ibraimgm - <a title=\"Open PR #44\" 
-            href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/pull/44\">
-            PR #44</a>)</b>`});
+        changeLog.push({kind: ChangeLogKind.NEW, message: `Adds <b>workbench.colorCustomizations</b> support (<a title=\"Open Issue #61\" 
+            href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/61\">
+            Issue #61</a>)`});
         changeLog.push({kind: ChangeLogKind.NEW, message: `Settings to choose <b>gutter icon color</b> of 
             bookmarked lines (icon fill and number) (Thanks to @vasilev-alex - <a title=\"Open PR #45\" 
             href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/pull/45\">

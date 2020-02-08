@@ -1,4 +1,4 @@
-## [7.0.0] - 2020-02-??
+## [7.0.0] - 2020-02-07
 ### Added
 - Support `workbench.colorCustomizations` (issue [#61](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/61))
 
