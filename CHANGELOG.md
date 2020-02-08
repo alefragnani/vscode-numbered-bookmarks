@@ -2,6 +2,9 @@
 ### Added
 - Support `workbench.colorCustomizations` (issue [#61](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/61))
 
+### Internal
+- Support VS Code package split
+
 ## [6.2.1] - 2019-05-27
 ### Fixed
 - Security Alert: tar
