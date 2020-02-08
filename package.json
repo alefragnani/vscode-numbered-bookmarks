@@ -2,7 +2,7 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "6.2.1",
+    "version": "7.0.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#000000",
@@ -172,7 +172,8 @@
                 "numberedBookmarks.backgroundLineColor": {
                     "type": "string",
                     "default": "",
-                    "description": "Specify the background color to use on a bookmarked line"
+                    "description": "Specify the background color to use on a bookmarked line",
+                    "deprecationMessage": "Use `numberedBookmarks.lineBackground` in `workbench.colorCustomizations` instead"
                 }
             }
         },
@@ -284,6 +285,35 @@
                 "key": "ctrl+9",
                 "mac": "cmd+9",
                 "when": "editorTextFocus"
+            }
+        ],
+        "colors": [
+            {
+                "id": "numberedBookmarks.lineBackground",
+                "description": "Background color for the bookmarked line",
+                "defaults": {
+                    "dark": "#00000000",
+                    "light": "#00000000",
+                    "highContrast": "#00000000"
+                }
+            },
+            {
+                "id": "numberedBookmarks.lineBorder",
+                "description": "Background color for the border around the bookmarked line",
+                "defaults": {
+                    "dark": "#00000000",
+                    "light": "#00000000",
+                    "highContrast": "#00000000"
+                }
+            },
+            {
+                "id": "numberedBookmarks.overviewRuler",
+                "description": "Overview ruler marker color for bookmarks",
+                "defaults": {
+                    "dark": "#12ff1288",
+                    "light": "#12ff1288",
+                    "highContrast": "#12ff1288"
+                }
             }
         ]
     },

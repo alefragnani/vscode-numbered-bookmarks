@@ -105,18 +105,6 @@ export function activate(context: vscode.ExtensionContext) {
             updateBookmarkSvg();  
             updateBookmarkDecorationType();      
         }
-        if (event.affectsConfiguration("numberedBookmarks.backgroundLineColor")) {
-            for (const dec of bookmarkDecorationType) {
-                dec.dispose();
-            }
-            
-            updateBookmarkDecorationType();
-            updateDecorations();
-            
-            for (const dec of bookmarkDecorationType) {
-                context.subscriptions.push(dec);
-            }
-        }
     }, null, context.subscriptions);
     
     // The only way to update the decorations after changing the color is to create a new file
@@ -154,7 +142,6 @@ export function activate(context: vscode.ExtensionContext) {
     
     // Need to udpate every time the color is changed
     function updateBookmarkDecorationType() {
-        const backgroundLineColor: string = vscode.workspace.getConfiguration("numberedBookmarks").get("backgroundLineColor", "");
         const v = getCurrentSvgVersion();
         
         for (let index = 0; index < MAX_BOOKMARKS; index++) {
@@ -162,13 +149,27 @@ export function activate(context: vscode.ExtensionContext) {
                 bookmarkDecorationType[ index ].dispose();
             }
             const gutterIconPath: string = context.asAbsolutePath(`images/bookmark${index}-${v}.svg`);   
-            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType({
+
+            const overviewRulerColor = new vscode.ThemeColor('numberedBookmarks.overviewRuler');            
+            const lineBackground = new vscode.ThemeColor('numberedBookmarks.lineBackground');
+            const lineBorder = new vscode.ThemeColor('numberedBookmarks.lineBorder');
+
+            const decorationOptions: vscode.DecorationRenderOptions = {
                 gutterIconPath,
-                overviewRulerLane: vscode.OverviewRulerLane.Right,
-                overviewRulerColor: getFillColor(),
-                backgroundColor: backgroundLineColor ? backgroundLineColor : undefined,
-                isWholeLine: backgroundLineColor ? true : false
-            });
+                overviewRulerLane: vscode.OverviewRulerLane.Full,
+                overviewRulerColor
+            };
+        
+            decorationOptions.backgroundColor = lineBackground;
+            decorationOptions.isWholeLine = true;
+        
+            if (lineBorder) {
+                decorationOptions.borderWidth = '1px',
+                decorationOptions.borderStyle = 'solid',
+                decorationOptions.borderColor = lineBorder;
+            }
+
+            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType(decorationOptions);
         }
     }
     
