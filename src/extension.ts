@@ -10,6 +10,7 @@ import * as vscode from "vscode";
 import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
 import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
+import { createLineDecoration } from "vscode-ext-decoration";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 
@@ -154,22 +155,9 @@ export function activate(context: vscode.ExtensionContext) {
             const lineBackground = new vscode.ThemeColor('numberedBookmarks.lineBackground');
             const lineBorder = new vscode.ThemeColor('numberedBookmarks.lineBorder');
 
-            const decorationOptions: vscode.DecorationRenderOptions = {
-                gutterIconPath,
-                overviewRulerLane: vscode.OverviewRulerLane.Full,
-                overviewRulerColor
-            };
-        
-            decorationOptions.backgroundColor = lineBackground;
-            decorationOptions.isWholeLine = true;
-        
-            if (lineBorder) {
-                decorationOptions.borderWidth = '1px',
-                decorationOptions.borderStyle = 'solid',
-                decorationOptions.borderColor = lineBorder;
-            }
-
-            bookmarkDecorationType[ index ] = vscode.window.createTextEditorDecorationType(decorationOptions);
+            bookmarkDecorationType[ index ] = createLineDecoration(lineBackground, lineBorder, 
+                vscode.OverviewRulerLane.Full, overviewRulerColor,
+                gutterIconPath);
         }
     }
     
