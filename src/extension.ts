@@ -671,7 +671,7 @@ export function activate(context: vscode.ExtensionContext) {
                 // to the end
                 for (let index = currentFile; index < bookmarks.bookmarks.length; index++) {
                     const element = bookmarks.bookmarks[ index ];
-                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks.length > 0) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                         found = true;
                         // open and novigate
                         const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
@@ -697,14 +697,23 @@ export function activate(context: vscode.ExtensionContext) {
                             });
                         }
                     }
+                    
+                    if (!found) {
+                        vscode.window.showInformationMessage("The Bookmark " + n + " is not defined");
+                        return;
+                    }
                 }
 
                 break;
 
             default: // "false"
                 // is it already set?
+                if (activeBookmark.bookmarks.length === 0) {
+                    vscode.window.showInformationMessage("No Bookmark found");
+                    return;
+                }
                 if (activeBookmark.bookmarks[ n ] < 0) {
-                    vscode.window.setStatusBarMessage("The Bookmark " + n + " is not defined", 3000);
+                    vscode.window.showInformationMessage("The Bookmark " + n + " is not defined");
                     return;
                 }
                 revealLine(activeBookmark.bookmarks[ n ], true);
