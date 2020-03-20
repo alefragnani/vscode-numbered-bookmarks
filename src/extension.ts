@@ -44,6 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
     const viewer = new WhatsNewManager(context).registerContentProvider("numbered-bookmarks", provider);
     viewer.showPageInActivation();
     context.subscriptions.push(vscode.commands.registerCommand("numberedBookmarks.whatsNew", () => viewer.showPage()));
+    context.subscriptions.push(vscode.commands.registerCommand("numberedBookmarks.whatsNewContextMenu", () => viewer.showPage()));
 
     // load pre-saved bookmarks
     const didLoadBookmarks: boolean = loadWorkspaceState();

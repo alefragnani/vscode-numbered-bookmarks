@@ -138,6 +138,10 @@
             {
                 "command": "numberedBookmarks.whatsNew",
                 "title": "Numbered Bookmarks: What's New"
+            },
+            {
+                "command": "numberedBookmarks.whatsNewContextMenu",
+                "title": "What's New"
             }
         ],
         "configuration": {
@@ -315,7 +319,22 @@
                     "highContrast": "#12ff1288"
                 }
             }
-        ]
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "numberedBookmarks.whatsNewContextMenu",
+                    "when": "false"
+                }
+            ],
+            "extension/context": [
+                {
+                    "command": "numberedBookmarks.whatsNewContextMenu",
+                    "group": "numberedBookmarks",
+                    "when": "extensionStatus==installed"
+                }
+            ]
+        }
     },
     "scripts": {
         "build": "webpack --mode development",
