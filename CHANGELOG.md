@@ -1,3 +1,10 @@
+## [7.0.1] - 2020-03-19
+### Fixed
+- Navigation error on empty files (issue [#68](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/68))
+
+### Internal
+- Support VS Code extension view context menu
+
 ## [7.0.0] - 2020-02-07
 ### Added
 - Support `workbench.colorCustomizations` (issue [#61](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/61))

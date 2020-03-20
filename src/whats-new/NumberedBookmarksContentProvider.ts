@@ -12,8 +12,6 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
             message: `<b>Numbered Bookmarks</b> helps you to navigate in your code, <b>moving</b> 
             between important positions easily and quickly. No more need 
             to <i>search for code</i>. All of this in <b><i>Delphi style</i></b>`};
-            // message: `<b>Navigate</b> in your code, <b>moving</b> between important positions easily and 
-            // quickly, in <b>Delphi style</b>`};
     }
 
     public provideChangeLog(): ChangeLogItem[] {
@@ -25,11 +23,14 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
         changeLog.push({kind: ChangeLogKind.NEW, message: `Settings to choose <b>gutter icon color</b> of 
             bookmarked lines (icon fill and number) (Thanks to @vasilev-alex - <a title=\"Open PR #45\" 
             href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/pull/45\">
-            PR #45</a>)</b>`});
+            PR #45</a>)`});
         changeLog.push({kind: ChangeLogKind.NEW, message: "Setting to choose how bookmarks <b>Navigate through all files</b>"});
+        changeLog.push({kind: ChangeLogKind.FIXED, message: `Navigation error on empty files - 
+            <a title=\"Issue #68\" href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/68\">
+            Issue #68</a>)`});
         changeLog.push({kind: ChangeLogKind.FIXED, message: `Error activating extension without workspace - 
             <a title=\"Issue #35\" href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/35\">
-            Issue #35</a>)</b>`});
+            Issue #35</a>)`});
         return changeLog;
     }
 
