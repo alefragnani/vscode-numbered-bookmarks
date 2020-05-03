@@ -13,6 +13,7 @@ import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
 import { createLineDecoration } from "vscode-ext-decoration";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
+import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
 
@@ -34,7 +35,7 @@ const getNumberColor = (): string => {
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
-    let bookmarks: Bookmarks;
+    const bookmarks: Bookmarks = new Bookmarks();
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
@@ -522,66 +523,12 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
-    function canSaveBookmarksInProject(): boolean {
-        let saveBookmarksInProject: boolean = vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false);
-        
-        // really use saveBookmarksInProject
-        // 0. has at least a folder opened
-        // 1. is a valid workspace/folder
-        // 2. has only one workspaceFolder
-        // let hasBookmarksFile: boolean = false;
-        if (saveBookmarksInProject && ((!vscode.workspace.workspaceFolders) || (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 1))) {
-            // hasBookmarksFile = fs.existsSync(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "bookmarks.json"));
-            saveBookmarksInProject = false;
-        }
-
-        return saveBookmarksInProject;
-    }
-
     function loadWorkspaceState(): boolean {
-        const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
-
-        bookmarks = new Bookmarks();
-
-        if (saveBookmarksInProject) {
-            if (!vscode.workspace.workspaceFolders) {
-                return false;
-            }
-
-            const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
-            if (!fs.existsSync(bookmarksFileInProject)) {
-                return false;
-            }
-            
-            try {
-                bookmarks.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
-                return true;
-            } catch (error) {
-                vscode.window.showErrorMessage("Error loading Numbered Bookmarks: " + error.toString());
-                return false;
-            }
-        } else {
-            const savedBookmarks = context.workspaceState.get("numberedBookmarks", "");
-            if (savedBookmarks !== "") {
-                bookmarks.loadFrom(JSON.parse(savedBookmarks));
-            }
-            return savedBookmarks !== "";
-        }
+        return loadBookmarks(bookmarks, context);
     }
 
     function saveWorkspaceState(): void {
-        // return;
-        const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
-
-        if (saveBookmarksInProject) {
-            const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
-            if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
-                fs.mkdirSync(path.dirname(bookmarksFileInProject));
-            }
-            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(bookmarks.zip(true), null, "\t"));
-        } else {
-            context.workspaceState.update("numberedBookmarks", JSON.stringify(bookmarks.zip()));
-        }
+        saveBookmarks(bookmarks, context);
     }
 
     function toggleBookmark(n: number, line: number) {
