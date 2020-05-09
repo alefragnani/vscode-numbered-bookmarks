@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import { ChangeLogItem, ChangeLogKind, ContentProvider, Header, Image, Sponsor } from "../../vscode-whats-new/src/ContentProvider";
+import { ChangeLogItem, ChangeLogKind, ContentProvider, Header, Image, Sponsor, IssueKind } from "../../vscode-whats-new/src/ContentProvider";
 
 export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider {
 
@@ -16,21 +16,62 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
 
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
-        changeLog.push({kind: ChangeLogKind.NEW, message: "<b>Multi-root</b> support"});
-        changeLog.push({kind: ChangeLogKind.NEW, message: `Adds <b>workbench.colorCustomizations</b> support (<a title=\"Open Issue #61\" 
-            href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/61\">
-            Issue #61</a>)`});
-        changeLog.push({kind: ChangeLogKind.NEW, message: `Settings to choose <b>gutter icon color</b> of 
-            bookmarked lines (icon fill and number) (Thanks to @vasilev-alex - <a title=\"Open PR #45\" 
-            href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/pull/45\">
-            PR #45</a>)`});
-        changeLog.push({kind: ChangeLogKind.NEW, message: "Setting to choose how bookmarks <b>Navigate through all files</b>"});
-        changeLog.push({kind: ChangeLogKind.FIXED, message: `Navigation error on empty files - 
-            <a title=\"Issue #68\" href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/68\">
-            Issue #68</a>)`});
-        changeLog.push({kind: ChangeLogKind.FIXED, message: `Error activating extension without workspace - 
-            <a title=\"Issue #35\" href=\"https://github.com/alefragnani/vscode-numbered-bookmarks/issues/35\">
-            Issue #35</a>)`});
+
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.0", releaseDate: "May 2020" } });
+
+        changeLog.push({
+            kind: ChangeLogKind.FIXED,
+            detail: {
+                message: "Navigation error on empty files",
+                id: 60,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Support VS Code extension view context menu",
+                id: 65,
+                kind: IssueKind.Issue
+            }
+        });
+
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.0.0", releaseDate: "February 2020" } });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Support <b>workbench.colorCustomizations</b>",
+                id: 61,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Support VS Code package split",
+                id: 62,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Use <b>vscode-ext-decoration</b> package",
+                id: 64,
+                kind: IssueKind.Issue
+            }
+        });
+
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "6.2.1", releaseDate: "May 2019" } });
+        changeLog.push({
+            kind: ChangeLogKind.FIXED,
+            detail: {
+                message: "Security Alert: tar",
+                id: 55,
+                kind: IssueKind.Issue
+            }
+        });
+
         return changeLog;
     }
 

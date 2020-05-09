@@ -1,4 +1,4 @@
-## [7.0.1] - 2020-03-19
+## [7.1.0] - 2020-05-09
 ### Fixed
 - Navigation error on empty files (issue [#68](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/68))
 
