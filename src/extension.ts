@@ -11,9 +11,9 @@ import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered
 import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
 import { createLineDecoration } from "vscode-ext-decoration";
-import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
-import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
+import { Container } from "../vscode-numbered-bookmarks-core/src/container";
+import { registerWhatsNew } from "./whats-new/commands";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
 
@@ -35,17 +35,17 @@ const getNumberColor = (): string => {
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
+
+    Container.context = context;
+
+    registerWhatsNew();
+
     const bookmarks: Bookmarks = new Bookmarks();
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
     let activeBookmark: Bookmark;            
     const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
-    const provider = new WhatsNewNumberedBookmarksContentProvider();
-    const viewer = new WhatsNewManager(context).registerContentProvider("numbered-bookmarks", provider);
-    viewer.showPageInActivation();
-    context.subscriptions.push(vscode.commands.registerCommand("numberedBookmarks.whatsNew", () => viewer.showPage()));
-    context.subscriptions.push(vscode.commands.registerCommand("numberedBookmarks.whatsNewContextMenu", () => viewer.showPage()));
 
     // load pre-saved bookmarks
     const didLoadBookmarks: boolean = loadWorkspaceState();
