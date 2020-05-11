@@ -1,3 +1,7 @@
+## [7.1.1] - 2020-05-10
+### Fixed
+- View context menu displayed erroneously (issue [#72](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/72))
+
 ## [7.1.0] - 2020-05-09
 ### Fixed
 - Navigation error on empty files (issue [#68](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/68))
