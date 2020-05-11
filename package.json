@@ -331,7 +331,7 @@
                 {
                     "command": "numberedBookmarks.whatsNewContextMenu",
                     "group": "numberedBookmarks",
-                    "when": "extensionStatus==installed"
+                    "when": "extension == alefragnani.numbered-bookmarks && extensionStatus==installed"
                 }
             ]
         }
