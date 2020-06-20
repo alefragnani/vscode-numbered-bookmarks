@@ -4,10 +4,6 @@
     "description": "Mark lines and jump to them, in Delphi style",
     "version": "7.1.1",
     "publisher": "alefragnani",
-    "galleryBanner": {
-        "color": "#000000",
-        "theme": "dark"
-    },
     "engines": {
         "vscode": "^1.45.0"
     },
