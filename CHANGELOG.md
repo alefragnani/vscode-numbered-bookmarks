@@ -1,3 +1,7 @@
+## [7.1.1] - 2020-06-20
+### Fixed
+- Stars visibility on Marketplace (issue [#76](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/76))
+
 ## [7.1.1] - 2020-05-10
 ### Fixed
 - View context menu displayed erroneously (issue [#72](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/72))

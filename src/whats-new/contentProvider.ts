@@ -17,8 +17,17 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.0", releaseDate: "May 2020" } });
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.2", releaseDate: "June 2020" } });
+        changeLog.push({
+            kind: ChangeLogKind.FIXED,
+            detail: {
+                message: "Stars visibility on Marketplace",
+                id: 76,
+                kind: IssueKind.Issue
+            }
+        });
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.0", releaseDate: "May 2020" } });
         changeLog.push({
             kind: ChangeLogKind.FIXED,
             detail: {
