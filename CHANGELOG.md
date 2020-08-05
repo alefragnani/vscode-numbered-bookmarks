@@ -1,3 +1,8 @@
+## [7.1.3] - 2020-08-05
+### Fixed
+- Security Alert: elliptic (dependabot [PR #79](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/79))
+- Security Alert: lodash (dependabot [PR #77](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/77))
+
 ## [7.1.2] - 2020-06-20
 ### Fixed
 - Stars visibility on Marketplace (issue [#76](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/76))
