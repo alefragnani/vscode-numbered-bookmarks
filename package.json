@@ -343,7 +343,8 @@
         "vscode:prepublish": "webpack --mode production",
         "webpack": "webpack --mode development",
         "webpack-dev": "webpack --mode development --watch",
-        "compile": "tsc -watch -p ./"
+        "compile": "tsc -watch -p ./",
+        "lint": "eslint -c package.json --ext .ts src"
     },
     "dependencies": {
         "vscode-ext-decoration": "1.0.0"
