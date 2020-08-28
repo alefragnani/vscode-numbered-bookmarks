@@ -17,6 +17,16 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.2.0", releaseDate: "September 2020" } });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Use <b>vscode-ext-codicons</b> package",
+                id: 80,
+                kind: IssueKind.Issue
+            }
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.3", releaseDate: "August 2020" } });
         changeLog.push({
             kind: ChangeLogKind.INTERNAL,

@@ -14,6 +14,7 @@ import { createLineDecoration } from "vscode-ext-decoration";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { registerWhatsNew } from "./whats-new/commands";
+import { codicons } from "vscode-ext-codicons";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
 
@@ -373,27 +374,27 @@ export function activate(context: vscode.ExtensionContext) {
                             return 1;
                     }
 
-                    if ((a.detail.toString().indexOf("$(file-submodule) ") === 0) && (b.detail.toString().indexOf("$(file-directory) ") === 0)) {
+                    if ((a.detail.toString().indexOf(codicons.file_submodule + " ") === 0) && (b.detail.toString().indexOf(codicons.file_directory + " ") === 0)) {
                         return -1;
                     }
                     
-                    if ((a.detail.toString().indexOf("$(file-directory) ") === 0) && (b.detail.toString().indexOf("$(file-submodule) ") === 0)) {
+                    if ((a.detail.toString().indexOf(codicons.file_directory + " ") === 0) && (b.detail.toString().indexOf(codicons.file_submodule + " ") === 0)) {
                         return 1;
                     }
 
-                    if ((a.detail.toString().indexOf("$(file-submodule) ") === 0) && (b.detail.toString().indexOf("$(file-submodule) ") === -1)) {
+                    if ((a.detail.toString().indexOf(codicons.file_submodule + " ") === 0) && (b.detail.toString().indexOf(codicons.file_submodule + " ") === -1)) {
                         return 1;
                     }
                     
-                    if ((a.detail.toString().indexOf("$(file-submodule) ") === -1) && (b.detail.toString().indexOf("$(file-submodule) ") === 0)) {
+                    if ((a.detail.toString().indexOf(codicons.file_submodule + " ") === -1) && (b.detail.toString().indexOf(codicons.file_submodule + " ") === 0)) {
                         return -1;
                     }
                     
-                    if ((a.detail.toString().indexOf("$(file-directory) ") === 0) && (b.detail.toString().indexOf("$(file-directory) ") === -1)) {
+                    if ((a.detail.toString().indexOf(codicons.file_directory + " ") === 0) && (b.detail.toString().indexOf(codicons.file_directory + " ") === -1)) {
                         return 1;
                     }
                     
-                    if ((a.detail.toString().indexOf("$(file-directory) ") === -1) && (b.detail.toString().indexOf("$(file-directory) ") === 0)) {
+                    if ((a.detail.toString().indexOf(codicons.file_directory + " ") === -1) && (b.detail.toString().indexOf(codicons.file_directory + " ") === 0)) {
                         return -1;
                     }
                     
@@ -413,11 +414,11 @@ export function activate(context: vscode.ExtensionContext) {
                             filePath = activeTextEditorPath;
                         } else {
                             // with octicon - document outside project
-                            if (itemT.detail.toString().indexOf("$(file-directory) ") === 0) {
-                                filePath = itemT.detail.toString().split("$(file-directory) ").pop();
+                            if (itemT.detail.toString().indexOf(codicons.file_directory + " ") === 0) {
+                                filePath = itemT.detail.toString().split(codicons.file_directory + " ").pop();
                             } else { // with octicon - documento from other workspaceFolder
-                                if (itemT.detail.toString().indexOf("$(file-submodule)") === 0) {
-                                    filePath = itemT.detail.toString().split("$(file-submodule) ").pop();
+                                if (itemT.detail.toString().indexOf(codicons.file_submodule) === 0) {
+                                    filePath = itemT.detail.toString().split(codicons.file_submodule + " ").pop();
                                     for (const wf of vscode.workspace.workspaceFolders) {
                                         if (wf.name === filePath.split(path.sep).shift()) {
                                             filePath = path.join(wf.uri.fsPath, filePath.split(path.sep).slice(1).join(path.sep));
@@ -477,11 +478,11 @@ export function activate(context: vscode.ExtensionContext) {
                     } else {    
                         let newPath: string;
                         // with octicon - document outside project
-                        if (selection.detail.toString().indexOf("$(file-directory) ") === 0) {
-                            newPath = selection.detail.toString().split("$(file-directory) ").pop();
+                        if (selection.detail.toString().indexOf(codicons.file_directory + " ") === 0) {
+                            newPath = selection.detail.toString().split(codicons.file_directory + " ").pop();
                         } else {// no octicon - document inside project
-                            if (selection.detail.toString().indexOf("$(file-submodule)") === 0) {
-                                newPath = selection.detail.toString().split("$(file-submodule) ").pop();
+                            if (selection.detail.toString().indexOf(codicons.file_submodule) === 0) {
+                                newPath = selection.detail.toString().split(codicons.file_submodule + " ").pop();
                                 for (const wf of vscode.workspace.workspaceFolders) {
                                     if (wf.name === newPath.split(path.sep).shift()) {
                                         newPath = path.join(wf.uri.fsPath, newPath.split(path.sep).slice(1).join(path.sep));
@@ -689,14 +690,14 @@ export function activate(context: vscode.ExtensionContext) {
                 if (!currentWorkspaceFolder && vscode.workspace.workspaceFolders.length === 1) {
                     return aPath.split(inWorkspace.uri.fsPath).pop();
                 } else {
-                    return "$(file-submodule) " + inWorkspace.name + /*path.sep + */aPath.split(inWorkspace.uri.fsPath).pop();
+                    return codicons.file_submodule + " " + inWorkspace.name + /*path.sep + */aPath.split(inWorkspace.uri.fsPath).pop();
                 }
             }
             // const base: string = inWorkspace.name ? inWorkspace.name : inWorkspace.uri.fsPath;
             // return path.join(base, aPath.split(inWorkspace.uri.fsPath).pop());
             // return aPath.split(inWorkspace.uri.fsPath).pop();
         } else {
-            return "$(file-directory) " + aPath;
+            return codicons.file_directory + " " + aPath;
         }
     }
 }

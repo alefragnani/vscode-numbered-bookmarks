@@ -1,3 +1,7 @@
+## [7.2.0] - 2020-09-??
+### Internal
+- Use `vscode-ext-codicons` package (issue [#80](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/80))
+
 ## [7.1.3] - 2020-08-05
 ### Fixed
 - Security Alert: elliptic (dependabot [PR #79](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/79))
