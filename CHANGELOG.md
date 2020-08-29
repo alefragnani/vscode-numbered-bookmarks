@@ -1,6 +1,7 @@
 ## [7.2.0] - 2020-09-??
 ### Internal
 - Use `vscode-ext-codicons` package (issue [#80](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/80))
+- Migrate from TSLint to ESLint (issue [#75](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/75))
 
 ## [7.1.3] - 2020-08-05
 ### Fixed

@@ -26,6 +26,14 @@ export class WhatsNewNumberedBookmarksContentProvider implements ContentProvider
                 kind: IssueKind.Issue
             }
         });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Migrate from TSLint to ESLint",
+                id: 75,
+                kind: IssueKind.Issue
+            }
+        });
 
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.3", releaseDate: "August 2020" } });
         changeLog.push({
