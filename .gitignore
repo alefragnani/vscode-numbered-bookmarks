@@ -1,7 +1,6 @@
 out
 node_modules
-issues
-debug.log
-images/bookmark?*.svg
-npm-debug.log
+.vscode-test/
+*.vsix
 dist
+images/bookmark?*.svg
