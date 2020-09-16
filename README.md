@@ -3,7 +3,7 @@
   <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/vscode-numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
 </p>
 
-# What's new in Numbered Bookmarks 7.1
+# What's new in Numbered Bookmarks 7.2
 
 * Adds **Multi-root** support
 * Adds **gutter icon color** for bookmarked lines (icon fill and number)
