@@ -165,6 +165,17 @@
                 "title": "What's New"
             }
         ],
+        
+        "submenus": [
+            {
+                "id": "numberedBookmarks.context.toggle",
+                "label": "Numbered Bookmarks: Toggle"
+            },
+            {
+                "id": "numberedBookmarks.context.jump",
+                "label": "Numbered Bookmarks: Jump"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "Numbered Bookmarks Configuration",
@@ -353,6 +364,100 @@
                     "command": "numberedBookmarks.whatsNewContextMenu",
                     "group": "numberedBookmarks",
                     "when": "extension == alefragnani.numbered-bookmarks && extensionStatus==installed"
+                }
+            ],
+            "editor/context": [
+                {
+                    "submenu": "numberedBookmarks.context.toggle",
+                    "group": "numberedBookmarks@1"
+                },
+                {
+                    "submenu": "numberedBookmarks.context.jump",
+                    "group": "numberedBookmarks@2"
+                }
+            ],
+            "numberedBookmarks.context.toggle": [
+                {
+                    "command": "numberedBookmarks.toggleBookmark1",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark2",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark3",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark4",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark5",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark6",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark7",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark8",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark9",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.toggleBookmark0",
+                    "group": "numberedBookmarks@10"
+                }
+            ],
+            "numberedBookmarks.context.jump": [
+                {
+                    "command": "numberedBookmarks.jumpToBookmark1",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark2",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark3",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark4",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark5",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark6",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark7",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark8",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark9",
+                    "group": "numberedBookmarks"
+                },
+                {
+                    "command": "numberedBookmarks.jumpToBookmark0",
+                    "group": "numberedBookmarks@10"
                 }
             ]
         }
