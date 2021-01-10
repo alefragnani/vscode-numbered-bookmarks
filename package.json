@@ -37,103 +37,128 @@
         "commands": [
             {
                 "command": "numberedBookmarks.toggleBookmark0",
-                "title": "Numbered Bookmarks: Toggle Bookmark 0"
+                "title": "Toggle Bookmark 0",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark1",
-                "title": "Numbered Bookmarks: Toggle Bookmark 1"
+                "title": "Toggle Bookmark 1",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark2",
-                "title": "Numbered Bookmarks: Toggle Bookmark 2"
+                "title": "Toggle Bookmark 2",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark3",
-                "title": "Numbered Bookmarks: Toggle Bookmark 3"
+                "title": "Toggle Bookmark 3",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark4",
-                "title": "Numbered Bookmarks: Toggle Bookmark 4"
+                "title": "Toggle Bookmark 4",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark5",
-                "title": "Numbered Bookmarks: Toggle Bookmark 5"
+                "title": "Toggle Bookmark 5",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark6",
-                "title": "Numbered Bookmarks: Toggle Bookmark 6"
+                "title": "Toggle Bookmark 6",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark7",
-                "title": "Numbered Bookmarks: Toggle Bookmark 7"
+                "title": "Toggle Bookmark 7",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark8",
-                "title": "Numbered Bookmarks: Toggle Bookmark 8"
+                "title": "Toggle Bookmark 8",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark9",
-                "title": "Numbered Bookmarks: Toggle Bookmark 9"
+                "title": "Toggle Bookmark 9",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark0",
-                "title": "Numbered Bookmarks: Jump to Bookmark 0"
+                "title": "Jump to Bookmark 0",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark1",
-                "title": "Numbered Bookmarks: Jump to Bookmark 1"
+                "title": "Jump to Bookmark 1",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark2",
-                "title": "Numbered Bookmarks: Jump to Bookmark 2"
+                "title": "Jump to Bookmark 2",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark3",
-                "title": "Numbered Bookmarks: Jump to Bookmark 3"
+                "title": "Jump to Bookmark 3",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark4",
-                "title": "Numbered Bookmarks: Jump to Bookmark 4"
+                "title": "Jump to Bookmark 4",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark5",
-                "title": "Numbered Bookmarks: Jump to Bookmark 5"
+                "title": "Jump to Bookmark 5",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark6",
-                "title": "Numbered Bookmarks: Jump to Bookmark 6"
+                "title": "Jump to Bookmark 6",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark7",
-                "title": "Numbered Bookmarks: Jump to Bookmark 7"
+                "title": "Jump to Bookmark 7",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark8",
-                "title": "Numbered Bookmarks: Jump to Bookmark 8"
+                "title": "Jump to Bookmark 8",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark9",
-                "title": "Numbered Bookmarks: Jump to Bookmark 9"
+                "title": "Jump to Bookmark 9",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.list",
-                "title": "Numbered Bookmarks: List"
+                "title": "List",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.listFromAllFiles",
-                "title": "Numbered Bookmarks: List from All Files"
+                "title": "List from All Files",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.clear",
-                "title": "Numbered Bookmarks: Clear"
+                "title": "Clear",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.clearFromAllFiles",
-                "title": "Numbered Bookmarks: Clear from All Files"
+                "title": "Clear from All Files",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.whatsNew",
-                "title": "Numbered Bookmarks: What's New"
+                "title": "What's New",
+                "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.whatsNewContextMenu",
