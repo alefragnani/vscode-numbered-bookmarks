@@ -13,3 +13,4 @@ package-lock.json
 webpack.config.js
 .github/
 .devcontainer/
+images/bookmark?-*.svg
