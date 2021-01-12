@@ -6,11 +6,13 @@
 import { commands } from "vscode";
 import { Container } from "../../vscode-numbered-bookmarks-core/src/container";
 import { WhatsNewManager } from "../../vscode-whats-new/src/Manager";
-import { WhatsNewNumberedBookmarksContentProvider } from "./contentProvider";
+import { NumberedBookmarksContentProvider, NumberedBookmarksSocialMediaProvider } from "./contentProvider";
 
 export function registerWhatsNew() {
-    const provider = new WhatsNewNumberedBookmarksContentProvider();
-    const viewer = new WhatsNewManager(Container.context).registerContentProvider("numbered-bookmarks", provider);
+    const provider = new NumberedBookmarksContentProvider();
+    const viewer = new WhatsNewManager(Container.context)
+        .registerContentProvider("alefragnani", "numbered-bookmarks", provider)
+        .registerSocialMediaProvider(new NumberedBookmarksSocialMediaProvider());
     viewer.showPageInActivation();
     Container.context.subscriptions.push(commands.registerCommand("numberedBookmarks.whatsNew", () => viewer.showPage()));
     Container.context.subscriptions.push(commands.registerCommand("numberedBookmarks.whatsNewContextMenu", () => viewer.showPage()));
