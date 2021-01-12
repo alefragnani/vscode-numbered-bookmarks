@@ -1,3 +1,15 @@
+## [7.3.0] - 2021-01-12
+### Added
+- Support submenu for editor commands (issue [#84](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/84))
+- New setting to decide if should show a warning when a bookmark is not defined (issue [#73](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/73))
+
+### Fixed
+- Typo in extension's configuration title (issue [#89](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/89))
+
+### Internal
+- Shrink installation size (issue [#53](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/53))
+- Update whats-new submodule API (issue [#85](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/85))
+
 ## [7.2.0] - 2020-09-16
 ### Internal
 - Use `vscode-ext-codicons` package (issue [#80](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/80))
