@@ -91,7 +91,10 @@ List all bookmarks from all files and easily navigate to any one. It shows you t
     "numberedBookmarks.saveBookmarksInProject": true
 ```
 
-> the `saveBookmarksBetweenSessions` setting was replaced by this in version 0.8.0
+* Controls whether to show a warning when a bookmark is not defined _(`false` by default)_
+```json
+    "numberedBookmarks.showBookmarkNotDefinedWarning": true
+```
 
 * Per [User Requests](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/6) it is now possible to choose how Bookmarks _Navigate Through All Files_:
 

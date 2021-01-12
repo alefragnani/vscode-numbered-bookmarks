@@ -647,7 +647,9 @@ export function activate(context: vscode.ExtensionContext) {
                     }
                     
                     if (!found) {
-                        vscode.window.showInformationMessage("The Bookmark " + n + " is not defined");
+                        if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("showBookmarkNotDefinedWarning", false)) {
+                            vscode.window.showWarningMessage("The Bookmark " + n + " is not defined");
+                        }
                         return;
                     }
                 }
@@ -662,7 +664,9 @@ export function activate(context: vscode.ExtensionContext) {
                     return;
                 }
                 if (activeBookmark.bookmarks[ n ] < 0) {
-                    vscode.window.showInformationMessage("The Bookmark " + n + " is not defined");
+                    if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("showBookmarkNotDefinedWarning", false)) {
+                        vscode.window.showWarningMessage("The Bookmark " + n + " is not defined");
+                    }
                     return;
                 }
                 revealLine(activeBookmark.bookmarks[ n ], true);
