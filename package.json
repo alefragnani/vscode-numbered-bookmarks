@@ -178,7 +178,7 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "Numbered Bookmarks Configuration",
+            "title": "Numbered Bookmarks",
             "properties": {
                 "numberedBookmarks.saveBookmarksInProject": {
                     "type": "boolean",
