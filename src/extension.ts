@@ -7,8 +7,11 @@ import fs = require("fs");
 import path = require("path");
 import * as vscode from "vscode";
 
-import { Bookmark, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
+import { File } from "../vscode-numbered-bookmarks-core/src/api/bookmark";
+import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/api/constants";
+// import { File } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
 import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
+import { clearBookmarks, listBookmarks } from "../vscode-numbered-bookmarks-core/src/model/operations";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
 import { createLineDecoration } from "vscode-ext-decoration";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
@@ -45,7 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
-    let activeBookmark: Bookmark;            
+    let activeBookmark: File;            
     const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
 
     // load pre-saved bookmarks
@@ -234,9 +237,10 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     vscode.commands.registerCommand("numberedBookmarks.clear", () => {
-        for (let index = 0; index < MAX_BOOKMARKS; index++) {
-            activeBookmark.clear();
-        }
+        // for (let index = 0; index < MAX_BOOKMARKS; index++) {
+        //     activeBookmark.clear();
+        // }
+        clearBookmarks(activeBookmark);
 
         saveWorkspaceState();
         updateDecorations();
@@ -247,7 +251,8 @@ export function activate(context: vscode.ExtensionContext) {
         // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
         //     let element = bookmarks.bookmarks[ index ];
         for (const element of bookmarks.bookmarks) {
-            element.clear();
+            clearBookmarks(element);
+            // element.clear();
         }
 
         saveWorkspaceState();
@@ -321,9 +326,10 @@ export function activate(context: vscode.ExtensionContext) {
         
         // tslint:disable-next-line:prefer-for-of
         for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-            const bookmark = bookmarks.bookmarks[ index ];
+            const file = bookmarks.bookmarks[ index ];
 
-            const pp = bookmark.listBookmarks();
+            const pp = listBookmarks(file);
+            // const pp = bookmark.listBookmarks();
             promisses.push(pp);
         }
 
