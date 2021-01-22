@@ -10,7 +10,7 @@ import * as vscode from "vscode";
 import { File } from "../vscode-numbered-bookmarks-core/src/api/bookmark";
 import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/api/constants";
 // import { File } from "../vscode-numbered-bookmarks-core/src/model/bookmark";
-import { Bookmarks } from "../vscode-numbered-bookmarks-core/src/model/bookmarks";
+import { Controller } from "../vscode-numbered-bookmarks-core/src/model/controller";
 import { clearBookmarks, listBookmarks } from "../vscode-numbered-bookmarks-core/src/model/operations";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
 import { createLineDecoration } from "vscode-ext-decoration";
@@ -44,7 +44,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     registerWhatsNew();
 
-    const bookmarks: Bookmarks = new Bookmarks();
+    //const bookmarks: Bookmarks = new Bookmarks();
+    let controller: Controller;
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
@@ -52,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
     const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
 
     // load pre-saved bookmarks
-    const didLoadBookmarks: boolean = loadWorkspaceState();
+    const didLoadBookmarks: boolean = loadWorkspaceState(activeEditor.document.uri);
     
     updateBookmarkSvg();
     updateBookmarkDecorationType();
@@ -60,24 +61,24 @@ export function activate(context: vscode.ExtensionContext) {
     // Connect it to the Editors Events
     if (activeEditor) {
         if (!didLoadBookmarks) {
-            bookmarks.add(activeEditor.document.uri.fsPath);
+            controller.addFile(activeEditor.document.uri);
         }
         activeEditorCountLine = activeEditor.document.lineCount;
-        activeBookmark = bookmarks.fromUri(activeEditor.document.uri.fsPath);
+        activeBookmark = controller.fromUri(activeEditor.document.uri);
         triggerUpdateDecorations();
     }
 
     // new docs
     vscode.workspace.onDidOpenTextDocument(doc => {
         // activeEditorCountLine = doc.lineCount;
-        bookmarks.add(doc.uri.fsPath);
+        controller.addFile(doc.uri);
     });
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = editor;
         if (editor) {
             activeEditorCountLine = editor.document.lineCount;
-            activeBookmark = bookmarks.fromUri(editor.document.uri.fsPath);
+            activeBookmark = controller.fromUri(editor.document.uri);
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
@@ -250,8 +251,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
         //     let element = bookmarks.bookmarks[ index ];
-        for (const element of bookmarks.bookmarks) {
-            clearBookmarks(element);
+        for (const file of controller.files) {
+            clearBookmarks(file);
             // element.clear();
         }
 
@@ -305,8 +306,8 @@ export function activate(context: vscode.ExtensionContext) {
         // no bookmark
         let totalBookmarkCount = 0;
         // tslint:disable-next-line:prefer-for-of
-        for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-            totalBookmarkCount = totalBookmarkCount + bookmarks.bookmarks[ index ].bookmarks.length;
+        for (let index = 0; index < controller.files.length; index++) {
+            totalBookmarkCount = totalBookmarkCount + controller.files[ index ].bookmarks.length;
         }
         if (totalBookmarkCount === 0) {
             vscode.window.showInformationMessage("No Bookmarks found");
@@ -325,10 +326,10 @@ export function activate(context: vscode.ExtensionContext) {
         }            
         
         // tslint:disable-next-line:prefer-for-of
-        for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-            const file = bookmarks.bookmarks[ index ];
+        for (let index = 0; index < controller.files.length; index++) {
+            const file = controller.files[ index ];
 
-            const pp = listBookmarks(file);
+            const pp = listBookmarks(file, controller.workspaceFolder);
             // const pp = bookmark.listBookmarks();
             promisses.push(pp);
         }
@@ -529,19 +530,79 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
-    function loadWorkspaceState(): boolean {
-        return loadBookmarks(bookmarks, context);
+    // function loadWorkspaceState(): boolean {
+    //     return loadBookmarks(bookmarks, context);
+    // }
+
+    // function saveWorkspaceState(): void {
+    //     saveBookmarks(bookmarks, context);
+    function canSaveBookmarksInProject(): boolean {
+        let saveBookmarksInProject: boolean = vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false);
+        
+        // really use saveBookmarksInProject
+        // 0. has at least a folder opened
+        // 1. is a valid workspace/folder
+        // 2. has only one workspaceFolder
+        // let hasBookmarksFile: boolean = false;
+        if (saveBookmarksInProject && ((!vscode.workspace.workspaceFolders) || (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 1))) {
+            // hasBookmarksFile = fs.existsSync(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "bookmarks.json"));
+            saveBookmarksInProject = false;
+        }
+
+        return saveBookmarksInProject;
+    }
+
+    function loadWorkspaceState(uri: vscode.Uri): boolean {
+        const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
+
+        controller = new Controller(vscode.workspace.getWorkspaceFolder(uri));
+
+        if (saveBookmarksInProject) {
+            if (!vscode.workspace.workspaceFolders) {
+                return false;
+            }
+
+            const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
+            if (!fs.existsSync(bookmarksFileInProject)) {
+                return false;
+            }
+            
+            try {
+                controller.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
+                return true;
+            } catch (error) {
+                vscode.window.showErrorMessage("Error loading Numbered Bookmarks: " + error.toString());
+                return false;
+            }
+        } else {
+            const savedBookmarks = context.workspaceState.get("numberedBookmarks", "");
+            if (savedBookmarks !== "") {
+                controller.loadFrom(JSON.parse(savedBookmarks));
+            }
+            return savedBookmarks !== "";
+        }
     }
 
     function saveWorkspaceState(): void {
-        saveBookmarks(bookmarks, context);
+        // return;
+        const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
+
+        if (saveBookmarksInProject) {
+            const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
+            if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
+                fs.mkdirSync(path.dirname(bookmarksFileInProject));
+            }
+            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(controller.zip(true), null, "\t"));
+        } else {
+            context.workspaceState.update("numberedBookmarks", JSON.stringify(controller.zip()));
+        }
     }
 
     function toggleBookmark(n: number, line: number) {
         // fix issue emptyAtLaunch
         if (!activeBookmark) {
-            bookmarks.add(vscode.window.activeTextEditor.document.uri.fsPath);
-            activeBookmark = bookmarks.fromUri(vscode.window.activeTextEditor.document.uri.fsPath);
+            controller.addFile(vscode.window.activeTextEditor.document.uri);//.fsPath);
+            activeBookmark = controller.fromUri(vscode.window.activeTextEditor.document.uri);
         }
 
         // there is another bookmark already set for this line?
@@ -559,7 +620,7 @@ export function activate(context: vscode.ExtensionContext) {
             if (navigateThroughAllFiles === "replace") {
                 // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                 //     let element = bookmarks.bookmarks[ index ];
-                for (const element of bookmarks.bookmarks) {
+                for (const element of controller.files) {
                     if (element.fsPath !== activeBookmark.fsPath) {
                         element.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
                     }
@@ -591,7 +652,7 @@ export function activate(context: vscode.ExtensionContext) {
                     // I can start from the first because _there is only one_
                     // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                     //     let element = bookmarks.bookmarks[ index ];
-                    for (const element of bookmarks.bookmarks) {
+                    for (const element of controller.files) {
                         if ((element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
                             const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
@@ -619,13 +680,13 @@ export function activate(context: vscode.ExtensionContext) {
 
                 // no, look for another document that contains that bookmark 
                 // I CAN'T start from the first because _there can be duplicates_
-                const currentFile: number = bookmarks.indexFromUri(activeBookmark.fsPath);
-                let found = false;
+                const currentFile: number = controller.indexFromPath(activeBookmark.fsPath);
+                let found: boolean = false;
 
                 // to the end
-                for (let index = currentFile; index < bookmarks.bookmarks.length; index++) {
-                    const element = bookmarks.bookmarks[ index ];
-                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks.length > 0) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                for (let index = currentFile; index < controller.files.length; index++) {
+                    const element = controller.files[ index ];
+                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                         found = true;
                         // open and novigate
                         const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
@@ -639,7 +700,7 @@ export function activate(context: vscode.ExtensionContext) {
 
                 if (!found) {
                     for (let index = 0; index < currentFile; index++) {
-                        const element = bookmarks.bookmarks[ index ];
+                        const element = controller.files[ index ];
                         if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
                             found = true;
