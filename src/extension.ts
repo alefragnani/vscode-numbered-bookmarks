@@ -663,7 +663,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                 //     let element = bookmarks.bookmarks[ index ];
                 for (const element of controller.files) {
-                    if (element.fsPath !== activeBookmark.fsPath) {
+                    if (element.path !== activeBookmark.path) {
                         element.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
                     }
                 }
@@ -695,9 +695,9 @@ export async function activate(context: vscode.ExtensionContext) {
                     // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
                     //     let element = bookmarks.bookmarks[ index ];
                     for (const element of controller.files) {
-                        if ((element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                        if ((element.path !== activeBookmark.path) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
-                            const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                            const uriDocument: vscode.Uri = vscode.Uri.file(element.path);
                             vscode.workspace.openTextDocument(uriDocument).then(doc => {
                                 vscode.window.showTextDocument(doc, undefined, false).then(() => {
                                     revealLine(element.bookmarks[ n ]);
@@ -722,16 +722,16 @@ export async function activate(context: vscode.ExtensionContext) {
 
                 // no, look for another document that contains that bookmark 
                 // I CAN'T start from the first because _there can be duplicates_
-                const currentFile: number = controller.indexFromPath(activeBookmark.fsPath);
+                const currentFile: number = controller.indexFromPath(activeBookmark.path);
                 let found: boolean = false;
 
                 // to the end
                 for (let index = currentFile; index < controller.files.length; index++) {
                     const element = controller.files[ index ];
-                    if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                    if ((!found) && (element.path !== activeBookmark.path) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                         found = true;
                         // open and novigate
-                        const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                        const uriDocument: vscode.Uri = vscode.Uri.file(element.path);
                         vscode.workspace.openTextDocument(uriDocument).then(doc => {
                             vscode.window.showTextDocument(doc, undefined, false).then(() => {
                                 revealLine(element.bookmarks[ n ]);
@@ -743,10 +743,10 @@ export async function activate(context: vscode.ExtensionContext) {
                 if (!found) {
                     for (let index = 0; index < currentFile; index++) {
                         const element = controller.files[ index ];
-                        if ((!found) && (element.fsPath !== activeBookmark.fsPath) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
+                        if ((!found) && (element.path !== activeBookmark.path) && (element.bookmarks[ n ] !== NO_BOOKMARK_DEFINED)) {
                             // open and novigate
                             found = true;
-                            const uriDocument: vscode.Uri = vscode.Uri.file(element.fsPath);
+                            const uriDocument: vscode.Uri = vscode.Uri.file(element.path);
                             vscode.workspace.openTextDocument(uriDocument).then(doc => {
                                 vscode.window.showTextDocument(doc, undefined, false).then(() => {
                                     revealLine(element.bookmarks[ n ]);
