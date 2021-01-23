@@ -38,7 +38,7 @@ const getNumberColor = (): string => {
   };
 
 // this method is called when vs code is activated
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 
     Container.context = context;
 
@@ -46,6 +46,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     //const bookmarks: Bookmarks = new Bookmarks();
     let controller: Controller;
+    let activeController: Controller;
+    let controllers: Controller[] = [];
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
@@ -53,7 +55,24 @@ export function activate(context: vscode.ExtensionContext) {
     const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
 
     // load pre-saved bookmarks
-    const didLoadBookmarks: boolean = loadWorkspaceState(activeEditor.document.uri);
+    let didLoadBookmarks: boolean;
+    if (vscode.workspace.workspaceFolders) {
+        didLoadBookmarks = loadWorkspaceState(vscode.workspace.workspaceFolders[0]); // activeEditor.document.uri);
+    } else {
+        didLoadBookmarks = loadWorkspaceState(undefined);
+    }
+
+    if (vscode.workspace.workspaceFolders) {
+        controllers = await Promise.all(
+            vscode.workspace.workspaceFolders!.map(async workspaceFolder => {
+                const ctrl = loadBookmarks(workspaceFolder);
+
+                return ctrl;
+            })
+        );
+            
+        console.log(controllers.length);
+    }
     
     updateBookmarkSvg();
     updateBookmarkDecorationType();
@@ -79,6 +98,10 @@ export function activate(context: vscode.ExtensionContext) {
         if (editor) {
             activeEditorCountLine = editor.document.lineCount;
             activeBookmark = controller.fromUri(editor.document.uri);
+            
+            activeController = controllers.find(ctrl => 
+                   ctrl.workspaceFolder.uri.path === vscode.workspace.getWorkspaceFolder(editor.document.uri).uri.path)
+
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
@@ -238,22 +261,15 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     vscode.commands.registerCommand("numberedBookmarks.clear", () => {
-        // for (let index = 0; index < MAX_BOOKMARKS; index++) {
-        //     activeBookmark.clear();
-        // }
         clearBookmarks(activeBookmark);
-
+        
         saveWorkspaceState();
         updateDecorations();
     });
 
     vscode.commands.registerCommand("numberedBookmarks.clearFromAllFiles", () => {
-
-        // for (let index = 0; index < bookmarks.bookmarks.length; index++) {
-        //     let element = bookmarks.bookmarks[ index ];
         for (const file of controller.files) {
             clearBookmarks(file);
-            // element.clear();
         }
 
         saveWorkspaceState();
@@ -545,24 +561,23 @@ export function activate(context: vscode.ExtensionContext) {
         // 2. has only one workspaceFolder
         // let hasBookmarksFile: boolean = false;
         if (saveBookmarksInProject && ((!vscode.workspace.workspaceFolders) || (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 1))) {
-            // hasBookmarksFile = fs.existsSync(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "bookmarks.json"));
             saveBookmarksInProject = false;
         }
 
         return saveBookmarksInProject;
     }
 
-    function loadWorkspaceState(uri: vscode.Uri): boolean {
+    function loadWorkspaceState(workspaceFolder: vscode.WorkspaceFolder): boolean {
         const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
 
-        controller = new Controller(vscode.workspace.getWorkspaceFolder(uri));
+        controller = new Controller(workspaceFolder); // vscode.workspace.getWorkspaceFolder(uri));
 
         if (saveBookmarksInProject) {
             if (!vscode.workspace.workspaceFolders) {
                 return false;
             }
 
-            const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
+            const bookmarksFileInProject: string = path.join(workspaceFolder.uri.fsPath, ".vscode", "numbered-bookmarks.json");
             if (!fs.existsSync(bookmarksFileInProject)) {
                 return false;
             }
@@ -583,6 +598,33 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
+    function loadBookmarks(workspaceFolder: vscode.WorkspaceFolder): Controller {
+        const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
+
+        const newController = new Controller(workspaceFolder);
+
+        if (saveBookmarksInProject) {
+            const bookmarksFileInProject: string = path.join(workspaceFolder.uri.fsPath, ".vscode", "numbered-bookmarks.json");
+            if (!fs.existsSync(bookmarksFileInProject)) {
+                return newController;
+            }
+            
+            try {
+                newController.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
+                return newController;
+            } catch (error) {
+                vscode.window.showErrorMessage("Error loading Numbered Bookmarks: " + error.toString());
+                return newController;
+            }
+        } else {
+            const savedBookmarks = context.workspaceState.get("numberedBookmarks", "");
+            if (savedBookmarks !== "") {
+                newController.loadFrom(JSON.parse(savedBookmarks));
+            }
+            return newController;
+        }
+    }    
+
     function saveWorkspaceState(): void {
         // return;
         const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
@@ -592,7 +634,7 @@ export function activate(context: vscode.ExtensionContext) {
             if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
                 fs.mkdirSync(path.dirname(bookmarksFileInProject));
             }
-            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(controller.zip(true), null, "\t"));
+            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(controller.zip(), null, "\t"));
         } else {
             context.workspaceState.update("numberedBookmarks", JSON.stringify(controller.zip()));
         }
@@ -601,7 +643,7 @@ export function activate(context: vscode.ExtensionContext) {
     function toggleBookmark(n: number, line: number) {
         // fix issue emptyAtLaunch
         if (!activeBookmark) {
-            controller.addFile(vscode.window.activeTextEditor.document.uri);//.fsPath);
+            controller.addFile(vscode.window.activeTextEditor.document.uri); // .fsPath);
             activeBookmark = controller.fromUri(vscode.window.activeTextEditor.document.uri);
         }
 
