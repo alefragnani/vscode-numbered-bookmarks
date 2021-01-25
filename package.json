@@ -169,7 +169,6 @@
                 "title": "What's New"
             }
         ],
-        
         "submenus": [
             {
                 "id": "numberedBookmarks.context.toggle",
