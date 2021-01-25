@@ -13,6 +13,7 @@ import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks
 import { Controller } from "../vscode-numbered-bookmarks-core/src/model/controller";
 import { clearBookmarks, listBookmarks } from "../vscode-numbered-bookmarks-core/src/model/operations";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
+import { appendPath, createDirectory, createDirectoryUri, fileExists, readFileUri, uriExists, writeFile, writeFileUri } from "../vscode-numbered-bookmarks-core/src/utils";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import { WhatsNewNumberedBookmarksContentProvider } from "./whats-new/NumberedBookmarksContentProvider";
 
@@ -45,16 +46,16 @@ export async function activate(context: vscode.ExtensionContext) {
     let activeBookmark: File;            
     const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
     const provider = new WhatsNewNumberedBookmarksContentProvider();
-    const viewer = new WhatsNewManager(context).registerContentProvider("numbered-bookmarks", provider);
+    const viewer = new WhatsNewManager(context).registerContentProvider("alefragnani", "numbered-bookmarks", provider);
     viewer.showPageInActivation();
     context.subscriptions.push(vscode.commands.registerCommand("numberedBookmarks.whatsNew", () => viewer.showPage()));
 
     // load pre-saved bookmarks
     let didLoadBookmarks: boolean;
     if (vscode.workspace.workspaceFolders) {
-        didLoadBookmarks = loadWorkspaceState(vscode.workspace.workspaceFolders[0]); // activeEditor.document.uri);
+        didLoadBookmarks = await loadWorkspaceState(vscode.workspace.workspaceFolders[0]); // activeEditor.document.uri);
     } else {
-        didLoadBookmarks = loadWorkspaceState(undefined);
+        didLoadBookmarks = await loadWorkspaceState(undefined);
     }
 
     if (vscode.workspace.workspaceFolders) {
@@ -569,7 +570,7 @@ export async function activate(context: vscode.ExtensionContext) {
         return saveBookmarksInProject;
     }
 
-    function loadWorkspaceState(workspaceFolder: vscode.WorkspaceFolder): boolean {
+    async function loadWorkspaceState(workspaceFolder: vscode.WorkspaceFolder): Promise<boolean> {
         const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
 
         controller = new Controller(workspaceFolder); // vscode.workspace.getWorkspaceFolder(uri));
@@ -579,13 +580,18 @@ export async function activate(context: vscode.ExtensionContext) {
                 return false;
             }
 
-            const bookmarksFileInProject: string = path.join(workspaceFolder.uri.fsPath, ".vscode", "numbered-bookmarks.json");
-            if (!fs.existsSync(bookmarksFileInProject)) {
+            // const bookmarksFileInProject: string = path.join(workspaceFolder.uri.fsPath, ".vscode", "numbered-bookmarks.json");
+            // if (!fs.existsSync(bookmarksFileInProject)) {
+            //     return false;
+            // }
+            const bookmarksFileInProject = appendPath(appendPath(vscode.workspace.workspaceFolders[0].uri, ".vscode"), "numbered-bookmarks.json");
+            if (!uriExists(bookmarksFileInProject)) {
                 return false;
             }
             
             try {
-                controller.loadFrom(JSON.parse(fs.readFileSync(bookmarksFileInProject).toString()), true);
+                const contents = await readFileUri(bookmarksFileInProject);
+                controller.loadFrom(contents, true);
                 return true;
             } catch (error) {
                 vscode.window.showErrorMessage("Error loading Numbered Bookmarks: " + error.toString());
@@ -632,11 +638,16 @@ export async function activate(context: vscode.ExtensionContext) {
         const saveBookmarksInProject: boolean = canSaveBookmarksInProject();
 
         if (saveBookmarksInProject) {
-            const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
-            if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
-                fs.mkdirSync(path.dirname(bookmarksFileInProject));
+            //const bookmarksFileInProject: string = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, ".vscode", "numbered-bookmarks.json");
+            // if (!fs.existsSync(path.dirname(bookmarksFileInProject))) {
+            //     fs.mkdirSync(path.dirname(bookmarksFileInProject));
+            // }
+            // fs.writeFileSync(bookmarksFileInProject, JSON.stringify(controller.zip(), null, "\t"));
+            const bookmarksFileInProject = appendPath(appendPath(vscode.workspace.workspaceFolders[0].uri, ".vscode"), "numbered-bookmarks.json");
+            if (!uriExists(appendPath(vscode.workspace.workspaceFolders[0].uri, ".vscode"))) {
+                createDirectoryUri(appendPath(vscode.workspace.workspaceFolders[0].uri, ".vscode"));
             }
-            fs.writeFileSync(bookmarksFileInProject, JSON.stringify(controller.zip(), null, "\t"));
+            writeFileUri(bookmarksFileInProject, JSON.stringify(controller.zip(), null, "\t"));
         } else {
             context.workspaceState.update("numberedBookmarks", JSON.stringify(controller.zip()));
         }
