@@ -7,18 +7,19 @@ import fs = require("fs");
 import * as vscode from "vscode";
 import { Uri } from "vscode";
 
-import { Bookmark, BookmarkQuickPickItem, File } from "../vscode-numbered-bookmarks-core/src/api/bookmark";
-import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/api/constants";
-import { Controller } from "../vscode-numbered-bookmarks-core/src/model/controller";
-import { clearBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/model/operations";
-import { revealLine, revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/reveal";
-import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky/sticky";
+import { Bookmark, BookmarkQuickPickItem } from "../vscode-numbered-bookmarks-core/src/bookmark";
+import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
+import { Controller } from "../vscode-numbered-bookmarks-core/src/controller";
+import { clearBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
+import { revealLine, revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
+import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky";
 import { createLineDecoration } from "vscode-ext-decoration";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
-import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils";
+import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
+import { File } from "../vscode-numbered-bookmarks-core/src/file";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
 
