@@ -3,43 +3,23 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import fs = require("fs");
 import * as vscode from "vscode";
 import { Uri } from "vscode";
 
 import { Bookmark, BookmarkQuickPickItem } from "../vscode-numbered-bookmarks-core/src/bookmark";
-import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
+import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
 import { Controller } from "../vscode-numbered-bookmarks-core/src/controller";
 import { clearBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
 import { revealLine, revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky";
-import { createLineDecoration } from "vscode-ext-decoration";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
 import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
+import { updateBookmarkDecorationType, updateBookmarkSvg, updateDecorationsInActiveEditor, updateSvgVersion } from "./decoration";
 
-const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
-
-const getFillColor = (): string => {
-    const config = vscode.workspace
-      .getConfiguration("numberedBookmarks")
-      .inspect("gutterIconFillColor");
-    
-    return <string> (config.globalValue ? config.globalValue : config.defaultValue);
-  };
-  
-const getNumberColor = (): string => {
-    const config = vscode.workspace
-      .getConfiguration("numberedBookmarks")
-      .inspect("gutterIconNumberColor");
-      
-    return <string> (config.globalValue ? config.globalValue : config.defaultValue);
-  };
-
-// this method is called when vs code is activated
 export async function activate(context: vscode.ExtensionContext) {
 
     Container.context = context;
@@ -75,8 +55,8 @@ export async function activate(context: vscode.ExtensionContext) {
         console.log(controllers.length);
     }
     
-    updateBookmarkSvg();
-    updateBookmarkDecorationType();
+    updateBookmarkSvg(triggerUpdateDecorations);
+    updateBookmarkDecorationType(bookmarkDecorationType);
 
     // Connect it to the Editors Events
     if (activeEditor) {
@@ -128,72 +108,12 @@ export async function activate(context: vscode.ExtensionContext) {
         if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
             || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
         ) {
-            context.globalState.update(
-                STATE_SVG_VERSION, 
-                getCurrentSvgVersion() + 1
-            );
-            updateBookmarkSvg();  
-            updateBookmarkDecorationType();      
+            updateSvgVersion();
+            updateBookmarkSvg(triggerUpdateDecorations);  
+            updateBookmarkDecorationType(bookmarkDecorationType);      
         }
     }, null, context.subscriptions);
     
-    // The only way to update the decorations after changing the color is to create a new file
-    function updateBookmarkSvg() {  
-        const v = getCurrentSvgVersion();
-        
-        if (fs.existsSync(context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
-            return;
-        }
-        
-        const gutterIconFillColor = getFillColor();
-        const gutterIconNumberColor = getNumberColor();
-        const content = fs.readFileSync(context.asAbsolutePath("images/bookmark.svg"), "utf8");
-        
-        for (let i = 0; i <= 9; i++) {
-            const svgContent = content
-                .replace("{{gutterIconFillColor}}", gutterIconFillColor)
-                .replace("{{gutterIconNumberColor}}", gutterIconNumberColor)
-                .replace("{{number}}", i.toString());
-                
-            try {    
-                fs.writeFileSync(context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, {encoding: "utf8"}); 
-            } catch (err) {
-                vscode.window.showErrorMessage(`Can't write to ${err.path}`);            
-            }
-            
-            const bookmarkPath = context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`);        
-            if (fs.existsSync(bookmarkPath)) {
-                fs.unlinkSync(bookmarkPath);
-            }
-        }   
-
-        triggerUpdateDecorations(); 
-    }
-    
-    // Need to udpate every time the color is changed
-    function updateBookmarkDecorationType() {
-        const v = getCurrentSvgVersion();
-        
-        for (let index = 0; index < MAX_BOOKMARKS; index++) {
-            if (undefined !== bookmarkDecorationType[ index ]) {
-                bookmarkDecorationType[ index ].dispose();
-            }
-            const gutterIconPath: string = context.asAbsolutePath(`images/bookmark${index}-${v}.svg`);   
-
-            const overviewRulerColor = new vscode.ThemeColor('numberedBookmarks.overviewRuler');            
-            const lineBackground = new vscode.ThemeColor('numberedBookmarks.lineBackground');
-            const lineBorder = new vscode.ThemeColor('numberedBookmarks.lineBorder');
-
-            bookmarkDecorationType[ index ] = createLineDecoration(lineBackground, lineBorder, 
-                vscode.OverviewRulerLane.Full, overviewRulerColor,
-                gutterIconPath);
-        }
-    }
-    
-    function getCurrentSvgVersion(): number {
-        return parseInt(context.globalState.get(STATE_SVG_VERSION, "0"), 10);
-    }
-
     // Timeout
     function triggerUpdateDecorations() {
         if (timeout) {
@@ -208,43 +128,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // Evaluate (prepare the list) and DRAW
     function updateDecorations() {
-        if (!activeEditor) {
-            return;
-        }
-
-        if (!activeBookmark) {
-            return;
-        }
-
-        let books: vscode.Range[] = [];
-        // Remove all bookmarks if active file is empty
-        if (activeEditor.document.lineCount === 1 && activeEditor.document.lineAt(0).text === "") {
-            activeBookmark.bookmarks = [];
-        } else {
-            const invalids = [];
-            for (let index = 0; index < MAX_BOOKMARKS; index++) {
-                books = [];
-                if (activeBookmark.bookmarks[ index ].line < 0) {
-                    activeEditor.setDecorations(getDecoration(index), books);
-                } else {
-                    const element = activeBookmark.bookmarks[ index ];
-                    if (element.line < activeEditor.document.lineCount) {
-                        const decoration = new vscode.Range(element.line, 0, element.line, 0);
-                        books.push(decoration);
-                        activeEditor.setDecorations(getDecoration(index), books);
-                    } else {
-                        invalids.push(index);
-                    }
-                }
-            }
-
-            if (invalids.length > 0) {
-                // tslint:disable-next-line:prefer-for-of
-                for (let indexI = 0; indexI < invalids.length; indexI++) {
-                    activeBookmark.bookmarks[ invalids[ indexI ] ] = NO_BOOKMARK_DEFINED;
-                }
-            }
-        }
+        updateDecorationsInActiveEditor(activeEditor, activeBookmark, getDecoration);
     }
     
     // other commands
