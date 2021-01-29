@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import { Uri } from "vscode";
+import { TextDocument, Uri } from "vscode";
 
 import { Bookmark, BookmarkQuickPickItem } from "../vscode-numbered-bookmarks-core/src/bookmark";
 import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
@@ -26,61 +26,44 @@ export async function activate(context: vscode.ExtensionContext) {
 
     registerWhatsNew();
 
-    let controller: Controller;
-    // let activeController: Controller;
-    // let controllers: Controller[] = [];
+    let activeController: Controller;
+    let controllers: Controller[] = [];
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
-    let activeBookmark: File;            
+    let activeFile: File;            
     const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
 
     // load pre-saved bookmarks
-    // let didLoadBookmarks: boolean;
-    if (vscode.workspace.workspaceFolders) {
-        controller = await loadWorkspaceState(vscode.workspace.workspaceFolders[0]); // activeEditor.document.uri);
-    } else {
-        controller = await loadWorkspaceState(undefined);
-    }
-
-    // if (vscode.workspace.workspaceFolders) {
-    //     controllers = await Promise.all(
-    //         vscode.workspace.workspaceFolders!.map(async workspaceFolder => {
-    //             const ctrl = loadBookmarks(workspaceFolder);
-
-    //             return ctrl;
-    //         })
-    //     );
-            
-    //     console.log(controllers.length);
-    // }
+    await loadWorkspaceState();
     
     updateBookmarkSvg(triggerUpdateDecorations);
     updateBookmarkDecorationType(bookmarkDecorationType);
 
     // Connect it to the Editors Events
     if (activeEditor) {
-        controller.addFile(activeEditor.document.uri);
+        getActiveController(activeEditor.document);
+        activeController.addFile(activeEditor.document.uri);
         activeEditorCountLine = activeEditor.document.lineCount;
-        activeBookmark = controller.fromUri(activeEditor.document.uri);
+        activeFile = activeController.fromUri(activeEditor.document.uri);
         triggerUpdateDecorations();
     }
 
     // new docs
-    vscode.workspace.onDidOpenTextDocument(doc => {
-        // activeEditorCountLine = doc.lineCount;
-        controller.addFile(doc.uri);
-    });
+    // vscode.workspace.onDidOpenTextDocument(doc => {
+    //     // activeEditorCountLine = doc.lineCount;
+    //     getActiveController(doc);
+    //     activeController.addFile(doc.uri);
+    // });
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = editor;
         if (editor) {
             activeEditorCountLine = editor.document.lineCount;
-            activeBookmark = controller.fromUri(editor.document.uri);
+            getActiveController(editor.document);
+            activeController.addFile(editor.document.uri);
+            activeFile = activeController.fromUri(editor.document.uri);
             
-            // activeController = controllers.find(ctrl => 
-            //        ctrl.workspaceFolder.uri.path === vscode.workspace.getWorkspaceFolder(editor.document.uri).uri.path)
-
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
@@ -89,9 +72,9 @@ export async function activate(context: vscode.ExtensionContext) {
         if (activeEditor && event.document === activeEditor.document) {
             let updatedBookmark = true;
             // call sticky function when the activeEditor is changed
-            if (activeBookmark && activeBookmark.bookmarks.length > 0) {
+            if (activeFile && activeFile.bookmarks.length > 0) {
                 updatedBookmark = Sticky.stickyBookmarks(event, activeEditorCountLine, 
-                    activeBookmark, activeEditor);
+                    activeFile, activeEditor);
             }
 
             activeEditorCountLine = event.document.lineCount;
@@ -127,7 +110,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // Evaluate (prepare the list) and DRAW
     function updateDecorations() {
-        updateDecorationsInActiveEditor(activeEditor, activeBookmark, getDecoration);
+        updateDecorationsInActiveEditor(activeEditor, activeFile, getDecoration);
     }
     
     // other commands
@@ -143,14 +126,14 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     vscode.commands.registerCommand("numberedBookmarks.clear", () => {
-        clearBookmarks(activeBookmark);
+        clearBookmarks(activeFile);
         
         saveWorkspaceState();
         updateDecorations();
     });
 
     vscode.commands.registerCommand("numberedBookmarks.clearFromAllFiles", () => {
-        for (const file of controller.files) {
+        for (const file of activeController.files) {
             clearBookmarks(file);
         }
 
@@ -160,14 +143,14 @@ export async function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand("numberedBookmarks.list", () => {
         // no bookmark
-        if (!hasBookmarks(activeBookmark)) {
+        if (!hasBookmarks(activeFile)) {
             vscode.window.showInformationMessage("No Bookmarks found");
             return;
         }
 
         // push the items
         const items: vscode.QuickPickItem[] = [];
-        for (const bookmark of activeBookmark.bookmarks) {
+        for (const bookmark of activeFile.bookmarks) {
             if (isBookmarkDefined(bookmark)) {
                 const bookmarkLine = bookmark.line + 1;
                 const bookmarkColumn = bookmark.column + 1;
@@ -211,7 +194,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("numberedBookmarks.listFromAllFiles", () => {
         // no bookmark
         let someFileHasBookmark: boolean;
-        for (const file of controller.files) {
+        for (const file of activeController.files) {
             someFileHasBookmark = someFileHasBookmark || hasBookmarks(file);
             if (someFileHasBookmark) break;
         }
@@ -227,9 +210,9 @@ export async function activate(context: vscode.ExtensionContext) {
         const currentLine: number = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.selection.active.line + 1 : -1;
 
         // tslint:disable-next-line:prefer-for-of
-        for (let index = 0; index < controller.files.length; index++) {
-            const file = controller.files[ index ];
-            const pp = listBookmarks(file, controller.workspaceFolder);
+        for (let index = 0; index < activeController.files.length; index++) {
+            const file = activeController.files[ index ];
+            const pp = listBookmarks(file, activeController.workspaceFolder);
             promisses.push(pp);
         }
 
@@ -242,7 +225,7 @@ export async function activate(context: vscode.ExtensionContext) {
                     for (let indexInside = 0; indexInside < element.length; indexInside++) {
                         const elementInside = element[ indexInside ];
 
-                        if (elementInside.detail.toString().toLowerCase() === getRelativePath(controller.workspaceFolder.uri.path, activeTextEditor.document.uri.path)) {
+                        if (elementInside.detail.toString().toLowerCase() === getRelativePath(activeController.workspaceFolder.uri.path, activeTextEditor.document.uri.path)) {
                             items.push(
                                 {
                                     label: elementInside.label,
@@ -360,30 +343,91 @@ export async function activate(context: vscode.ExtensionContext) {
         );
     });
 
-    async function loadWorkspaceState(workspaceFolder: vscode.WorkspaceFolder): Promise<Controller> {
-        return loadBookmarks(workspaceFolder);
+    function getActiveController(document: TextDocument): void {
+        // system files don't have workspace, so use the first one [0]
+        if (!vscode.workspace.getWorkspaceFolder(document.uri)) {
+            activeController = controllers[0];
+            return;
+        }
+
+        if (controllers.length > 1) {
+            activeController = controllers.find(ctrl =>
+                ctrl.workspaceFolder.uri.path === vscode.workspace.getWorkspaceFolder(document.uri).uri.path);
+        }
+    }
+
+    async function loadWorkspaceState(): Promise<void> {
+
+        // no workspace, load as `undefined` and will always be from `workspaceState`
+        if (!vscode.workspace.workspaceFolders) {
+            const ctrl = await loadBookmarks(undefined);
+            controllers.push(ctrl);
+            activeController = ctrl;
+            return;
+        }
+
+        // NOT `saveBookmarksInProject`
+        if (!vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false)) {
+            //if (vscode.workspace.workspaceFolders.length > 1) {
+            // no matter how many workspaceFolders exists, will always load from [0] because even with 
+            // multi-root, there would be no way to load state from different folders
+            const ctrl = await loadBookmarks(vscode.workspace.workspaceFolders[0]);
+            controllers.push(ctrl);
+            activeController = ctrl;
+            return;
+        }
+
+        // `saveBookmarksInProject` TRUE
+        // single or multi-root, will load from each `workspaceFolder`
+        controllers = await Promise.all(
+            vscode.workspace.workspaceFolders!.map(async workspaceFolder => {
+                const ctrl = await loadBookmarks(workspaceFolder);
+                return ctrl;
+            })
+        );
+        if (controllers.length === 1) {
+            activeController = controllers[0];
+        }
     }
 
     function saveWorkspaceState(): void {
-        saveBookmarks(controller);
+        // no workspace, there is only one `controller`, and will always be from `workspaceState`
+        if (!vscode.workspace.workspaceFolders) {
+            saveBookmarks(activeController);
+            return;
+        }
+
+        // NOT `saveBookmarksInProject`, will load from `workspaceFolders[0]` - as before
+        if (!vscode.workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false)) {
+            // no matter how many workspaceFolders exists, will always save to [0] because even with
+            // multi-root, there would be no way to save state to different folders
+            saveBookmarks(activeController);
+            return;
+        }
+
+        // `saveBookmarksInProject` TRUE
+        // single or multi-root, will save to each `workspaceFolder` 
+        controllers.forEach(controller => {
+            saveBookmarks(controller);
+        });
     }
 
     function toggleBookmark(n: number, position: vscode.Position) {
         // fix issue emptyAtLaunch
-        if (!activeBookmark) {
-            controller.addFile(vscode.window.activeTextEditor.document.uri); 
-            activeBookmark = controller.fromUri(vscode.window.activeTextEditor.document.uri);
+        if (!activeFile) {
+            activeController.addFile(vscode.window.activeTextEditor.document.uri); 
+            activeFile = activeController.fromUri(vscode.window.activeTextEditor.document.uri);
         }
 
         // there is another bookmark already set for this line?
-        const index: number = indexOfBookmark(activeBookmark, position.line);
+        const index: number = indexOfBookmark(activeFile, position.line);
         if (index >= 0) {
             clearBookmark(index);
         }
 
         // if was myself, then I want to 'remove'
         if (index !== n) {
-            activeBookmark.bookmarks[ n ] = {
+            activeFile.bookmarks[ n ] = {
                 line: position.line,
                 column: position.character
             }
@@ -391,8 +435,8 @@ export async function activate(context: vscode.ExtensionContext) {
             // when _toggling_ only "replace" differs, because it has to _invalidate_ that bookmark from other files 
             const navigateThroughAllFiles: string = vscode.workspace.getConfiguration("numberedBookmarks").get("navigateThroughAllFiles", "false");
             if (navigateThroughAllFiles === "replace") {
-                for (const element of controller.files) {
-                    if (element.path !== activeBookmark.path) {
+                for (const element of activeController.files) {
+                    if (element.path !== activeFile.path) {
                         element.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
                     }
                 }
@@ -404,11 +448,11 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     function clearBookmark(n: number) {
-        activeBookmark.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
+        activeFile.bookmarks[ n ] = NO_BOOKMARK_DEFINED;
     }
 
     async function jumpToBookmark(n: number) {
-        if (!activeBookmark) {
+        if (!activeFile) {
             return;
         }
 
@@ -417,18 +461,18 @@ export async function activate(context: vscode.ExtensionContext) {
         switch (navigateThroughAllFiles) {
             case "replace":
                 // is it already set?
-                if (activeBookmark.bookmarks[ n ].line < 0) {
+                if (activeFile.bookmarks[ n ].line < 0) {
 
                     // no, look for another document that contains that bookmark 
                     // I can start from the first because _there is only one_
-                    for (const element of controller.files) {
-                        if ((element.path !== activeBookmark.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
-                            await revealPositionInDocument(element.bookmarks[n], controller.getFileUri(element));
+                    for (const element of activeController.files) {
+                        if ((element.path !== activeFile.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
+                            await revealPositionInDocument(element.bookmarks[n], activeController.getFileUri(element));
                             return;
                         }
                     }
                 } else {
-                    revealPosition(activeBookmark.bookmarks[ n ].line, activeBookmark.bookmarks[ n ].column);
+                    revealPosition(activeFile.bookmarks[ n ].line, activeFile.bookmarks[ n ].column);
                 }
 
                 break;
@@ -436,33 +480,33 @@ export async function activate(context: vscode.ExtensionContext) {
             case "allowDuplicates": {
 
                 // this file has, and I'm not in the line
-                if ((isBookmarkDefined(activeBookmark.bookmarks[ n ])) &&
-                    (activeBookmark.bookmarks[ n ].line !== vscode.window.activeTextEditor.selection.active.line)) {
-                    revealPosition(activeBookmark.bookmarks[ n ].line, activeBookmark.bookmarks[ n ].column);
+                if ((isBookmarkDefined(activeFile.bookmarks[ n ])) &&
+                    (activeFile.bookmarks[ n ].line !== vscode.window.activeTextEditor.selection.active.line)) {
+                    revealPosition(activeFile.bookmarks[ n ].line, activeFile.bookmarks[ n ].column);
                     break;
                 }
 
                 // no, look for another document that contains that bookmark 
                 // I CAN'T start from the first because _there can be duplicates_
-                const currentFile: number = controller.indexFromPath(activeBookmark.path);
+                const currentFile: number = activeController.indexFromPath(activeFile.path);
                 let found = false;
 
                 // to the end
-                for (let index = currentFile; index < controller.files.length; index++) {
-                    const element = controller.files[ index ];
-                    if ((!found) && (element.path !== activeBookmark.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
+                for (let index = currentFile; index < activeController.files.length; index++) {
+                    const element = activeController.files[ index ];
+                    if ((!found) && (element.path !== activeFile.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
                         found = true;
-                        await revealPositionInDocument(element.bookmarks[n], controller.getFileUri(element));
+                        await revealPositionInDocument(element.bookmarks[n], activeController.getFileUri(element));
                         return;
                     }
                 }
 
                 if (!found) {
                     for (let index = 0; index < currentFile; index++) {
-                        const element = controller.files[ index ];
-                        if ((!found) && (element.path !== activeBookmark.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
+                        const element = activeController.files[ index ];
+                        if ((!found) && (element.path !== activeFile.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
                             found = true;
-                            await revealPositionInDocument(element.bookmarks[n], controller.getFileUri(element));
+                            await revealPositionInDocument(element.bookmarks[n], activeController.getFileUri(element));
                             return;
                         }
                     }
@@ -480,19 +524,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
             default: // "false"
                 // is it already set?
-                if (activeBookmark.bookmarks.length === 0) {
+                if (activeFile.bookmarks.length === 0) {
                     vscode.window.showInformationMessage("No Bookmark found");
                     return;
                 }
 
-                if (activeBookmark.bookmarks[ n ].line < 0) {
+                if (activeFile.bookmarks[ n ].line < 0) {
                     if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("showBookmarkNotDefinedWarning", false)) {
                         vscode.window.showWarningMessage("The Bookmark " + n + " is not defined");
                     }
                     return;
                 }
 
-                revealPosition(activeBookmark.bookmarks[ n ].line, activeBookmark.bookmarks[ n ].column);
+                revealPosition(activeFile.bookmarks[ n ].line, activeFile.bookmarks[ n ].column);
 
                 break;
         }
