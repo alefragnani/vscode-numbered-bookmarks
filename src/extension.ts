@@ -19,6 +19,7 @@ import { codicons } from "vscode-ext-codicons";
 import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
 import { updateBookmarkDecorationType, updateBookmarkSvg, updateDecorationsInActiveEditor, updateSvgVersion } from "./decoration";
+import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -190,11 +191,23 @@ export async function activate(context: vscode.ExtensionContext) {
             }
         });
     });
+    
+ vscode.commands.registerCommand("numberedBookmarks.listFromAllFiles", async () => {
 
-    vscode.commands.registerCommand("numberedBookmarks.listFromAllFiles", () => {
+        let listController: Controller;
+        if (controllers.length > 1) {
+            const picked = await pickController(controllers);
+            if (!picked) {
+                return;                
+            }
+            listController = picked;
+        } else {
+            listController = activeController;
+        }
+
         // no bookmark
         let someFileHasBookmark: boolean;
-        for (const file of activeController.files) {
+        for (const file of listController.files) {
             someFileHasBookmark = someFileHasBookmark || hasBookmarks(file);
             if (someFileHasBookmark) break;
         }
@@ -210,9 +223,9 @@ export async function activate(context: vscode.ExtensionContext) {
         const currentLine: number = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.selection.active.line + 1 : -1;
 
         // tslint:disable-next-line:prefer-for-of
-        for (let index = 0; index < activeController.files.length; index++) {
-            const file = activeController.files[ index ];
-            const pp = listBookmarks(file, activeController.workspaceFolder);
+        for (let index = 0; index < listController.files.length; index++) {
+            const file = listController.files[ index ];
+            const pp = listBookmarks(file, listController.workspaceFolder);
             promisses.push(pp);
         }
 
@@ -225,7 +238,8 @@ export async function activate(context: vscode.ExtensionContext) {
                     for (let indexInside = 0; indexInside < element.length; indexInside++) {
                         const elementInside = element[ indexInside ];
 
-                        if (elementInside.detail.toString().toLocaleLowerCase() === getRelativePath(activeController.workspaceFolder?.uri?.path, activeTextEditor.document.uri.path).toLocaleLowerCase()) {
+                        if (activeTextEditor && 
+                            elementInside.detail.toString().toLocaleLowerCase() === getRelativePath(listController.workspaceFolder?.uri?.path, activeTextEditor.document.uri.path).toLocaleLowerCase()) {
                             items.push(
                                 {
                                     label: elementInside.label,
