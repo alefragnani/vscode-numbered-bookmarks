@@ -225,7 +225,7 @@ export async function activate(context: vscode.ExtensionContext) {
                     for (let indexInside = 0; indexInside < element.length; indexInside++) {
                         const elementInside = element[ indexInside ];
 
-                        if (elementInside.detail.toString().toLocaleLowerCase() === getRelativePath(activeController.workspaceFolder.uri.path, activeTextEditor.document.uri.path).toLocaleLowerCase()) {
+                        if (elementInside.detail.toString().toLocaleLowerCase() === getRelativePath(activeController.workspaceFolder?.uri?.path, activeTextEditor.document.uri.path).toLocaleLowerCase()) {
                             items.push(
                                 {
                                     label: elementInside.label,
