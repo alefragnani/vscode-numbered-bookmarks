@@ -7,6 +7,10 @@
     "engines": {
         "vscode": "^1.45.0"
     },
+    "extensionKind": [
+        "ui",
+        "workspace"
+    ],
     "categories": [
         "Other"
     ],
@@ -165,7 +169,6 @@
                 "title": "What's New"
             }
         ],
-        
         "submenus": [
             {
                 "id": "numberedBookmarks.context.toggle",
