@@ -5,7 +5,7 @@
     "version": "7.3.0",
     "publisher": "alefragnani",
     "engines": {
-        "vscode": "^1.45.0"
+        "vscode": "^1.50.0"
     },
     "extensionKind": [
         "ui",
@@ -494,7 +494,7 @@
     },
     "devDependencies": {
         "@types/node": "^10.14.17",
-        "@types/vscode": "^1.45.0",
+        "@types/vscode": "^1.50.0",
         "@typescript-eslint/eslint-plugin": "^3.3.0",
         "@typescript-eslint/parser": "^3.3.0",
         "eslint": "^7.3.0",
