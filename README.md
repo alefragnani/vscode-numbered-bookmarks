@@ -7,12 +7,14 @@
   <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/vscode-numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
 </p>
 
-# What's new in Numbered Bookmarks 7.3
+# What's new in Numbered Bookmarks 8.0
 
-* Adds **Multi-root** support
-* Adds **gutter icon color** for bookmarked lines (icon fill and number)
-* Adds **workbench.colorCustomizations** support
+* Improved **Multi-root** support
+* Full **Remote Development** support
+* Adds **Multi-platform** support
+* Adds **Column** position support
 * Adds toggle and jump commands to **submenu**
+* Adds **workbench.colorCustomizations** support
 
 # Support
 
@@ -40,7 +42,7 @@ It helps you to navigate in your code, moving between important positions easily
 
 ## Available commands
 
-* `Numbered Bookmarks: Toggle Bookmark '#number'` Mark/unmark the current line with a numbered bookmark
+* `Numbered Bookmarks: Toggle Bookmark '#number'` Mark/unmark the current position with a numbered bookmark
 * `Numbered Bookmarks: Jump to Bookmark '#number'` Move the cursor to the numbered bookmark
 * `Numbered Bookmarks: List` List all bookmarks from the current file
 * `Numbered Bookmarks: List from All Files` List all bookmarks from the all files
@@ -57,7 +59,7 @@ It helps you to navigate in your code, moving between important positions easily
 
 ### Toggle Bookmark '#number'
 
-You can easily Mark/Unmark bookmarks on any line. 
+You can easily Mark/Unmark bookmarks on any position. 
 
 ![Toggle](images/numbered-bookmarks-toggle.png)
 
@@ -71,19 +73,34 @@ You can easily Mark/Unmark bookmarks on any line.
 
 ### List
 
-List all bookmarks from the current file and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
-
-![List](images/numbered-bookmarks-list.gif)
+List all bookmarks from the current file and easily navigate to any one. It shows you the line contents and temporarily scroll to that position.
 
 ### List from All Files
 
-List all bookmarks from all files and easily navigate to any one. It shows you the line contents and temporarily scroll to that line.
+List all bookmarks from all files and easily navigate to any one. It shows you the line contents and temporarily scroll to that position.
 
 ![List](images/numbered-bookmarks-list-from-all-files.gif)
 
-* Bookmarks from the active file only shows the line number and its contents
-* Bookmarks from other files in the project also shows the relative path and filename
-* Bookmarks from files outside the project are denoted with ![Folder](images/bookmarks-folder-icon.png)
+* Bookmarks from the active file shows the line content and the position
+* Bookmarks from other files also shows the relative file path
+
+### Improved Multi-root support
+
+When you work with **multi-root** workspaces, the extension can manage the bookmarks individually for each folder. 
+
+Simply define `saveBookmarksInProject` as `true` on your **User Settings** or in the **Workspace Settings**, and when you run the `Numbered Bookmarks: List from All Files` command, you will be able to select from which folder the bookmarks will be shown.
+
+![List](images/numbered-bookmarks-list-from-all-files-multi-root.gif)
+
+### Remote Development support
+
+The extension now fully supports **Remote Development** scenarios. 
+
+It means that when you connect to a _remote_ location, like a Docker Container, SSH or WSL, the extension will be available, ready to be used. 
+
+> You don't need to install the extension on the remote anymore.
+
+Better yet, if you use `numberedBookmarks.saveBookmarksInProject` setting defined as `true`, the bookmarks saved locally _will be available_ remotely, and you will be able to navigate and update the bookmarks. Just like it was a resource from folder you opened remotely.
 
 ## Available Settings
 

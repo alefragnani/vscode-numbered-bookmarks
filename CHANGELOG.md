@@ -1,3 +1,16 @@
+## [8.0.0] - 2021-02-11
+### Added
+- Improvements on multi-root support (issue [#92](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/92))
+- Multi-platform support (issue [#94](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/94))
+- Support Remote Development (issue [#63](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/63))
+- Support Column position (issue [#14](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/14))
+
+### Fixed
+- Error using `Toggle Bookmark` command with `saveBookmarksInProject` (issue [#69](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/69))
+
+### Internal
+- Do not show welcome message if installed by Settings Sync (issue [#95](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/95))
+
 ## [7.3.0] - 2021-01-12
 ### Added
 - Support submenu for editor commands (issue [#84](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/84))
