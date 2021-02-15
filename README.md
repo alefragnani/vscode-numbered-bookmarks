@@ -11,7 +11,7 @@
 
 * Improved **Multi-root** support
 * Full **Remote Development** support
-* Adds **Multi-platform** support
+* Adds **Cross-platform** support
 * Adds **Column** position support
 * Adds toggle and jump commands to **submenu**
 * Adds **workbench.colorCustomizations** support

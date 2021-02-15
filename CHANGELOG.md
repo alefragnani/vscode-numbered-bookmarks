@@ -1,3 +1,7 @@
+## [8.0.1] - 2021-02-15
+### Fixed
+- Extension does not activate on VS Code 1.50 (issue [#98](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/98))
+
 ## [8.0.0] - 2021-02-11
 ### Added
 - Improvements on multi-root support (issue [#92](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/92))

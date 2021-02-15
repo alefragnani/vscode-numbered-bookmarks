@@ -16,6 +16,16 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.0.1", releaseDate: "February 2021" } });
+        changeLog.push({
+            kind: ChangeLogKind.FIXED,
+            detail: {
+                message: "Extension does not activate on VS Code 1.50",
+                id: 98,
+                kind: IssueKind.Issue
+            }
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.0.0", releaseDate: "February 2021" } });
         changeLog.push({
             kind: ChangeLogKind.NEW,
@@ -28,7 +38,7 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
         changeLog.push({
             kind: ChangeLogKind.NEW,
             detail: {
-                message: "Multi-platform support",
+                message: "Cross-platform support",
                 id: 94,
                 kind: IssueKind.Issue
             }
