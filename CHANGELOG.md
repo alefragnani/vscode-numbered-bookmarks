@@ -1,3 +1,7 @@
+## [8.0.2] - 2021-02-25
+### Fixed
+- Command `Toggle` not found - loading empty workspace with random files (issue [#97](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/97))
+
 ## [8.0.1] - 2021-02-15
 ### Fixed
 - Extension does not activate on VS Code 1.50 (issue [#98](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/98))
