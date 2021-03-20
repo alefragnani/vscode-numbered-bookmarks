@@ -1,3 +1,9 @@
+## [8.0.3] - 2021-03-20
+### Fixed
+- Bookmarks on deleted/missing files breaks jumping (issue [#102](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/102))
+- Running the contributed command: 'numberedBookmarks.toggleBookmark1' failed (issue [#100](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/100))
+- Toggling bookmarks on Untitled documents does not work bug (issue [#99](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/99))
+
 ## [8.0.2] - 2021-02-25
 ### Fixed
 - Command `Toggle` not found - loading empty workspace with random files (issue [#97](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/97))
