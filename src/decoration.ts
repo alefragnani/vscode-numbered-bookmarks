@@ -9,6 +9,7 @@ import { createLineDecoration } from "vscode-ext-decoration";
 import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
+import { clearBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
 
 const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
 
@@ -106,7 +107,7 @@ export function updateDecorationsInActiveEditor(activeEditor: TextEditor, active
     let books: Range[] = [];
     // Remove all bookmarks if active file is empty
     if (activeEditor.document.lineCount === 1 && activeEditor.document.lineAt(0).text === "") {
-        activeBookmark.bookmarks = [];
+        clearBookmarks(activeBookmark);
     } else {
         const invalids = [];
         for (let index = 0; index < MAX_BOOKMARKS; index++) {
