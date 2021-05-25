@@ -11,6 +11,9 @@
         "ui",
         "workspace"
     ],
+    "capabilities": {
+        "virtualWorkspaces": true
+    },
     "categories": [
         "Other"
     ],
