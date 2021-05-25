@@ -12,7 +12,10 @@
         "workspace"
     ],
     "capabilities": {
-        "virtualWorkspaces": true
+        "virtualWorkspaces": true,
+        "untrustedWorkspaces": {
+            "supported": true
+        }
     },
     "categories": [
         "Other"
