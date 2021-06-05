@@ -4,13 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import { TextDocument, Uri } from "vscode";
+import { Position, TextDocument, Uri } from "vscode";
 
 import { Bookmark, BookmarkQuickPickItem } from "../vscode-numbered-bookmarks-core/src/bookmark";
 import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
 import { Controller } from "../vscode-numbered-bookmarks-core/src/controller";
 import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
-import { revealLine, revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
+import { revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
 import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
@@ -171,7 +171,7 @@ export async function activate(context: vscode.ExtensionContext) {
         }
 
         // pick one
-        const currentLine: number = vscode.window.activeTextEditor.selection.active.line + 1;
+        const currentPosition: Position = vscode.window.activeTextEditor.selection.active;
         const options = <vscode.QuickPickOptions> {
             placeHolder: "Type a line number or a piece of code to navigate to",
             matchOnDescription: true,
@@ -187,7 +187,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
         vscode.window.showQuickPick(items, options).then(selection => {
             if (typeof selection === "undefined") {
-                revealLine(currentLine - 1);
+                revealPosition(currentPosition.line, currentPosition.character);
                 return;
             }
             const itemT = <vscode.QuickPickItem> selection;
@@ -220,7 +220,7 @@ export async function activate(context: vscode.ExtensionContext) {
         const items: BookmarkQuickPickItem[] = [];
         const activeTextEditor = vscode.window.activeTextEditor;
         const promisses = [];
-        const currentLine: number = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.selection.active.line + 1 : -1;
+        const currentPosition: Position = vscode.window.activeTextEditor?.selection.active;
 
         // tslint:disable-next-line:prefer-for-of
         for (let index = 0; index < controller.files.length; index++) {
@@ -334,8 +334,8 @@ export async function activate(context: vscode.ExtensionContext) {
                             return;
                         } else {
                             vscode.workspace.openTextDocument(activeTextEditor.document.uri).then(doc => {
-                                vscode.window.showTextDocument(doc).then(editor => {
-                                    revealLine(currentLine - 1);
+                                vscode.window.showTextDocument(doc).then(() => {
+                                    revealPosition(currentPosition.line, currentPosition.character)
                                     return;
                                 });
                             });
