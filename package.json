@@ -47,162 +47,162 @@
         "commands": [
             {
                 "command": "numberedBookmarks.toggleBookmark0",
-                "title": "Toggle Bookmark 0",
+                "title": "%numberedBookmarks.commands.toggleBookmark0.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark1",
-                "title": "Toggle Bookmark 1",
+                "title": "%numberedBookmarks.commands.toggleBookmark1.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark2",
-                "title": "Toggle Bookmark 2",
+                "title": "%numberedBookmarks.commands.toggleBookmark2.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark3",
-                "title": "Toggle Bookmark 3",
+                "title": "%numberedBookmarks.commands.toggleBookmark3.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark4",
-                "title": "Toggle Bookmark 4",
+                "title": "%numberedBookmarks.commands.toggleBookmark4.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark5",
-                "title": "Toggle Bookmark 5",
+                "title": "%numberedBookmarks.commands.toggleBookmark5.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark6",
-                "title": "Toggle Bookmark 6",
+                "title": "%numberedBookmarks.commands.toggleBookmark6.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark7",
-                "title": "Toggle Bookmark 7",
+                "title": "%numberedBookmarks.commands.toggleBookmark7.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark8",
-                "title": "Toggle Bookmark 8",
+                "title": "%numberedBookmarks.commands.toggleBookmark8.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.toggleBookmark9",
-                "title": "Toggle Bookmark 9",
+                "title": "%numberedBookmarks.commands.toggleBookmark9.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark0",
-                "title": "Jump to Bookmark 0",
+                "title": "%numberedBookmarks.commands.jumpToBookmark0.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark1",
-                "title": "Jump to Bookmark 1",
+                "title": "%numberedBookmarks.commands.jumpToBookmark1.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark2",
-                "title": "Jump to Bookmark 2",
+                "title": "%numberedBookmarks.commands.jumpToBookmark2.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark3",
-                "title": "Jump to Bookmark 3",
+                "title": "%numberedBookmarks.commands.jumpToBookmark3.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark4",
-                "title": "Jump to Bookmark 4",
+                "title": "%numberedBookmarks.commands.jumpToBookmark4.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark5",
-                "title": "Jump to Bookmark 5",
+                "title": "%numberedBookmarks.commands.jumpToBookmark5.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark6",
-                "title": "Jump to Bookmark 6",
+                "title": "%numberedBookmarks.commands.jumpToBookmark6.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark7",
-                "title": "Jump to Bookmark 7",
+                "title": "%numberedBookmarks.commands.jumpToBookmark7.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark8",
-                "title": "Jump to Bookmark 8",
+                "title": "%numberedBookmarks.commands.jumpToBookmark8.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.jumpToBookmark9",
-                "title": "Jump to Bookmark 9",
+                "title": "%numberedBookmarks.commands.jumpToBookmark9.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.list",
-                "title": "List",
+                "title": "%numberedBookmarks.commands.list.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.listFromAllFiles",
-                "title": "List from All Files",
+                "title": "%numberedBookmarks.commands.listFromAllFiles.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.clear",
-                "title": "Clear",
+                "title": "%numberedBookmarks.commands.clear.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.clearFromAllFiles",
-                "title": "Clear from All Files",
+                "title": "%numberedBookmarks.commands.clearFromAllFiles.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.whatsNew",
-                "title": "What's New",
+                "title": "%numberedBookmarks.commands.whatsNew.title%",
                 "category": "Numbered Bookmarks"
             },
             {
                 "command": "numberedBookmarks.whatsNewContextMenu",
-                "title": "What's New"
+                "title": "%numberedBookmarks.commands.whatsNewContextMenu.title%"
             }
         ],
         "submenus": [
             {
                 "id": "numberedBookmarks.context.toggle",
-                "label": "Numbered Bookmarks: Toggle"
+                "label": "%numberedBookmarks.context.toggle.label%"
             },
             {
                 "id": "numberedBookmarks.context.jump",
-                "label": "Numbered Bookmarks: Jump"
+                "label": "%numberedBookmarks.context.jump.label%"
             }
         ],
         "configuration": {
             "type": "object",
-            "title": "Numbered Bookmarks",
+            "title": "%numberedBookmarks.configuration.title%",
             "properties": {
                 "numberedBookmarks.saveBookmarksInProject": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Allow bookmarks to be saved (and restored) locally in the opened Project/Folder instead of VS Code"
+                    "description": "%numberedBookmarks.configuration.saveBookmarksInProject.description%"
                 },
                 "numberedBookmarks.showBookmarkNotDefinedWarning": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Controls whether to show a warning when a bookmark is not defined"
+                    "description": "%numberedBookmarks.configuration.showBookmarkNotDefinedWarning.description%"
                 },
                 "numberedBookmarks.navigateThroughAllFiles": {
                     "type": "string",
                     "default": "false",
-                    "description": "Allow navigation look for bookmarks in all files in the project, instead of only the current",
+                    "description": "%numberedBookmarks.configuration.navigateThroughAllFiles.description%",
                     "enum": [
                         "false",
                         "replace",
@@ -212,18 +212,18 @@
                 "numberedBookmarks.gutterIconFillColor": {
                     "type": "string",
                     "default": "#00ff25",
-                    "description": "Specify the color to use on gutter icon (fill color)"
+                    "description": "%numberedBookmarks.configuration.gutterIconFillColor.description%"
                 },
                 "numberedBookmarks.gutterIconNumberColor": {
                     "type": "string",
                     "default": "#000",
-                    "description": "Specify the color to use on gutter icon (number color)"
+                    "description": "%numberedBookmarks.configuration.gutterIconNumberColor.description%"
                 },
                 "numberedBookmarks.backgroundLineColor": {
                     "type": "string",
                     "default": "",
-                    "description": "Specify the background color to use on a bookmarked line",
-                    "deprecationMessage": "Use `numberedBookmarks.lineBackground` in `workbench.colorCustomizations` instead"
+                    "description": "%numberedBookmarks.configuration.backgroundLineColor.description%",
+                    "deprecationMessage": "%numberedBookmarks.configuration.backgroundLineColor.deprecationMessage%"
                 }
             }
         },
@@ -340,7 +340,7 @@
         "colors": [
             {
                 "id": "numberedBookmarks.lineBackground",
-                "description": "Background color for the bookmarked line",
+                "description": "%numberedBookmarks.colors.lineBackground.description%",
                 "defaults": {
                     "dark": "#00000000",
                     "light": "#00000000",
@@ -349,7 +349,7 @@
             },
             {
                 "id": "numberedBookmarks.lineBorder",
-                "description": "Background color for the border around the bookmarked line",
+                "description": "%numberedBookmarks.colors.lineBorder.description%",
                 "defaults": {
                     "dark": "#00000000",
                     "light": "#00000000",
@@ -358,7 +358,7 @@
             },
             {
                 "id": "numberedBookmarks.overviewRuler",
-                "description": "Overview ruler marker color for bookmarks",
+                "description": "%numberedBookmarks.colors.overviewRuler.description%",
                 "defaults": {
                     "dark": "#12ff1288",
                     "light": "#12ff1288",
