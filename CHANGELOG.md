@@ -1,3 +1,15 @@
+## [8.1.0] - 2021-06-09
+### Added
+- Support **Virtual Workspaces** (issue [#107](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/107))
+- Support **Workspace Trust** (issue [#108](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/108))
+- Support Translation (issue [#112](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/112))
+- Return to line/column when cancel List or List from All Files (issue [#96](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/96))
+
+### Internal
+- Security Alert: lodash (dependabot [PR #109](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/109))
+- Security Alert: ssri (dependabot [PR #106](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/106))
+- Security Alert: y18n (dependabot [PR #104](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/104))
+
 ## [8.0.3] - 2021-03-20
 ### Fixed
 - Bookmarks on deleted/missing files breaks jumping (issue [#102](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/102))
