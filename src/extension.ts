@@ -20,6 +20,7 @@ import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-cor
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
 import { updateBookmarkDecorationType, updateBookmarkSvg, updateDecorationsInActiveEditor, updateSvgVersion } from "./decoration";
 import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
+import { updateStickyBookmarks } from "../vscode-numbered-bookmarks-core/src/sticky";
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -74,8 +75,13 @@ export async function activate(context: vscode.ExtensionContext) {
             let updatedBookmark = true;
             // call sticky function when the activeEditor is changed
             if (activeFile && activeFile.bookmarks.length > 0) {
-                updatedBookmark = Sticky.stickyBookmarks(event, activeEditorCountLine, 
-                    activeFile, activeEditor);
+                if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("experimental.enableNewStickyEngine", true)) {
+                    updatedBookmark = updateStickyBookmarks(event, activeFile,
+                        activeEditor, activeController);
+                } else {
+                    updatedBookmark = Sticky.stickyBookmarks(event, activeEditorCountLine, 
+                        activeFile, activeEditor);
+                }
             }
 
             activeEditorCountLine = event.document.lineCount;
