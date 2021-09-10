@@ -11,7 +11,7 @@ import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/const
 import { Controller } from "../vscode-numbered-bookmarks-core/src/controller";
 import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
 import { revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
-import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky";
+import { Sticky } from "../vscode-numbered-bookmarks-core/src/stickyLegacy";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { registerWhatsNew } from "./whats-new/commands";
