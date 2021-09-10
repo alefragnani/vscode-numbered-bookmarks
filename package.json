@@ -194,6 +194,11 @@
                     "default": false,
                     "description": "%numberedBookmarks.configuration.saveBookmarksInProject.description%"
                 },
+                "numberedBookmarks.experimental.enableNewStickyEngine": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "%numberedBookmarks.configuration.experimental.enableNewStickyEngine.description%"
+                },
                 "numberedBookmarks.showBookmarkNotDefinedWarning": {
                     "type": "boolean",
                     "default": false,

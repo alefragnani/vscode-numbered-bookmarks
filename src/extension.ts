@@ -11,7 +11,7 @@ import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/const
 import { Controller } from "../vscode-numbered-bookmarks-core/src/controller";
 import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
 import { revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
-import { Sticky } from "../vscode-numbered-bookmarks-core/src/sticky";
+import { Sticky } from "../vscode-numbered-bookmarks-core/src/stickyLegacy";
 import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { registerWhatsNew } from "./whats-new/commands";
@@ -20,6 +20,7 @@ import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-cor
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
 import { updateBookmarkDecorationType, updateBookmarkSvg, updateDecorationsInActiveEditor, updateSvgVersion } from "./decoration";
 import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
+import { updateStickyBookmarks } from "../vscode-numbered-bookmarks-core/src/sticky";
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -74,8 +75,13 @@ export async function activate(context: vscode.ExtensionContext) {
             let updatedBookmark = true;
             // call sticky function when the activeEditor is changed
             if (activeFile && activeFile.bookmarks.length > 0) {
-                updatedBookmark = Sticky.stickyBookmarks(event, activeEditorCountLine, 
-                    activeFile, activeEditor);
+                if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("experimental.enableNewStickyEngine", true)) {
+                    updatedBookmark = updateStickyBookmarks(event, activeFile,
+                        activeEditor, activeController);
+                } else {
+                    updatedBookmark = Sticky.stickyBookmarks(event, activeEditorCountLine, 
+                        activeFile, activeEditor);
+                }
             }
 
             activeEditorCountLine = event.document.lineCount;
