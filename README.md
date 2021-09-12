@@ -130,6 +130,12 @@ Value | Explanation
 `replace` | you can't have the same numbered bookmark in different files
 `allowDuplicates` | you can have the same numbered bookmark in different files, and if you jump repeatedly to the same number, it will look on other files
 
+* **Experimental**. Enables the new **Sticky engine** with support for Formatters, improved source change detections and undo operations _(`true` by default)_
+
+```json
+    "numberedBookmarks.experimental.enableNewStickyEngine": false
+```
+
 * Choose the background color to use on a bookmarked line
 
 ```json

@@ -1,3 +1,10 @@
+## [8.2.0] - 2021-10-??
+### Added
+- New **Sticky Engine** with improved support to Formatters, Multi-cursor and Undo operations (issue [#115](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/115))
+
+### Fixed
+- Bookmarks removes on Undo (issue [#47](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/47))
+
 ## [8.1.0] - 2021-06-09
 ### Added
 - Support **Virtual Workspaces** (issue [#107](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/107))
