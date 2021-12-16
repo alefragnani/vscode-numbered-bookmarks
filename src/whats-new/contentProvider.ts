@@ -26,6 +26,14 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
             }
         });
         changeLog.push({
+            kind: ChangeLogKind.CHANGED,
+            detail: {
+                message: "Removed deprecated setting <b>backgroundLineColor</b>",
+                id: 116,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
             kind: ChangeLogKind.FIXED,
             detail: {
                 message: "Bookmarks removes on Undo",

@@ -2,6 +2,9 @@
 ### Added
 - New **Sticky Engine** with improved support to Formatters, Multi-cursor and Undo operations (issue [#115](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/115))
 
+### Changed
+- Removed deprecated setting `backgroundLineColor` (issue [#116](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/116))
+
 ### Fixed
 - Bookmarks removes on Undo (issue [#47](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/47))
 
