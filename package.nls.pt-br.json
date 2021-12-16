@@ -34,8 +34,6 @@
     "numberedBookmarks.configuration.navigateThroughAllFiles.description": "Permite que a navegação apresente Bookmarks em todos os arquivos do projeto, ao invés de apenas no arquivo corrente",
     "numberedBookmarks.configuration.gutterIconFillColor.description": "Cor de fundo do ícone de Bookmark",
     "numberedBookmarks.configuration.gutterIconNumberColor.description": "Cor do número no ícone de Bookmark",
-    "numberedBookmarks.configuration.backgroundLineColor.description": "Cor de fundo da decoração",
-    "numberedBookmarks.configuration.backgroundLineColor.deprecationMessage": "Use `numberedBookmarks.lineBackground` em `workbench.colorCustomizations`",
     "numberedBookmarks.colors.lineBackground.description": "Cor de fundo para linha com Bookmark",
     "numberedBookmarks.colors.lineBorder.description": "Cor de fundo da borda ao redor da linha com Bookmark",
     "numberedBookmarks.colors.overviewRuler.description": "Cor do marcador de régua com Bookmarks"

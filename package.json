@@ -223,12 +223,6 @@
                     "type": "string",
                     "default": "#000",
                     "description": "%numberedBookmarks.configuration.gutterIconNumberColor.description%"
-                },
-                "numberedBookmarks.backgroundLineColor": {
-                    "type": "string",
-                    "default": "",
-                    "description": "%numberedBookmarks.configuration.backgroundLineColor.description%",
-                    "deprecationMessage": "%numberedBookmarks.configuration.backgroundLineColor.deprecationMessage%"
                 }
             }
         },
