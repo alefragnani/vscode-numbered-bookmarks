@@ -1,4 +1,4 @@
-## [8.2.0] - 2021-10-??
+## [8.2.0] - 2022-01-12
 ### Added
 - New **Sticky Engine** with improved support to Formatters, Multi-cursor and Undo operations (issue [#115](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/115))
 
