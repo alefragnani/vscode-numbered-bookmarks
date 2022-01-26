@@ -199,6 +199,11 @@
                     "default": true,
                     "description": "%numberedBookmarks.configuration.experimental.enableNewStickyEngine.description%"
                 },
+                "numberedBookmarks.keepBookmarksOnLineDelete": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%numberedBookmarks.configuration.keepBookmarksOnLineDelete.description%"
+                },                
                 "numberedBookmarks.showBookmarkNotDefinedWarning": {
                     "type": "boolean",
                     "default": false,
