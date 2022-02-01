@@ -30,6 +30,7 @@
     "numberedBookmarks.configuration.title": "Numbered Bookmarks",
     "numberedBookmarks.configuration.saveBookmarksInProject.description": "Allow bookmarks to be saved (and restored) locally in the opened Project/Folder instead of VS Code",
     "numberedBookmarks.configuration.experimental.enableNewStickyEngine.description": "Experimental. Enables the new Sticky engine with support for Formatters, improved source change detections and undo operations",
+    "numberedBookmarks.configuration.keepBookmarksOnLineDelete.description": "Specifies whether bookmarks on deleted line should be kept on file, moving it down to the next line, instead of deleting it with the line where it was toggled.",
     "numberedBookmarks.configuration.showBookmarkNotDefinedWarning.description": "Controls whether to show a warning when a bookmark is not defined",
     "numberedBookmarks.configuration.navigateThroughAllFiles.description": "Allow navigation look for bookmarks in all files in the project, instead of only the current",
     "numberedBookmarks.configuration.gutterIconFillColor.description": "Specify the color to use on gutter icon (fill color)",

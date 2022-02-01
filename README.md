@@ -135,6 +135,14 @@ Value | Explanation
     "numberedBookmarks.experimental.enableNewStickyEngine": false
 ```
 
+* "Specifies whether bookmarks on deleted line should be kept on file, moving it down to the next line, instead of deleting it with the line where it was toggled." _(`false` by default)_
+
+```json
+    "numberedBookmarks.keepBookmarksOnLineDelete": true
+```
+
+> **Limitation:** It does not support `Undo` operations. It means that, once you delete a line and the bookmark is moved to the next available line, the `Undo` operation won't move the bookmark back to the previous line. The next line is now the new location of the bookmark.
+
 * Choose the gutter icon fill color
 
 ```json

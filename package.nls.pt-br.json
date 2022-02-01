@@ -30,6 +30,7 @@
     "numberedBookmarks.configuration.title": "Numbered Bookmarks",
     "numberedBookmarks.configuration.saveBookmarksInProject.description": "Permite que os Bookmarks sejam salvos (e restaurados) localmente no Projeto/Pasta aberto ao invés do VS Code",
     "numberedBookmarks.configuration.experimental.enableNewStickyEngine.description": "Experimental. Ativa o novo motor Sticky engine com suporte a Formatadores, detecção de mudança de fonte e operações de desfazer melhoradas",
+    "numberedBookmarks.configuration.keepBookmarksOnLineDelete.description": "Determina se bookmarks em linhas excluídas devem ser mantidos no arquivo, movendo-os para a próxima linha, ao invés de excluídos com a linha onde se encontravam",
     "numberedBookmarks.configuration.showBookmarkNotDefinedWarning.description": "Define se uma notificação deve ser apresentada quando o Bookmark não está definido.",
     "numberedBookmarks.configuration.navigateThroughAllFiles.description": "Permite que a navegação apresente Bookmarks em todos os arquivos do projeto, ao invés de apenas no arquivo corrente",
     "numberedBookmarks.configuration.gutterIconFillColor.description": "Cor de fundo do ícone de Bookmark",
