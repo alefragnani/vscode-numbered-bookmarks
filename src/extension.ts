@@ -18,7 +18,7 @@ import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
 import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
-import { updateBookmarkDecorationType, updateBookmarkSvg, updateDecorationsInActiveEditor, updateSvgVersion } from "./decoration";
+import { updateDecorationsInActiveEditor, createTextEditorDecorations } from "./decoration";
 import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
 import { updateStickyBookmarks } from "../vscode-numbered-bookmarks-core/src/sticky";
 
@@ -33,15 +33,14 @@ export async function activate(context: vscode.ExtensionContext) {
     let activeEditorCountLine: number;
     let timeout = null;    
     let activeEditor = vscode.window.activeTextEditor;
-    let activeFile: File;            
-    const bookmarkDecorationType: vscode.TextEditorDecorationType[] = [];
+    let activeFile: File;         
+
+    let bookmarkDecorationType = createTextEditorDecorations();
+    context.subscriptions.push(...bookmarkDecorationType);
 
     // load pre-saved bookmarks
     await loadWorkspaceState();
     
-    updateBookmarkSvg(triggerUpdateDecorations);
-    updateBookmarkDecorationType(bookmarkDecorationType);
-
     // Connect it to the Editors Events
     if (activeEditor) {
         getActiveController(activeEditor.document);
@@ -97,9 +96,13 @@ export async function activate(context: vscode.ExtensionContext) {
         if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
             || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
         ) {
-            updateSvgVersion();
-            updateBookmarkSvg(triggerUpdateDecorations);  
-            updateBookmarkDecorationType(bookmarkDecorationType);      
+            if (bookmarkDecorationType.length > 0) {
+                bookmarkDecorationType.forEach(decor => {
+                    decor.dispose();
+                });
+            }
+            bookmarkDecorationType = createTextEditorDecorations();
+            context.subscriptions.push(...bookmarkDecorationType);
         }
     }, null, context.subscriptions);
     

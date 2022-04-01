@@ -500,7 +500,7 @@
     },
     "dependencies": {
         "vscode-ext-codicons": "^1.1.0",
-        "vscode-ext-decoration": "1.0.0"
+        "vscode-ext-decoration": "1.1.0"
     },
     "devDependencies": {
         "@types/node": "^14.17.27",
