@@ -3,94 +3,30 @@
 *  Licensed under the GPLv3 License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import fs = require("fs");
-import { OverviewRulerLane, Range, TextEditor, TextEditorDecorationType, ThemeColor, window, workspace } from "vscode";
+import { OverviewRulerLane, Range, TextEditor, TextEditorDecorationType, ThemeColor, Uri, workspace } from "vscode";
 import { createLineDecoration } from "vscode-ext-decoration";
-import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
-import { Container } from "../vscode-numbered-bookmarks-core/src/container";
+import { DEFAULT_GUTTER_ICON_NUMBER_COLOR, DEFAULT_GUTTER_ICON_FILL_COLOR, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
 import { clearBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
 
-const STATE_SVG_VERSION = "numberedBookmarksSvgVersion";
-
-const getFillColor = (): string => {
-    const config = workspace
-      .getConfiguration("numberedBookmarks")
-      .inspect("gutterIconFillColor");
-    
-    return <string> (config.globalValue ? config.globalValue : config.defaultValue);
-  };
-  
-const getNumberColor = (): string => {
-    const config = workspace
-      .getConfiguration("numberedBookmarks")
-      .inspect("gutterIconNumberColor");
-      
-    return <string> (config.globalValue ? config.globalValue : config.defaultValue);
-};
-
-function getCurrentSvgVersion(): number {
-    return parseInt(Container.context.globalState.get(STATE_SVG_VERSION, "0"), 10);
-}
-
-export function updateSvgVersion(): void {
-    Container.context.globalState.update(
-        STATE_SVG_VERSION, 
-        getCurrentSvgVersion() + 1
-    );
-}
-
-// Need to udpate every time the color is changed
-export function updateBookmarkDecorationType(bookmarkDecorationType: TextEditorDecorationType[]) {
-    const v = getCurrentSvgVersion();
-    
-    for (let index = 0; index < MAX_BOOKMARKS; index++) {
-        if (undefined !== bookmarkDecorationType[ index ]) {
-            bookmarkDecorationType[ index ].dispose();
-        }
-        const gutterIconPath: string = Container.context.asAbsolutePath(`images/bookmark${index}-${v}.svg`);   
-
-        const overviewRulerColor = new ThemeColor('numberedBookmarks.overviewRuler');            
+export function createTextEditorDecorations(): TextEditorDecorationType[] {
+    const decorators: TextEditorDecorationType[] = [];
+    for (let number = 0; number <= 9; number++) {
+        const iconFillColor = workspace.getConfiguration("numberedBookmarks").get("gutterIconFillColor", DEFAULT_GUTTER_ICON_FILL_COLOR);
+        const iconNumberColor = workspace.getConfiguration("numberedBookmarks").get("gutterIconNumberColor", DEFAULT_GUTTER_ICON_NUMBER_COLOR);
+        const iconPath = Uri.parse(
+            `data:image/svg+xml,${encodeURIComponent(
+                `<svg xmlns="http://www.w3.org/2000/svg"> <g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"> <g fill="${iconFillColor}" stroke="null"><path d="M5.573914546804859,0.035123038858889274 C4.278736002284275,0.035123038858889274 3.228793828301391,0.9189688905396587 3.228793828301391,2.005394862080541 L3.228793828301391,15.844184705765102 L7.923495246522241,11.89191599548129 L12.618212313799981,15.844184705765102 L12.618212313799981,2.005394862080541 C12.618212313799981,0.9172430665361684 11.56845792849979,0.035123038858889274 10.273075946239627,0.035123038858889274 L5.573898897747966,0.035123038858889274 L5.573914546804859,0.035123038858889274 z" stroke="null"></path></g> </g> <text text-anchor="middle" alignment-baseline="middle" x="7.6" y="7.5" fill="${iconNumberColor}" font-weight="bold" font-size="9" font-family="Menlo, Monaco, monospace">${number}</text> </svg>`,
+            )}`,
+        );
+        
+        const overviewRulerColor = new ThemeColor('numberedBookmarks.overviewRuler');
         const lineBackground = new ThemeColor('numberedBookmarks.lineBackground');
         const lineBorder = new ThemeColor('numberedBookmarks.lineBorder');
 
-        bookmarkDecorationType[ index ] = createLineDecoration(lineBackground, lineBorder, 
-            OverviewRulerLane.Full, overviewRulerColor,
-            gutterIconPath);
+        decorators.push(createLineDecoration(lineBackground, lineBorder, OverviewRulerLane.Full, overviewRulerColor, iconPath));
     }
-}  
-
-// The only way to update the decorations after changing the color is to create a new file
-export function updateBookmarkSvg(triggerUpdateDecorations) {  
-    const v = getCurrentSvgVersion();
-    
-    if (fs.existsSync(Container.context.asAbsolutePath(`images/bookmark1-${v}.svg`))) {
-        return;
-    }
-    
-    const gutterIconFillColor = getFillColor();
-    const gutterIconNumberColor = getNumberColor();
-    const content = fs.readFileSync(Container.context.asAbsolutePath("images/bookmark.svg"), "utf8");
-    
-    for (let i = 0; i <= 9; i++) {
-        const svgContent = content
-            .replace("{{gutterIconFillColor}}", gutterIconFillColor)
-            .replace("{{gutterIconNumberColor}}", gutterIconNumberColor)
-            .replace("{{number}}", i.toString());
-            
-        try {    
-            fs.writeFileSync(Container.context.asAbsolutePath(`images/bookmark${i}-${v}.svg`), svgContent, {encoding: "utf8"}); 
-        } catch (err) {
-            window.showErrorMessage(`Can't write to ${err.path}`);            
-        }
-        
-        const bookmarkPath = Container.context.asAbsolutePath(`images/bookmark${i}-${v - 1}.svg`);        
-        if (fs.existsSync(bookmarkPath)) {
-            fs.unlinkSync(bookmarkPath);
-        }
-    }   
-
-    triggerUpdateDecorations(); 
+    return decorators;
 }
 
 export function updateDecorationsInActiveEditor(activeEditor: TextEditor, activeBookmark: File,
