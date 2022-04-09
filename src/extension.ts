@@ -26,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     Container.context = context;
 
-    registerWhatsNew();
+    await registerWhatsNew();
 
     let activeController: Controller;
     let controllers: Controller[] = [];
@@ -92,7 +92,7 @@ export async function activate(context: vscode.ExtensionContext) {
         }
     }, null, context.subscriptions);
     
-    vscode.workspace.onDidChangeConfiguration(event => {    
+    vscode.workspace.onDidChangeConfiguration(async event => {    
         if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
             || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
         ) {
