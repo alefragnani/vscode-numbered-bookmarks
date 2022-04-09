@@ -26,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     Container.context = context;
 
-    // registerWhatsNew();
+    await registerWhatsNew();
 
     let activeController: Controller;
     let controllers: Controller[] = [];
