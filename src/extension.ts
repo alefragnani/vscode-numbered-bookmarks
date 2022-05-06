@@ -105,7 +105,35 @@ export async function activate(context: vscode.ExtensionContext) {
             context.subscriptions.push(...bookmarkDecorationType);
         }
     }, null, context.subscriptions);
-    
+
+    vscode.workspace.onDidRenameFiles(async rename => {
+        
+        if (rename.files.length === 0) { return; } 
+
+        for (const file of rename.files) {
+            const files = activeController.files.map(file => file.path);
+            const stat = await vscode.workspace.fs.stat(file.newUri);
+
+            const fileRelativeOldPath = getRelativePath(activeController.workspaceFolder.uri.path, file.oldUri.path);
+            const fileRelativeNewPath = getRelativePath(activeController.workspaceFolder.uri.path, file.newUri.path);
+            
+            if (stat.type === vscode.FileType.File) {
+                if (files.includes(fileRelativeOldPath)) {
+                    activeController.updateFilePath(fileRelativeOldPath, fileRelativeNewPath);
+                }
+            }
+            if (stat.type === vscode.FileType.Directory) {
+                activeController.updateDirectoryPath(fileRelativeOldPath, fileRelativeNewPath);
+            }
+        }
+
+        saveWorkspaceState();
+        if (activeEditor) {
+            activeFile = activeController.fromUri(activeEditor.document.uri);
+            updateDecorations();
+        }
+    }, null, context.subscriptions);
+
     // Timeout
     function triggerUpdateDecorations() {
         if (timeout) {
