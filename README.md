@@ -7,15 +7,12 @@
   <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/vscode-numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
 </p>
 
-# What's new in Numbered Bookmarks 8.2
+# What's new in Numbered Bookmarks 8.3
 
+* Adds **Rename file** support
 * New **Sticky Engine**
 * Adds **Virtual Workspaces** support
 * Adds **Workspace Trust** support
-* Adds **Translation** support
-* Improved **Multi-root** support
-* Full **Remote Development** support
-* Adds **Cross-platform** support
 
 # Support
 

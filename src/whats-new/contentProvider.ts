@@ -16,6 +16,32 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.3.0", releaseDate: "April 2022" } });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "New setting to decide if should delete bookmark if associated line is deleted",
+                id: 27,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Update bookmark reference on file renames",
+                id: 120,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.CHANGED,
+            detail: {
+                message: "Replace custom icons with <i>on the fly</i> approach",
+                id: 129,
+                kind: IssueKind.Issue
+            }
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.2.0", releaseDate: "December 2021" } });
         changeLog.push({
             kind: ChangeLogKind.NEW,
@@ -198,86 +224,6 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
                 kind: IssueKind.Issue
             }
         });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.3.0", releaseDate: "January 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Support <b>submenu</b> for editor commands",
-                id: 84,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "New <b>setting</b> to decide if should show a warning when a bookmark is not defined",
-                id: 73,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Typo in extension's configuration title",
-                id: 89,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Shrink installation size",
-                id: 53,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Update <b>what-new</b> submodule API",
-                id: 85,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.2.0", releaseDate: "September 2020" } });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Use <b>vscode-ext-codicons</b> package",
-                id: 80,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Migrate from TSLint to ESLint",
-                id: 75,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "7.1.3", releaseDate: "August 2020" } });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Security Alert: elliptic",
-                id: 79,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Security Alert: lodash",
-                id: 77,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
-            }
-        });        
 
         return changeLog;
     }

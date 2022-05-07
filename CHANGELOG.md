@@ -1,3 +1,11 @@
+## [8.3.0] - 2022-05-07
+### Added
+- New setting to decide if should delete bookmark if associated line is deleted (issue [#27](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/27))
+- Update bookmark reference on file renames (issue [#120](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/120))
+
+### Changed
+- Replace custom icons with _on the fly_ approach (issue [#129](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/129))
+
 ## [8.2.0] - 2022-01-12
 ### Added
 - New **Sticky Engine** with improved support to Formatters, Multi-cursor and Undo operations (issue [#115](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/115))
