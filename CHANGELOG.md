@@ -1,3 +1,7 @@
+## [8.3.1] - 2022-07-17
+### Internal
+- Add GitHub Sponsors support (PR [#142](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/142))
+
 ## [8.3.0] - 2022-05-07
 ### Added
 - New setting to decide if should delete bookmark if associated line is deleted (issue [#27](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/27))

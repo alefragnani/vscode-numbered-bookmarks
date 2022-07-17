@@ -16,6 +16,12 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.3.1", releaseDate: "June 2022" } });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: "Add <b>GitHub Sponsors</b> support"
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.3.0", releaseDate: "April 2022" } });
         changeLog.push({
             kind: ChangeLogKind.NEW,
@@ -126,102 +132,6 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
                 id: 104,
                 kind: IssueKind.PR,
                 kudos: "dependabot"
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.0.3", releaseDate: "March 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Bookmarks on deleted/missing files breaks jumping",
-                id: 102,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Running the contributed command: <b>numberedBookmarks.toggleBookmark1</b> failed",
-                id: 100,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Toggling bookmarks on Untitled documents does not work bug",
-                id: 99,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.0.2", releaseDate: "February 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Command `Toggle` not found - loading empty workspace with random files",
-                id: 97,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.0.1", releaseDate: "February 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Extension does not activate on VS Code 1.50",
-                id: 98,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.0.0", releaseDate: "February 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Improvements on <b>multi-root</b> support",
-                id: 92,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Cross-platform support",
-                id: 94,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Support <b>Remote Development</b>",
-                id: 63,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Support column position",
-                id: 14,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Error using <b>Toggle Bookmark</b> command with <b>saveBookmarksInProject</b>",
-                id: 69,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Do not show welcome message if installed by Settings Sync",
-                id: 95,
-                kind: IssueKind.Issue
             }
         });
 
