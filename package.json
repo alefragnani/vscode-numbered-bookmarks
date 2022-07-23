@@ -43,7 +43,7 @@
         "url": "https://github.com/sponsors/alefragnani"
     },
     "activationEvents": [
-        "*"
+        "onStartupFinished"
     ],
     "main": "./dist/extension-node.js",
     "contributes": {
