@@ -35,8 +35,11 @@ export async function activate(context: vscode.ExtensionContext) {
     let activeEditor = vscode.window.activeTextEditor;
     let activeFile: File;         
 
-    let bookmarkDecorationType = createBookmarkDecorations();
-    context.subscriptions.push(...bookmarkDecorationType[0], ...bookmarkDecorationType[1]);
+    let bookmarkDecorationTypePairs = createBookmarkDecorations();
+    bookmarkDecorationTypePairs.forEach(decorator => {
+        context.subscriptions.push(decorator[0]); 
+        context.subscriptions.push(decorator[1]); 
+    });
 
     // load pre-saved bookmarks
     await loadWorkspaceState();
@@ -96,14 +99,18 @@ export async function activate(context: vscode.ExtensionContext) {
         if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
             || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
         ) {
-            if (bookmarkDecorationType.length > 0) {
-                bookmarkDecorationType.forEach(decor => {
-                    decor[0].dispose();
-                    decor[1].dispose();
+            if (bookmarkDecorationTypePairs.length > 0) {
+                bookmarkDecorationTypePairs.forEach(decorator => {
+                    decorator[0].dispose();
+                    decorator[1].dispose();
                 });
             }
-            bookmarkDecorationType = createBookmarkDecorations();
-            context.subscriptions.push(...bookmarkDecorationType[0], ...bookmarkDecorationType[1]);
+            bookmarkDecorationTypePairs = createBookmarkDecorations();
+            bookmarkDecorationTypePairs.forEach(decorator => {
+                context.subscriptions.push(decorator[0]); 
+                context.subscriptions.push(decorator[1]); 
+            });
+            // context.subscriptions.push(...bookmarkDecorationTypePairs[0], ...bookmarkDecorationTypePairs[1]);
         }
     }, null, context.subscriptions);
 
@@ -143,13 +150,13 @@ export async function activate(context: vscode.ExtensionContext) {
         timeout = setTimeout(updateDecorations, 100);
     }
 
-    function getDecoration(n: number): TextEditorDecorationTypePair {
-        return bookmarkDecorationType[ n ];
+    function getDecorationPair(n: number): TextEditorDecorationTypePair {
+        return bookmarkDecorationTypePairs[ n ];
     }
 
     // Evaluate (prepare the list) and DRAW
     function updateDecorations() {
-        updateDecorationsInActiveEditor(activeEditor, activeFile, getDecoration);
+        updateDecorationsInActiveEditor(activeEditor, activeFile, getDecorationPair);
     }
     
     // other commands

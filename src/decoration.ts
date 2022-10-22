@@ -51,7 +51,7 @@ export function createBookmarkDecorations(): TextEditorDecorationTypePair[] {
 }
 
 export function updateDecorationsInActiveEditor(activeEditor: TextEditor, activeBookmark: File,
-    getDecoration) {
+    getDecorationPair: (n: number) => TextEditorDecorationTypePair) {
     
     if (!activeEditor) {
         return;
@@ -70,7 +70,7 @@ export function updateDecorationsInActiveEditor(activeEditor: TextEditor, active
         for (let index = 0; index < MAX_BOOKMARKS; index++) {
             books = [];
             if (activeBookmark.bookmarks[ index ].line < 0) {
-                const decors = getDecoration(index);
+                const decors = getDecorationPair(index);
                 activeEditor.setDecorations(decors[0], books);
                 activeEditor.setDecorations(decors[1], books);
             } else {
@@ -78,7 +78,7 @@ export function updateDecorationsInActiveEditor(activeEditor: TextEditor, active
                 if (element.line < activeEditor.document.lineCount) {
                     const decoration = new Range(element.line, 0, element.line, 0);
                     books.push(decoration);
-                    const decors = getDecoration(index);
+                    const decors = getDecorationPair(index);
                     activeEditor.setDecorations(decors[1], books);
                     activeEditor.setDecorations(decors[0], books);
                 } else {
