@@ -18,7 +18,7 @@ import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
 import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
-import { updateDecorationsInActiveEditor, createTextEditorDecorations } from "./decoration";
+import { updateDecorationsInActiveEditor, createBookmarkDecorations, TextEditorDecorationTypePair } from "./decoration";
 import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
 import { updateStickyBookmarks } from "../vscode-numbered-bookmarks-core/src/sticky";
 
@@ -35,8 +35,8 @@ export async function activate(context: vscode.ExtensionContext) {
     let activeEditor = vscode.window.activeTextEditor;
     let activeFile: File;         
 
-    let bookmarkDecorationType = createTextEditorDecorations();
-    context.subscriptions.push(...bookmarkDecorationType);
+    let bookmarkDecorationType = createBookmarkDecorations();
+    context.subscriptions.push(...bookmarkDecorationType[0], ...bookmarkDecorationType[1]);
 
     // load pre-saved bookmarks
     await loadWorkspaceState();
@@ -98,11 +98,12 @@ export async function activate(context: vscode.ExtensionContext) {
         ) {
             if (bookmarkDecorationType.length > 0) {
                 bookmarkDecorationType.forEach(decor => {
-                    decor.dispose();
+                    decor[0].dispose();
+                    decor[1].dispose();
                 });
             }
-            bookmarkDecorationType = createTextEditorDecorations();
-            context.subscriptions.push(...bookmarkDecorationType);
+            bookmarkDecorationType = createBookmarkDecorations();
+            context.subscriptions.push(...bookmarkDecorationType[0], ...bookmarkDecorationType[1]);
         }
     }, null, context.subscriptions);
 
@@ -142,7 +143,7 @@ export async function activate(context: vscode.ExtensionContext) {
         timeout = setTimeout(updateDecorations, 100);
     }
 
-    function getDecoration(n: number): vscode.TextEditorDecorationType {
+    function getDecoration(n: number): TextEditorDecorationTypePair {
         return bookmarkDecorationType[ n ];
     }
 
