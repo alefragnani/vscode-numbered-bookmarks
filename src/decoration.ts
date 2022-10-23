@@ -25,7 +25,10 @@ function createGutterRulerDecoration(
     return window.createTextEditorDecorationType(decorationOptions);
 }
 
-export type TextEditorDecorationTypePair = [TextEditorDecorationType, TextEditorDecorationType];
+export interface TextEditorDecorationTypePair {
+    gutterDecoration: TextEditorDecorationType;
+    lineDecoration: TextEditorDecorationType;
+}
 
 export function createBookmarkDecorations(): TextEditorDecorationTypePair[] {
     const decorators: TextEditorDecorationTypePair[] = [];
@@ -44,8 +47,7 @@ export function createBookmarkDecorations(): TextEditorDecorationTypePair[] {
 
         const gutterDecoration = createGutterRulerDecoration(OverviewRulerLane.Full, overviewRulerColor, iconPath);
         const lineDecoration = createLineDecoration(lineBackground, lineBorder);
-        decorators.push([gutterDecoration, lineDecoration]);
-        // decorators.push(createLineDecoration(lineBackground, lineBorder, OverviewRulerLane.Full, overviewRulerColor, iconPath));
+        decorators.push( { gutterDecoration, lineDecoration });
     }
     return decorators;
 }
@@ -71,16 +73,16 @@ export function updateDecorationsInActiveEditor(activeEditor: TextEditor, active
             books = [];
             if (activeBookmark.bookmarks[ index ].line < 0) {
                 const decors = getDecorationPair(index);
-                activeEditor.setDecorations(decors[0], books);
-                activeEditor.setDecorations(decors[1], books);
+                activeEditor.setDecorations(decors.gutterDecoration, books);
+                activeEditor.setDecorations(decors.lineDecoration, books);
             } else {
                 const element = activeBookmark.bookmarks[ index ];
                 if (element.line < activeEditor.document.lineCount) {
                     const decoration = new Range(element.line, 0, element.line, 0);
                     books.push(decoration);
                     const decors = getDecorationPair(index);
-                    activeEditor.setDecorations(decors[1], books);
-                    activeEditor.setDecorations(decors[0], books);
+                    activeEditor.setDecorations(decors.gutterDecoration, books);
+                    activeEditor.setDecorations(decors.lineDecoration, books);
                 } else {
                     invalids.push(index);
                 }

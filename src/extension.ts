@@ -37,8 +37,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
     let bookmarkDecorationTypePairs = createBookmarkDecorations();
     bookmarkDecorationTypePairs.forEach(decorator => {
-        context.subscriptions.push(decorator[0]); 
-        context.subscriptions.push(decorator[1]); 
+        context.subscriptions.push(decorator.gutterDecoration); 
+        context.subscriptions.push(decorator.lineDecoration); 
     });
 
     // load pre-saved bookmarks
@@ -101,14 +101,14 @@ export async function activate(context: vscode.ExtensionContext) {
         ) {
             if (bookmarkDecorationTypePairs.length > 0) {
                 bookmarkDecorationTypePairs.forEach(decorator => {
-                    decorator[0].dispose();
-                    decorator[1].dispose();
+                    decorator.gutterDecoration.dispose();
+                    decorator.lineDecoration.dispose();
                 });
             }
             bookmarkDecorationTypePairs = createBookmarkDecorations();
             bookmarkDecorationTypePairs.forEach(decorator => {
-                context.subscriptions.push(decorator[0]); 
-                context.subscriptions.push(decorator[1]); 
+                context.subscriptions.push(decorator.gutterDecoration); 
+                context.subscriptions.push(decorator.lineDecoration); 
             });
             // context.subscriptions.push(...bookmarkDecorationTypePairs[0], ...bookmarkDecorationTypePairs[1]);
         }
