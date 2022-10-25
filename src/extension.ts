@@ -18,7 +18,7 @@ import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
 import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
-import { updateDecorationsInActiveEditor, createTextEditorDecorations } from "./decoration";
+import { updateDecorationsInActiveEditor, createBookmarkDecorations, TextEditorDecorationTypePair } from "./decoration";
 import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
 import { updateStickyBookmarks } from "../vscode-numbered-bookmarks-core/src/sticky";
 
@@ -35,8 +35,11 @@ export async function activate(context: vscode.ExtensionContext) {
     let activeEditor = vscode.window.activeTextEditor;
     let activeFile: File;         
 
-    let bookmarkDecorationType = createTextEditorDecorations();
-    context.subscriptions.push(...bookmarkDecorationType);
+    let bookmarkDecorationTypePairs = createBookmarkDecorations();
+    bookmarkDecorationTypePairs.forEach(decorator => {
+        context.subscriptions.push(decorator.gutterDecoration); 
+        context.subscriptions.push(decorator.lineDecoration); 
+    });
 
     // load pre-saved bookmarks
     await loadWorkspaceState();
@@ -96,13 +99,18 @@ export async function activate(context: vscode.ExtensionContext) {
         if (event.affectsConfiguration("numberedBookmarks.gutterIconFillColor") 
             || event.affectsConfiguration("numberedBookmarks.gutterIconNumberColor")    
         ) {
-            if (bookmarkDecorationType.length > 0) {
-                bookmarkDecorationType.forEach(decor => {
-                    decor.dispose();
+            if (bookmarkDecorationTypePairs.length > 0) {
+                bookmarkDecorationTypePairs.forEach(decorator => {
+                    decorator.gutterDecoration.dispose();
+                    decorator.lineDecoration.dispose();
                 });
             }
-            bookmarkDecorationType = createTextEditorDecorations();
-            context.subscriptions.push(...bookmarkDecorationType);
+            bookmarkDecorationTypePairs = createBookmarkDecorations();
+            bookmarkDecorationTypePairs.forEach(decorator => {
+                context.subscriptions.push(decorator.gutterDecoration); 
+                context.subscriptions.push(decorator.lineDecoration); 
+            });
+            // context.subscriptions.push(...bookmarkDecorationTypePairs[0], ...bookmarkDecorationTypePairs[1]);
         }
     }, null, context.subscriptions);
 
@@ -142,13 +150,13 @@ export async function activate(context: vscode.ExtensionContext) {
         timeout = setTimeout(updateDecorations, 100);
     }
 
-    function getDecoration(n: number): vscode.TextEditorDecorationType {
-        return bookmarkDecorationType[ n ];
+    function getDecorationPair(n: number): TextEditorDecorationTypePair {
+        return bookmarkDecorationTypePairs[ n ];
     }
 
     // Evaluate (prepare the list) and DRAW
     function updateDecorations() {
-        updateDecorationsInActiveEditor(activeEditor, activeFile, getDecoration);
+        updateDecorationsInActiveEditor(activeEditor, activeFile, getDecorationPair);
     }
     
     // other commands
