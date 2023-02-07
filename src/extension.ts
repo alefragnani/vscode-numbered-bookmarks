@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import { Position, TextDocument, Uri } from "vscode";
+import { l10n, Position, TextDocument, Uri } from "vscode";
 
 import { Bookmark, BookmarkQuickPickItem } from "../vscode-numbered-bookmarks-core/src/bookmark";
 import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
@@ -196,7 +196,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("numberedBookmarks.list", () => {
         // no bookmark
         if (!hasBookmarks(activeFile)) {
-            vscode.window.showInformationMessage("No Bookmarks found");
+            vscode.window.showInformationMessage(l10n.t("No Bookmarks found"));
             return;
         }
 
@@ -218,7 +218,7 @@ export async function activate(context: vscode.ExtensionContext) {
         // pick one
         const currentPosition: Position = vscode.window.activeTextEditor.selection.active;
         const options = <vscode.QuickPickOptions> {
-            placeHolder: "Type a line number or a piece of code to navigate to",
+            placeHolder: l10n.t("Type a line number or a piece of code to navigate to"),
             matchOnDescription: true,
             matchOnDetail: true,
             onDidSelectItem: item => {
@@ -257,7 +257,7 @@ export async function activate(context: vscode.ExtensionContext) {
             if (someFileHasBookmark) break;
         }
         if (!someFileHasBookmark) {
-            vscode.window.showInformationMessage("No Bookmarks found");
+            vscode.window.showInformationMessage(l10n.t("No Bookmarks found"));
             return;
         }
 
@@ -351,7 +351,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 });
 
                 const options = <vscode.QuickPickOptions> {
-                    placeHolder: "Type a line number or a piece of code to navigate to",
+                    placeHolder: l10n.t("Type a line number or a piece of code to navigate to"),
                     matchOnDescription: true,
                     onDidSelectItem: item => {
 
@@ -572,7 +572,7 @@ export async function activate(context: vscode.ExtensionContext) {
                     
                     if (!found) {
                         if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("showBookmarkNotDefinedWarning", false)) {
-                            vscode.window.showWarningMessage("The Bookmark " + n + " is not defined");
+                            vscode.window.showWarningMessage(l10n.t("The Bookmark {0} is not defined", n));
                         }
                         return;
                     }
@@ -584,13 +584,13 @@ export async function activate(context: vscode.ExtensionContext) {
             default: // "false"
                 // is it already set?
                 if (activeFile.bookmarks.length === 0) {
-                    vscode.window.showInformationMessage("No Bookmark found");
+                    vscode.window.showInformationMessage(l10n.t("No Bookmarks found"));
                     return;
                 }
 
                 if (activeFile.bookmarks[ n ].line < 0) {
                     if (vscode.workspace.getConfiguration("numberedBookmarks").get<boolean>("showBookmarkNotDefinedWarning", false)) {
-                        vscode.window.showWarningMessage("The Bookmark " + n + " is not defined");
+                        vscode.window.showWarningMessage(l10n.t("The Bookmark {0} is not defined", n));
                     }
                     return;
                 }
