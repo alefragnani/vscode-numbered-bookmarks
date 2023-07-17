@@ -37,5 +37,18 @@
     "numberedBookmarks.configuration.gutterIconNumberColor.description": "Specify the color to use on gutter icon (number color)",
     "numberedBookmarks.colors.lineBackground.description": "Background color for the bookmarked line",
     "numberedBookmarks.colors.lineBorder.description": "Background color for the border around the bookmarked line",
-    "numberedBookmarks.colors.overviewRuler.description": "Overview ruler marker color for bookmarks"
+    "numberedBookmarks.colors.overviewRuler.description": "Overview ruler marker color for bookmarks",
+    "numberedBookmarks.walkthroughs.title": "Get Started with Numbered Bookmarks",
+    "numberedBookmarks.walkthroughs.description": "Learn more about Numbered Bookmarks to optimize your workflow",
+    "numberedBookmarks.walkthroughs.toggle.title": "Toggle Numbered Bookmarks",
+    "numberedBookmarks.walkthroughs.toggle.description": "Easily Mark/Unmark Numbered Bookmarks at any position.\nAn icon is added to both the gutter and overview ruler to easily identify the lines with Numbered Bookmarks.",
+    "numberedBookmarks.walkthroughs.navigateToNumberedBookmarks.title": "Navigate to Numbered Bookmarks",
+    "numberedBookmarks.walkthroughs.navigateToNumberedBookmarks.description": "Quickly jump between bookmarked lines.\nSearch numbered bookmarks using the line's content and/or position.",
+    "numberedBookmarks.walkthroughs.inspiredInDelphiButOpenToOthers.title": "Inspired in Delphi, but open to others",
+    "numberedBookmarks.walkthroughs.inspiredInDelphiButOpenToOthers.description": "The extension was inspired in Delphi, because I was a Delphi developer for a long time, and love it's bookmarks, but it supports different editors as well.",
+    "numberedBookmarks.walkthroughs.workingWithRemotes.title": "Working with Remotes",
+    "numberedBookmarks.walkthroughs.workingWithRemotes.description": "The extension support [Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) scenarios. Even installed locally, you can use Numbered Bookmarks in WSL, Containers, SSH and Codespaces.",
+    "numberedBookmarks.walkthroughs.customizingAppearance.title": "Customizing Appearance",
+    "numberedBookmarks.walkthroughs.customizingAppearance.description": "Customize how Numbered Bookmarks are presented, its icon, line and overview ruler\n[Open Settings - Gutter Icon](command:workbench.action.openSettings?%5B%22numberedBookmarks.gutterIcon%22%5D)\n[Open Settings - Line](command:workbench.action.openSettingsJson?%5B%22workbench.colorCustomizations%22%5D)"
+
 }
