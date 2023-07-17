@@ -8,7 +8,7 @@ Value | Explanation
 --------- | ---------
 `false` | _default_ - same behavior as today
 `replace` | you can't have the same numbered bookmark in different files
-`allowDuplicates` | you can have the same numbered bookmark in different files, and if you jump repeatedly to the same number, it will look on other files
+`allowDuplicates` | you can have the same numbered bookmark in different files, and if you jump repeatedly to the same number, it will look on other files.
 
 ### IntelliJ / UltraEdit developers
 
