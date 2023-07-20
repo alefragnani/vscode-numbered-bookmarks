@@ -16,6 +16,75 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.4.0", releaseDate: "June 2023" } });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Add <b>Getting Started/Walkthrough</b> support",
+                id: 117,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Add <b>Localization (l10n)</b> support",
+                id: 151,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.CHANGED,
+            detail: {
+                message: "Avoid What's New when using Gitpod",
+                id: 168,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.CHANGED,
+            detail: {
+                message: "Avoid What's New when installing lower versions",
+                id: 168,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.FIXED,
+            detail: {
+                message: "Repeated gutter icon on line wrap",
+                id: 149,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Improve Startup speed",
+                id: 145,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Security Alert: webpack",
+                id: 156,
+                kind: IssueKind.PR,
+                kudos: "dependabot"
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Security Alert: terser",
+                id: 143,
+                kind: IssueKind.PR,
+                kudos: "dependabot"
+            }
+        });
+
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.3.1", releaseDate: "June 2022" } });
         changeLog.push({
             kind: ChangeLogKind.INTERNAL,
@@ -71,67 +140,6 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
                 message: "Bookmarks removes on Undo",
                 id: 47,
                 kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.1.0", releaseDate: "May 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Support <b>Virtual Workspaces</b>",
-                id: 107,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Support <b>Workspace Trust</b>",
-                id: 108,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Support Translation",
-                id: 112,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Return to line/column when cancel List or List from All Files",
-                id: 96,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Security Alert: lodash",
-                id: 109,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Security Alert: ssri",
-                id: 106,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Security Alert: y18n",
-                id: 104,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
             }
         });
 

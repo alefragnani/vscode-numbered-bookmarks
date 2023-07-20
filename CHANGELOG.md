@@ -1,3 +1,21 @@
+## [8.4.0] - 2023-07-19
+### Added
+- Getting Started/Walkthrough (issue [#117](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/117))
+- Localization (l10n) support (issue [#151](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/151))
+
+### Changed
+- Avoid What's New when using Gitpod (issue [#168](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/168))
+- Avoid What's New when installing lower versions (issue [#168](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/168))
+
+### Fixed
+- Repeated gutter icon on line wrap (issue [#149](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/149))
+
+### Internal
+- Switch initialization to `onStartupFinished` API (issue [#145](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/145))
+- Security Alert: webpack (dependabot [PR #156](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/156))
+- Security Alert: terser (dependabot [PR #143](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/143))
+
+
 ## [8.3.1] - 2022-07-17
 ### Internal
 - Add GitHub Sponsors support (PR [#142](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/142))
