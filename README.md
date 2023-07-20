@@ -1,7 +1,3 @@
-[![](https://vsmarketplacebadge.apphb.com/version-short/alefragnani.numbered-bookmarks.svg)](https://marketplace.visualstudio.com/items?itemName=alefragnani.numbered-bookmarks)
-[![](https://vsmarketplacebadge.apphb.com/downloads-short/alefragnani.numbered-bookmarks.svg)](https://marketplace.visualstudio.com/items?itemName=alefragnani.numbered-bookmarks)
-[![](https://vsmarketplacebadge.apphb.com/rating-short/alefragnani.numbered-bookmarks.svg)](https://marketplace.visualstudio.com/items?itemName=alefragnani.numbered-bookmarks)
-
 <p align="center">
   <br />
   <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/vscode-numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
