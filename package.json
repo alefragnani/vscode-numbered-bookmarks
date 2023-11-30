@@ -232,6 +232,19 @@
                     "type": "string",
                     "default": "#000",
                     "description": "%numberedBookmarks.configuration.gutterIconNumberColor.description%"
+                },
+                "numberedBookmarks.revealLocation": {
+                    "type": "string",
+                    "default": "center",
+                    "description": "%numberedBookmarks.configuration.revealLocation.description%",
+                    "enum": [
+                        "top",
+                        "center"
+                    ],
+                    "enumDescriptions": [
+                        "%numberedBookmarks.configuration.revealLocation.enumDescriptions.top%",
+                        "%numberedBookmarks.configuration.revealLocation.enumDescriptions.center%"
+                    ]
                 }
             }
         },

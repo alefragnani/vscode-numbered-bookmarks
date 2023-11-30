@@ -35,6 +35,9 @@
     "numberedBookmarks.configuration.navigateThroughAllFiles.description": "Permite que a navegação apresente Bookmarks em todos os arquivos do projeto, ao invés de apenas no arquivo corrente",
     "numberedBookmarks.configuration.gutterIconFillColor.description": "Cor de fundo do ícone de Bookmark",
     "numberedBookmarks.configuration.gutterIconNumberColor.description": "Cor do número no ícone de Bookmark",
+    "numberedBookmarks.configuration.revealLocation.description": "Especifica o local onde a linha com bookmark será exibida",
+    "numberedBookmarks.configuration.revealLocation.enumDescriptions.top": "Exibe a linha com bookmark no topo do editor",
+    "numberedBookmarks.configuration.revealLocation.enumDescriptions.center": "Exibe a linha com bookmark no centro do editor",
     "numberedBookmarks.colors.lineBackground.description": "Cor de fundo para linha com Bookmark",
     "numberedBookmarks.colors.lineBorder.description": "Cor de fundo da borda ao redor da linha com Bookmark",
     "numberedBookmarks.colors.overviewRuler.description": "Cor do marcador de régua com Bookmarks"
