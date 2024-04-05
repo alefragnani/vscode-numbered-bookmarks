@@ -3,8 +3,9 @@
   <a title="Learn more about Numbered Bookmarks" href="http://github.com/alefragnani/vscode-numbered-bookmarks"><img src="https://raw.githubusercontent.com/alefragnani/vscode-numbered-bookmarks/master/images/vscode-numbered-bookmarks-logo-readme.png" alt="Numbered Bookmarks Logo" width="70%" /></a>
 </p>
 
-# What's new in Numbered Bookmarks 8.4
+# What's new in Numbered Bookmarks 8.5
 
+* Published to **Open VSX**
 * Adds **Getting Started / Walkthrough**
 * Adds **Rename file** support
 * New **Sticky Engine**

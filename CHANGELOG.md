@@ -1,3 +1,8 @@
+## [8.5.0] - 2024-04-04
+### Added
+- Published to Open VSX (issue [#147](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/147))
+- New setting to choose viewport position on navigation (issue [#141](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/141))
+
 ## [8.4.0] - 2023-07-19
 ### Added
 - Getting Started/Walkthrough (issue [#117](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/117))

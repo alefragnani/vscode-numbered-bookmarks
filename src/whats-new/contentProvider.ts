@@ -16,6 +16,24 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.5.0", releaseDate: "March 2024" } });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Published to Open VSX",
+                id: 147,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "New setting to choose viewport position on navigation",
+                id: 141,
+                kind: IssueKind.Issue
+            }
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.4.0", releaseDate: "June 2023" } });
         changeLog.push({
             kind: ChangeLogKind.NEW,
@@ -113,32 +131,6 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
             detail: {
                 message: "Replace custom icons with <i>on the fly</i> approach",
                 id: 129,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "8.2.0", releaseDate: "December 2021" } });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "New <b>Sticky Engine</b> with improved support to Formatters, Multi-cursor and Undo operations",
-                id: 115,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.CHANGED,
-            detail: {
-                message: "Removed deprecated setting <b>backgroundLineColor</b>",
-                id: 116,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Bookmarks removes on Undo",
-                id: 47,
                 kind: IssueKind.Issue
             }
         });
