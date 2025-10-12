@@ -6,7 +6,7 @@
 import { Uri, workspace, WorkspaceFolder } from "vscode";
 import { Bookmark, BookmarkQuickPickItem } from "./bookmark";
 import { MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "./constants";
-import { uriExists } from "./utils/fs";
+import { uriExists } from "../utils/fs";
 import { File } from "./file";
 
 export function isBookmarkDefined(bookmark: Bookmark): boolean {

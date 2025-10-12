@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 import { workspace, window, WorkspaceFolder, l10n } from "vscode";
-import { Container } from "./container";
-import { Controller } from "./controller";
-import { appendPath, createDirectoryUri, readFileUri, uriExists, writeFileUri } from "./utils/fs";
+import { Container } from "../core/container";
+import { Controller } from "../core/controller";
+import { appendPath, createDirectoryUri, readFileUri, uriExists, writeFileUri } from "../utils/fs";
 
 export function canSaveBookmarksInProject(): boolean {
     let saveBookmarksInProject: boolean = workspace.getConfiguration("numberedBookmarks").get("saveBookmarksInProject", false);

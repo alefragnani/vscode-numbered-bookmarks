@@ -5,9 +5,9 @@
 
 import { DecorationRenderOptions, OverviewRulerLane, Range, TextEditor, TextEditorDecorationType, ThemeColor, Uri, workspace, window } from "vscode";
 import { createLineDecoration } from "vscode-ext-decoration";
-import { DEFAULT_GUTTER_ICON_NUMBER_COLOR, DEFAULT_GUTTER_ICON_FILL_COLOR, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "./constants";
-import { File } from "./file";
-import { clearBookmarks } from "./operations";
+import { DEFAULT_GUTTER_ICON_NUMBER_COLOR, DEFAULT_GUTTER_ICON_FILL_COLOR, MAX_BOOKMARKS, NO_BOOKMARK_DEFINED } from "../core/constants";
+import { File } from "../core/file";
+import { clearBookmarks } from "../core/operations";
 
 function createGutterRulerDecoration(
     overviewRulerLane?: OverviewRulerLane,

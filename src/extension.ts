@@ -6,21 +6,21 @@
 import * as vscode from "vscode";
 import { l10n, Position, TextDocument, Uri } from "vscode";
 
-import { Bookmark, BookmarkQuickPickItem } from "./bookmark";
-import { NO_BOOKMARK_DEFINED } from "./constants";
-import { Controller } from "./controller";
-import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "./operations";
+import { Bookmark, BookmarkQuickPickItem } from "./core/bookmark";
+import { NO_BOOKMARK_DEFINED } from "./core/constants";
+import { Controller } from "./core/controller";
+import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "./core/operations";
 import { revealPosition, previewPositionInDocument, revealPositionInDocument } from "./utils/reveal";
-import { Sticky } from "./stickyLegacy";
-import { loadBookmarks, saveBookmarks } from "./workspaceState";
-import { Container } from "./container";
+import { Sticky } from "./sticky/stickyLegacy";
+import { loadBookmarks, saveBookmarks } from "./storage/workspaceState";
+import { Container } from "./core/container";
 import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
 import { appendPath, getRelativePath, parsePosition } from "./utils/fs";
-import { File } from "./file";
-import { updateDecorationsInActiveEditor, createBookmarkDecorations, TextEditorDecorationTypePair } from "./decoration";
+import { File } from "./core/file";
+import { updateDecorationsInActiveEditor, createBookmarkDecorations, TextEditorDecorationTypePair } from "./decoration/decoration";
 import { pickController } from "./quickpick/controllerPicker";
-import { updateStickyBookmarks } from "./sticky";
+import { updateStickyBookmarks } from "./sticky/sticky";
 
 export async function activate(context: vscode.ExtensionContext) {
 

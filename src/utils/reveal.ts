@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import { Selection, Tab, TabInputText, TextEditorRevealType, Uri, ViewColumn, window, workspace } from "vscode";
-import { Bookmark } from "../bookmark";
+import { Bookmark } from "../core/bookmark";
 import { getRevealLocationConfig } from "./revealLocation";
 
 export function revealLine(line: number, directJump?: boolean) {

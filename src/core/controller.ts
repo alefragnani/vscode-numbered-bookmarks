@@ -7,7 +7,7 @@ import os = require("os");
 import path = require("path");
 import { Uri, WorkspaceFolder } from "vscode";
 import { File } from "./file";
-import { getFileUri, getRelativePath } from "./utils/fs";
+import { getFileUri, getRelativePath } from "../utils/fs";
 import { createFile } from "./file";
 import { isBookmarkDefined } from "./operations";
 import { UNTITLED_SCHEME } from "./constants";

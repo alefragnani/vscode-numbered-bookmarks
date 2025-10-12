@@ -7,10 +7,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import { NO_BOOKMARK_DEFINED } from "./constants";
-import { Controller } from "./controller";
-import { File } from "./file";
-import { indexOfBookmark } from "./operations";
+import { NO_BOOKMARK_DEFINED } from "../core/constants";
+import { Controller } from "../core/controller";
+import { File } from "../core/file";
+import { indexOfBookmark } from "../core/operations";
 
 export function updateStickyBookmarks(event: vscode.TextDocumentChangeEvent,
     activeBookmark: File, activeEditor: vscode.TextEditor, controller: Controller): boolean {

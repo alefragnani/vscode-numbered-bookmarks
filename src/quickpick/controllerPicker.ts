@@ -6,7 +6,7 @@
 import path = require("path");
 import { l10n, QuickPickItem, window } from "vscode";
 import { codicons } from "vscode-ext-codicons";
-import { Controller } from "../controller";
+import { Controller } from "../core/controller";
 
 interface ControllerQuickPickItem extends QuickPickItem {
     controller: Controller;

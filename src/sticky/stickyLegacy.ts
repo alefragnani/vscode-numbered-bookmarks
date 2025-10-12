@@ -7,9 +7,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import { File } from "./file";
-import { NO_BOOKMARK_DEFINED } from "./constants";
-import { indexOfBookmark } from "./operations";
+import { File } from "../core/file";
+import { NO_BOOKMARK_DEFINED } from "../core/constants";
+import { indexOfBookmark } from "../core/operations";
 
 export class Sticky {
     
