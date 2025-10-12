@@ -6,21 +6,21 @@
 import * as vscode from "vscode";
 import { l10n, Position, TextDocument, Uri } from "vscode";
 
-import { Bookmark, BookmarkQuickPickItem } from "../vscode-numbered-bookmarks-core/src/bookmark";
-import { NO_BOOKMARK_DEFINED } from "../vscode-numbered-bookmarks-core/src/constants";
-import { Controller } from "../vscode-numbered-bookmarks-core/src/controller";
-import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "../vscode-numbered-bookmarks-core/src/operations";
-import { revealPosition, previewPositionInDocument, revealPositionInDocument } from "../vscode-numbered-bookmarks-core/src/utils/reveal";
-import { Sticky } from "../vscode-numbered-bookmarks-core/src/stickyLegacy";
-import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/src/workspaceState";
-import { Container } from "../vscode-numbered-bookmarks-core/src/container";
+import { Bookmark, BookmarkQuickPickItem } from "./bookmark";
+import { NO_BOOKMARK_DEFINED } from "./constants";
+import { Controller } from "./controller";
+import { clearBookmarks, hasBookmarks, indexOfBookmark, isBookmarkDefined, listBookmarks } from "./operations";
+import { revealPosition, previewPositionInDocument, revealPositionInDocument } from "./utils/reveal";
+import { Sticky } from "./stickyLegacy";
+import { loadBookmarks, saveBookmarks } from "./workspaceState";
+import { Container } from "./container";
 import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
-import { appendPath, getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
-import { File } from "../vscode-numbered-bookmarks-core/src/file";
+import { appendPath, getRelativePath, parsePosition } from "./utils/fs";
+import { File } from "./file";
 import { updateDecorationsInActiveEditor, createBookmarkDecorations, TextEditorDecorationTypePair } from "./decoration";
-import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
-import { updateStickyBookmarks } from "../vscode-numbered-bookmarks-core/src/sticky";
+import { pickController } from "./quickpick/controllerPicker";
+import { updateStickyBookmarks } from "./sticky";
 
 export async function activate(context: vscode.ExtensionContext) {
 
