@@ -16,7 +16,7 @@ import { loadBookmarks, saveBookmarks } from "../vscode-numbered-bookmarks-core/
 import { Container } from "../vscode-numbered-bookmarks-core/src/container";
 import { registerWhatsNew } from "./whats-new/commands";
 import { codicons } from "vscode-ext-codicons";
-import { getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
+import { appendPath, getRelativePath, parsePosition } from "../vscode-numbered-bookmarks-core/src/utils/fs";
 import { File } from "../vscode-numbered-bookmarks-core/src/file";
 import { updateDecorationsInActiveEditor, createBookmarkDecorations, TextEditorDecorationTypePair } from "./decoration";
 import { pickController } from "../vscode-numbered-bookmarks-core/src/quickpick/controllerPicker";
@@ -555,7 +555,8 @@ export async function activate(context: vscode.ExtensionContext) {
                     const element = activeController.files[ index ];
                     if ((!found) && (element.path !== activeFile.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
                         found = true;
-                        await revealPositionInDocument(element.bookmarks[n], activeController.getFileUri(element));
+                        const uriDocument = appendPath(activeController.workspaceFolder.uri, element.path);
+                        await revealPositionInDocument(element.bookmarks[n], uriDocument);
                         return;
                     }
                 }
@@ -565,7 +566,8 @@ export async function activate(context: vscode.ExtensionContext) {
                         const element = activeController.files[ index ];
                         if ((!found) && (element.path !== activeFile.path) && (isBookmarkDefined(element.bookmarks[ n ]))) {
                             found = true;
-                            await revealPositionInDocument(element.bookmarks[n], activeController.getFileUri(element));
+                            const uriDocument = appendPath(activeController.workspaceFolder.uri, element.path);
+                            await revealPositionInDocument(element.bookmarks[n], uriDocument);
                             return;
                         }
                     }
