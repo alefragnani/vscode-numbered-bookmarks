@@ -2,7 +2,7 @@
     "name": "numbered-bookmarks",
     "displayName": "Numbered Bookmarks",
     "description": "Mark lines and jump to them, in Delphi style",
-    "version": "8.5.0",
+    "version": "9.0.0",
     "publisher": "alefragnani",
     "engines": {
         "vscode": "^1.73.0"
@@ -558,7 +558,7 @@
         "webpack": "webpack --mode development",
         "webpack-dev": "webpack --mode development --watch",
         "compile": "tsc -p ./",
-        "lint": "eslint -c package.json --ext .ts src vscode-numbered-bookmarks-core vscode-whats-new",
+    "lint": "eslint -c package.json --ext .ts src vscode-whats-new",
         "pretest": "npm run compile && npm run lint",
         "test-compile": "tsc -p ./ && npm run webpack",
         "just-test": "node ./out/src/test/runTest.js",

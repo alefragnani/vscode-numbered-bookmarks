@@ -1,3 +1,16 @@
+## [9.0.0] - 2025-12-13
+### Added
+- Fully Open Source again (issue [#131](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/131))
+
+### Fixed
+- Reuse opened file (issue [#180](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/180))
+
+### Internal
+- Security Alert: word-wrap (dependabot [PR #167](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/167))
+- Security Alert: webpack (dependabot [PR #178](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/178))
+- Security Alert: serialize-javascript (dependabot [PR #183](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/183))
+- Security Alert: braces (dependabot [PR #176](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/176))
+
 ## [8.5.0] - 2024-04-04
 ### Added
 - Published to Open VSX (issue [#147](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/147))

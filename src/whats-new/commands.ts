@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import { commands } from "vscode";
-import { Container } from "../../vscode-numbered-bookmarks-core/src/container";
+import { Container } from "../core/container";
 import { WhatsNewManager } from "../../vscode-whats-new/src/Manager";
 import { NumberedBookmarksContentProvider, NumberedBookmarksSocialMediaProvider } from "./contentProvider";
 
