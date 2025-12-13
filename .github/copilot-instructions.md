@@ -129,7 +129,7 @@ Key settings in `package.json`:
 
 ### Development
 - ESLint with `eslint-config-vscode-ext`
-- TypeScript 4.4.4
+- TypeScript ^4.4.4
 - Webpack 5 with ts-loader and terser plugin
 
 ## Common Tasks
