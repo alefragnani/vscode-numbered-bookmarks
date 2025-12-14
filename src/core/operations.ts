@@ -26,6 +26,7 @@ export function hasBookmarks(file: File): boolean {
 
 export function listBookmarks(file: File, workspaceFolder: WorkspaceFolder) {
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
 
         if (!hasBookmarks(file)) {

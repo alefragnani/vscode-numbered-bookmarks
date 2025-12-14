@@ -22,19 +22,27 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: true
 
       # Runs a set of commands using the runners shell
       - name: Install Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 10.x
+          node-version: 20.x
+          cache: 'npm'
 
       # Runs the tests
-      - run: npm install
-      - name: Run tests
-        uses: GabrielBB/xvfb-action@v1.2
+      - name: Cache VS Code downloads
+        uses: actions/cache@v4
         with:
-          run: npm test
+          path: .vscode-test
+          key: vscode-test-${{ matrix.os }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            vscode-test-${{ matrix.os }}-
+      - run: npm ci
+      - run: xvfb-run -a npm test
+        if: runner.os == 'Linux'
+      - run: npm test
+        if: runner.os != 'Linux'
