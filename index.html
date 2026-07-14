@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Numbered Bookmarks for Visual Studio Code adds Delphi-style numbered bookmarks, quick navigation, project persistence, sticky tracking, multi-root support, and remote-ready workflows.">
+    <title>Numbered Bookmarks for VS Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <a class="brand" href="#top" aria-label="Numbered Bookmarks home">
+                <img src="images/icon.png" alt="Numbered Bookmarks icon" class="brand-mark">
+                <span class="brand-copy">
+                    <strong>Numbered Bookmarks</strong>
+                    <!-- <span>for VS Code</span> -->
+                </span>
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="top-nav" aria-label="Open menu" title="Open menu">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+            <nav id="top-nav" class="top-nav" aria-label="Primary navigation">
+                <a href="#features">Features</a>
+                <a href="#faq">FAQ</a>
+                <a href="#donate"><i class="fa-solid fa-heart" aria-hidden="true"></i> Donate</a>
+            </nav>
+            <div class="header-actions">
+                <a href="https://github.com/alefragnani/vscode-numbered-bookmarks" aria-label="GitHub" title="GitHub">
+                    <i class="fa-brands fa-github" aria-hidden="true" style="font-size: 24px;"></i>
+                </a>
+            </div>
+        </header>
+
+        <main id="top">
+            <section class="hero">
+                <div class="hero-copy">
+                    <p class="eyebrow">Visual Studio Code Extension</p>
+                    <h1>Mark it. Jump to it. Delphi style.</h1>
+                    <p class="hero-text">
+                        Numbered Bookmarks brings Delphi-style bookmarks to VS Code so you can mark positions,
+                        jump back instantly, list bookmarks across files, and keep working even as files change.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="https://marketplace.visualstudio.com/items?itemName=alefragnani.numbered-bookmarks">Get it on Marketplace</a>
+                        <a class="button button-muted" href="https://open-vsx.org/extension/alefragnani/numbered-bookmarks">Open VSX</a>
+                        <a class="button button-muted" href="https://github.com/alefragnani/vscode-numbered-bookmarks">GitHub</a>
+                    </div>
+                    <ul class="hero-points" aria-label="Numbered Bookmarks highlights">
+                        <li>Toggle and jump bookmarks numbered 0 to 9</li>
+                        <li>List bookmarks from the current file or all files</li>
+                        <li>Save bookmarks in the project, keep them across sessions, and use them remotely</li>
+                    </ul>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card hero-card-shot">
+                        <img src="images/numbered-bookmarks-toggle.png" alt="Toggle">
+                    </div>
+                </div>
+            </section>
+
+            <section class="announcement" id="whats-new">
+                <p class="eyebrow">What&apos;s new in 9</p>
+                <div class="announcement-grid">
+                    <article>
+                        <h2>A modern release focused on open publishing and better workflows.</h2>
+                        <p>The current release expands distribution, and improves the everyday bookmark flow.</p>
+                    </article>
+                    <ul>
+                        <li>Published to Open VSX</li>
+                        <li>Getting Started walkthrough included</li>
+                        <li>Rename file support added</li>
+                        <li>New sticky engine enabled</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="feature-index" id="features">
+                <div class="section-heading">
+                    <p class="eyebrow">Features</p>
+                    <h2>Jump to the key capabilities.</h2>
+                </div>
+                <div class="feature-grid">
+                    <a class="feature-card" href="#quick-actions">
+                        <span class="feature-number">01</span>
+                        <h3>Numbered commands</h3>
+                        <p>Toggle and jump bookmark slots 0 through 9 with predictable command names and keyboard shortcuts.</p>
+                    </a>
+                    <a class="feature-card" href="#quick-actions">
+                        <span class="feature-number">02</span>
+                        <h3>List and clear</h3>
+                        <p>Browse bookmarks in the current file or across all files, then clear one file or the whole workspace when you need to reset.</p>
+                    </a>
+                    <a class="feature-card" href="#project-and-session">
+                        <span class="feature-number">03</span>
+                        <h3>Project and session persistence</h3>
+                        <p>Keep bookmarks between sessions, save them in the project, and carry them with you across machines.</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="spotlight" id="quick-actions">
+                <div class="spotlight-copy">
+                    <p class="eyebrow">Quick actions</p>
+                    <h2>A compact command set that stays out of your way.</h2>
+                    <p>
+                        The core flow is intentionally small: mark a spot, jump back later, inspect what is saved,
+                        and clear it when the task is done.
+                    </p>
+                    <div class="detail-list">
+                        <div>
+                            <h3>Toggle and jump</h3>
+                            <p>Use <code>Numbered Bookmarks: Toggle Bookmark &apos;#number&apos;</code> and <code>Numbered Bookmarks: Jump to Bookmark &apos;#number&apos;</code> to work in numbered slots from 0 to 9.</p>
+                        </div>
+                        <div>
+                            <h3>List and clear</h3>
+                            <p>List the current file or all files, then clear just one file or the full set when you are ready to move on.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="spotlight-visual stack">
+                    <figure class="media-card wide">
+                        <img src="images/numbered-bookmarks-list-from-all-files.gif" alt="List from All Files">
+                    </figure>
+                </div>
+            </section>
+
+            <section class="spotlight spotlight-reverse" id="project-and-session">
+                <div class="spotlight-copy">
+                    <p class="eyebrow">Project and session persistence</p>
+                    <h2>Choose whether bookmarks stay local, travel with the project, or both.</h2>
+                    <p>
+                        Bookmarks are saved between sessions by default. If you want the same bookmarks on every machine,
+                        enable project storage and the extension writes them to <code>.vscode/numbered-bookmarks.json</code>.
+                    </p>
+                    <div class="detail-list">
+                        <div>
+                            <h3>Workspace aware</h3>
+                            <p>The extension supports multi-root workspaces and lets each folder keep its own bookmark set.</p>
+                        </div>
+                        <div>
+                            <h3>Remote ready</h3>
+                            <p>Use the same bookmarks when you connect through SSH, Docker, WSL, or other remote VS Code scenarios.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature-index faq-section" id="faq">
+                <div class="section-heading">
+                    <p class="eyebrow">FAQ</p>
+                    <h2>Quick answers for common questions.</h2>
+                </div>
+                <div class="faq-list">
+                    <details>
+                        <summary>How do I mark and jump between bookmarks?</summary>
+                        <p>Use the numbered toggle and jump commands for slots 0 through 9. That keeps the workflow predictable and fast when you move between the same code spots repeatedly.</p>
+                    </details>
+                    <details>
+                        <summary>Can I list bookmarks without jumping to them?</summary>
+                        <p>Yes. You can list bookmarks in the current file or across all files, inspect the line contents, and choose the destination you want from the picker.</p>
+                    </details>
+                    <details>
+                        <summary>Can bookmarks be saved in the project?</summary>
+                        <p>Yes. Turn on <code>numberedBookmarks.saveBookmarksInProject</code> and the extension stores them in <code>.vscode/numbered-bookmarks.json</code> so they travel with the repository.</p>
+                    </details>
+                    <details>
+                        <summary>Do bookmarks stay in place when files change?</summary>
+                        <p>The new sticky engine helps bookmarks follow edits, supports formatter-driven changes, and can keep a bookmark on the next line when the original line is deleted.</p>
+                    </details>
+                    <details>
+                        <summary>How do I change the visual treatment of bookmarks?</summary>
+                        <p>You can customize the gutter icon colors, line background, border, overview ruler marker, and reveal position. There is also a warning setting for undefined bookmarks.</p>
+                    </details>
+                    <details>
+                        <summary>Does it work on VS Code forks like Cursor, Windsurf, and Antigravity?</summary>
+                        <p>Yes. The extension is designed for VS Code and its forks, so the bookmark workflow should remain available in those editors as well.</p>
+                    </details>
+                    <details>
+                        <summary>I have a feature request, bug report, or suggestion.</summary>
+                        <p>Please open an issue on <a class="text-link" href="https://github.com/alefragnani/vscode-numbered-bookmarks/issues">GitHub Issues</a>. That is the best place to report a problem or request a change.</p>
+                    </details>
+                    <details>
+                        <summary>I have a question that&apos;s not listed here.</summary>
+                        <p>Start with the <a class="text-link" href="https://github.com/alefragnani/vscode-numbered-bookmarks">repository</a> and the README. If you still need help, the issue tracker is the most direct support path.</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="support-section" id="donate">
+                <div class="section-heading">
+                    <p class="eyebrow">Donate</p>
+                    <h2>Support the extension if you find it useful.</h2>
+                </div>
+                <div class="support-grid">
+                    <article>
+                        <h3>Why support it</h3>
+                        <p>Numbered Bookmarks is open source, and support helps keep maintenance, compatibility, and future improvements moving forward.</p>
+                        <div class="link-row">
+                            <a class="text-link" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=EP57F3B6FXKTU&amp;lc=US&amp;item_name=Alessandro%20Fragnani&amp;item_number=vscode%20extensions&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted">PayPal</a>
+                            <a class="text-link" href="https://github.com/sponsors/alefragnani">GitHub Sponsors</a>
+                            <a class="text-link" href="https://www.patreon.com/alefragnani">Patreon</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        
+    </div>
+    <footer class="site-footer">
+        <div class="footer-social">
+            <a href="https://twitter.com/alefragnani" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+            <a href="https://github.com/alefragnani" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/alefragnani/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
+          </div>
+          <div class="footer-copy">&copy; 2026 Alessandro Fragnani</div>
+    </footer>
+    <script>
+        (() => {
+            const header = document.querySelector(".site-header");
+            const navToggle = document.querySelector(".nav-toggle");
+            const topNav = document.querySelector("#top-nav");
+
+            if (!(header instanceof HTMLElement) || !(navToggle instanceof HTMLButtonElement) || !(topNav instanceof HTMLElement)) {
+                return;
+            }
+
+            const mobileQuery = window.matchMedia("(max-width: 900px)");
+
+            const setExpanded = (expanded) => {
+                navToggle.setAttribute("aria-expanded", String(expanded));
+                header.classList.toggle("nav-open", expanded);
+                navToggle.setAttribute("aria-label", expanded ? "Close menu" : "Open menu");
+                navToggle.setAttribute("title", expanded ? "Close menu" : "Open menu");
+            };
+
+            const closeMenu = () => setExpanded(false);
+
+            navToggle.addEventListener("click", () => {
+                const expanded = navToggle.getAttribute("aria-expanded") === "true";
+                setExpanded(!expanded);
+            });
+
+            topNav.addEventListener("click", (event) => {
+                const target = event.target;
+                if (target instanceof HTMLElement && target.closest("a")) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener("click", (event) => {
+                if (!mobileQuery.matches || !(event.target instanceof Node)) {
+                    return;
+                }
+
+                if (!header.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            mobileQuery.addEventListener("change", () => {
+                if (!mobileQuery.matches) {
+                    closeMenu();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
