@@ -6,7 +6,7 @@ Essa extensão disponibiliza comandos para nevegar facilmente para cada numbered
 
 Mas não está limitado a isso. Também disponibiliza comandos para visualizar todos os Numbered Bookmarks em um arquivo, ou em toda a área de trabalho. Use os comandos `Numbered Bookmarks: Listar` and `Numbered Bookmarks: Listar de Todos os Arquivos`, e a extensão apresentará uma prévia da linha com bookmark e sua posição. 
 
-![Lista](../images/numbered-bookmarks-list-from-all-files.gif)
+![Lista](../docs/images/numbered-bookmarks-list-from-all-files.gif)
 
 > Dica: Se você simplesmente navegar pela lista, o editor irá rolar temporariamente para a posição do bookmark, dando-lhe um entendimento melhor se o bookmark é aquele que você está procurando.
 

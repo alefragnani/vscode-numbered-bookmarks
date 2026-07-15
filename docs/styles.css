@@ -424,6 +424,7 @@ code {
 }
 
 .feature-card {
+    display: block;
     position: relative;
     min-height: 16rem;
     padding: 1.35rem;
