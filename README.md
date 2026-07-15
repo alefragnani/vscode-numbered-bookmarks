@@ -56,7 +56,7 @@ It helps you to navigate in your code, moving between important positions easily
 
 You can easily Mark/Unmark bookmarks on any position. 
 
-![Toggle](images/numbered-bookmarks-toggle.png)
+![Toggle](docs/images/numbered-bookmarks-toggle.png)
 
 > The default shortcuts are numbered from 0 to 9: `Toggle Bookmark #` (`Ctrl + Shift + #`)
 
@@ -74,7 +74,7 @@ List all bookmarks from the current file and easily navigate to any one. It show
 
 List all bookmarks from all files and easily navigate to any one. It shows you the line contents and temporarily scroll to that position.
 
-![List](images/numbered-bookmarks-list-from-all-files.gif)
+![List](docs/images/numbered-bookmarks-list-from-all-files.gif)
 
 * Bookmarks from the active file shows the line content and the position
 * Bookmarks from other files also shows the relative file path
@@ -85,7 +85,7 @@ When you work with **multi-root** workspaces, the extension can manage the bookm
 
 Simply define `saveBookmarksInProject` as `true` on your **User Settings** or in the **Workspace Settings**, and when you run the `Numbered Bookmarks: List from All Files` command, you will be able to select from which folder the bookmarks will be shown.
 
-![List](images/numbered-bookmarks-list-from-all-files-multi-root.gif)
+![List](docs/images/numbered-bookmarks-list-from-all-files-multi-root.gif)
 
 ### Remote Development support
 

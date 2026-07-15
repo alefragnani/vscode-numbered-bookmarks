@@ -17,3 +17,10 @@ webpack.config.js
 **/.gitmodules
 .devcontainer/
 images/bookmark?-*.svg
+
+# agents
+AGENTS.md
+
+# gh-pages
+docs/index.html
+docs/styles.css
