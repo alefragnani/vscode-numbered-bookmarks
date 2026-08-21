@@ -17,7 +17,7 @@ git clone https://github.com/alefragnani/vscode-numbered-bookmarks.git
 Prerequisites
 
 - [Git](https://git-scm.com/), `>= 2.22.0`
-- [NodeJS](https://nodejs.org/), `>= 18.17.0`
+- [NodeJS](https://nodejs.org/), `>= 22.0.0`
 
 ### Dependencies
 
