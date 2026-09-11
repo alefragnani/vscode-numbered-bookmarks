@@ -14,7 +14,7 @@ Dəyər | İzah
 
 **IntelliJ** və ya **UltraEdit** istifadəçisinizsə, nömrələnmiş bookmark-ların standart davranışdan bir qədər fərqli işlədiyini görəcəksiniz. 
 
-**Numbered Bookmarks** genişlənməsinin bu alətlərlə eyni şəkildə işləməsi üçün parametrlərinizə sadəcə `"numberedBookmarks.navigateThroughAllFiles": replace"` əlavə edin və hər şey hazırdır.
+**Numbered Bookmarks** genişlənməsinin bu alətlərlə eyni şəkildə işləməsi üçün parametrlərinizə sadəcə `"numberedBookmarks.navigateThroughAllFiles": "replace"` əlavə edin və hər şey hazırdır.
 
 <table align="center" width="85%" border="0">
   <tr>
