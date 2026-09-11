@@ -14,7 +14,7 @@ Valor | Explicação
 
 Se você é um usuário do **IntelliJ** ou **UltraEdit**, você vai notar que o numbered bookmarks funciona um pouco diferente do seu comportamento padrão.
 
-Para fazer **Numbered Bookmarks** funcionar do mesmo jeito dessas ferramentas, simplesmente adicione `"numberedBookmarks.navigateThroughAllFiles": replace"` nas suas configurações e aproveite.
+Para fazer **Numbered Bookmarks** funcionar do mesmo jeito dessas ferramentas, simplesmente adicione `"numberedBookmarks.navigateThroughAllFiles": "replace"` nas suas configurações e aproveite.
 
 <table align="center" width="85%" border="0">
   <tr>
