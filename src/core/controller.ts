@@ -3,8 +3,8 @@
 *  Licensed under the GPLv3 License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import os = require("os");
-import path = require("path");
+import * as os from "os";
+import * as path from "path";
 import { Uri, WorkspaceFolder } from "vscode";
 import { File } from "./file";
 import { getFileUri, getRelativePath } from "../utils/fs";
