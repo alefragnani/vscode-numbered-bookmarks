@@ -1,3 +1,32 @@
+## [9.1.0] - 2026-11-27
+### Added
+- **az** translations (PR [#221](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/221) - kudos to @jamalkamaladdin)
+- Contributing documentation (issue [#192](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/192))
+
+### Fixed
+- Invalid JSON value in walkthrough setting example (PR [#222](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/222))
+
+### Internal
+- Security Alert: serialize-javascript (dependabot [PR #230](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/230))
+- Security Alert: fast-uri (dependabot [PR #229](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/229))
+- Security Alert: serialize-javascript (dependabot [PR #228](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/228))
+- Security Alert: brace-expansion (dependabot [PR #227](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/227))
+- Security Alert: minimatch, @typescript-eslint/eslint-plugin and @typescript-eslint/parser (dependabot [PR #226](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/226))
+- Security Alert: glob (dependabot [PR #225](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/225))
+- Security Alert: serialize-javascript, mocha and terser-webpack-plugin (dependabot [PR #224](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/224))
+- Security Alert: js-yaml (dependabot [PR #223](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/223))
+- Security Alert: browserslist (dependabot [PR #220](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/220))
+- Security Alert: brace-expansion (dependabot [PR #219](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/219))
+- Security Alert: fast-uri (dependabot [PR #218](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/218))
+- Security Alert: js-yaml (dependabot [PR #213](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/213))
+- Security Alert: fast-uri (dependabot [PR #212](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/212))
+- Security Alert: fast-uri (dependabot [PR #208](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/208))
+- Security Alert: picomatch (dependabot [PR #200](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/200))
+- Security Alert: flatted (dependabot [PR #199](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/199))
+- Security Alert: minimatch, @typescript-eslint/eslint-plugin and @typescript-eslint/parser (dependabot [PR #196](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/196))
+- Security Alert: webpack (dependabot [PR #195](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/195))
+- Security Alert: js-yaml (dependabot [PR #187](https://github.com/alefragnani/vscode-numbered-bookmarks/pull/187))
+
 ## [9.0.0] - 2025-12-13
 ### Added
 - Fully Open Source again (issue [#131](https://github.com/alefragnani/vscode-numbered-bookmarks/issues/131))
