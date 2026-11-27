@@ -39,7 +39,8 @@ export class NumberedBookmarksContentProvider implements ContentProvider {
             detail: {
                 message: "Invalid JSON value in walkthrough setting example",
                 id: 222,
-                kind: IssueKind.PR
+                kind: IssueKind.PR,
+                kudos: "alefragnani"
             }
         });
         changeLog.push({
